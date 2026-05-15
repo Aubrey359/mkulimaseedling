@@ -1,6 +1,6 @@
 # Ignore everything in this directory
 *
-# Except this file
+# Except these files
 !.gitignore
-# And the project file
 !mku.html
+!BACKEND_DEPLOYMENT_GUIDE.md
