@@ -1302,62 +1302,31 @@
     </div>
 
     <script>
-        // Product Data
-        let products = [
-            { id: 1, name: "Hass Avocado", category: "fruit", price: 250, unit: "seedling", icon: "fa-apple-alt", desc: "Grafted Hass avocado seedlings. High-yielding variety, ready to fruit in 2-3 years.", inStock: true },
-            { id: 2, name: "Fuerte Avocado", category: "fruit", price: 220, unit: "seedling", icon: "fa-apple-alt", desc: "Premium Fuerte variety. Excellent for export market. Disease resistant.", inStock: true },
-            { id: 3, name: "Tomato (Rio Grande)", category: "vegetable", price: 5, unit: "seedling", icon: "fa-pepper-hot", desc: "High-yielding determinate tomato variety. Ideal for open field production.", inStock: true },
-            { id: 4, name: "Capsicum (California Wonder)", category: "vegetable", price: 8, unit: "seedling", icon: "fa-pepper-hot", desc: "Sweet bell pepper seedlings. Blocky fruits, excellent shelf life.", inStock: false },
-            { id: 5, name: "Grevillea Robusta", category: "tree", price: 50, unit: "seedling", icon: "fa-tree", desc: "Fast-growing shade tree. Excellent for agroforestry and timber production.", inStock: true },
-            { id: 6, name: "Eucalyptus (Grandis)", category: "tree", price: 35, unit: "seedling", icon: "fa-tree", desc: "Fast-growing eucalyptus for timber and poles. Matures in 8-10 years.", inStock: true },
-            { id: 7, name: "Mango (Kent)", category: "fruit", price: 300, unit: "seedling", icon: "fa-apple-alt", desc: "Grafted Kent mango. Large, sweet fruits with minimal fiber.", inStock: true },
-            { id: 8, name: "Mango (Tommy Atkins)", category: "fruit", price: 280, unit: "seedling", icon: "fa-apple-alt", desc: "Popular commercial variety. Excellent color and shipping qualities.", inStock: false },
-            { id: 9, name: "Kale (Sukuma Wiki)", category: "vegetable", price: 3, unit: "seedling", icon: "fa-leaf", desc: "Collard green seedlings. Hardy variety, continuous harvesting.", inStock: true },
-            { id: 10, name: "Spinach", category: "vegetable", price: 4, unit: "seedling", icon: "fa-leaf", desc: "Fast-growing spinach seedlings. Ready for harvest in 30 days.", inStock: true },
-            { id: 11, name: "Cabbage (Gloria F1)", category: "vegetable", price: 6, unit: "seedling", icon: "fa-carrot", desc: "Hybrid cabbage variety. Large, firm heads. High market demand.", inStock: true },
-            { id: 12, name: "Cypress", category: "tree", price: 40, unit: "seedling", icon: "fa-tree", desc: "Evergreen cypress for windbreaks and timber. Fast establishment.", inStock: false },
-            { id: 13, name: "Bougainvillea", category: "ornamental", price: 150, unit: "seedling", icon: "fa-flower", desc: "Vibrant flowering ornamental. Various colors available.", inStock: true },
-            { id: 14, name: "Hibiscus", category: "ornamental", price: 120, unit: "seedling", icon: "fa-flower", desc: "Beautiful hibiscus seedlings. Perfect for hedges and gardens.", inStock: true },
-            { id: 15, name: "Passion Fruit (Purple)", category: "fruit", price: 80, unit: "seedling", icon: "fa-grape", desc: "Purple passion fruit seedlings. High juice content, excellent flavor.", inStock: true },
-            { id: 16, name: "Passion Fruit (Yellow)", category: "fruit", price: 90, unit: "seedling", icon: "fa-grape", desc: "Yellow passion fruit (KPF). Larger fruits, disease resistant rootstock.", inStock: false },
-            { id: 17, name: "Pawpaw (Solo)", category: "fruit", price: 100, unit: "seedling", icon: "fa-apple-alt", desc: "Solo sunrise pawpaw. Dwarf variety, excellent for small farms.", inStock: true },
-            { id: 18, name: "Onion (Red Creole)", category: "vegetable", price: 4, unit: "seedling", icon: "fa-onion", desc: "Red onion seedlings. Pungent flavor, good storage qualities.", inStock: true },
-            { id: 19, name: "Jacaranda", category: "ornamental", price: 200, unit: "seedling", icon: "fa-flower", desc: "Stunning purple flowering tree. Great for landscaping.", inStock: true },
-            { id: 20, name: "Bamboo", category: "tree", price: 150, unit: "seedling", icon: "fa-tree", desc: "Giant bamboo seedlings. Fast growing, multiple uses.", inStock: false }
-        ];
+        // Backend API Configuration
+        const API_BASE = '';
+        const ADMIN_PASSWORD = 'mkulima2026';
 
+        // State
+        let products = [];
         let currentFilter = 'all';
         let isAdmin = false;
-        const ADMIN_PASSWORD = 'mkulima2026';
+        let selectedProduct = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            loadStockFromStorage();
-            renderProducts();
-            updateLastUpdated();
+            loadProducts();
         });
 
-        // Load stock from localStorage
-        function loadStockFromStorage() {
-            const saved = localStorage.getItem('mkulima_stock');
-            if (saved) {
-                const stockData = JSON.parse(saved);
-                products.forEach(p => {
-                    if (stockData[p.id] !== undefined) {
-                        p.inStock = stockData[p.id];
-                    }
-                });
+        // Load products from backend
+        async function loadProducts() {
+            try {
+                const res = await fetch(`${API_BASE}/api/products`);
+                products = await res.json();
+                renderProducts();
+            } catch (err) {
+                console.error('Failed to load products:', err);
+                showToast('Failed to load products. Please refresh.');
             }
-        }
-
-        // Save stock to localStorage
-        function saveStockToStorage() {
-            const stockData = {};
-            products.forEach(p => {
-                stockData[p.id] = p.inStock;
-            });
-            localStorage.setItem('mkulima_stock', JSON.stringify(stockData));
-            localStorage.setItem('mkulima_last_updated', new Date().toISOString());
         }
 
         // Render Products
@@ -1379,7 +1348,7 @@
                     <div class="product-info">
                         <div class="product-category">${product.category}</div>
                         <div class="product-name">${product.name}</div>
-                        <div class="product-desc">${product.desc}</div>
+                        <div class="product-desc">${product.description || ''}</div>
                         <div class="product-footer">
                             <div class="price">KES ${product.price}<span>/${product.unit}</span></div>
                             <button class="order-btn ${product.inStock ? 'available' : 'unavailable'}" 
@@ -1400,24 +1369,6 @@
             });
             e.target.classList.add('active');
             renderProducts();
-        }
-
-        // Update Last Updated
-        function updateLastUpdated() {
-            const lastUpdated = localStorage.getItem('mkulima_last_updated');
-            const el = document.getElementById('last-updated');
-            if (lastUpdated) {
-                const date = new Date(lastUpdated);
-                const now = new Date();
-                const diff = Math.floor((now - date) / 1000 / 60);
-                if (diff < 1) {
-                    el.textContent = 'Last updated: Just now';
-                } else if (diff < 60) {
-                    el.textContent = `Last updated: ${diff} min ago`;
-                } else {
-                    el.textContent = `Last updated: ${date.toLocaleDateString('en-KE', { hour: '2-digit', minute: '2-digit' })}`;
-                }
-            }
         }
 
         // Login Modal
@@ -1468,7 +1419,7 @@
                         </div>
                     </div>
                     <div class="status-toggle">
-                        <span class="toggle-label ${product.inStock ? 'in' : 'out'}">
+                        <span class="toggle-label ${product.inStock ? 'in' : 'out'}" id="label-${product.id}">
                             ${product.inStock ? 'In Stock' : 'Out of Stock'}
                         </span>
                         <div class="toggle-switch ${product.inStock ? 'active' : ''}" 
@@ -1478,36 +1429,40 @@
             `).join('');
         }
 
-        function toggleStock(id) {
+        async function toggleStock(id) {
             const product = products.find(p => p.id === id);
-            if (product) {
-                product.inStock = !product.inStock;
-                const toggle = document.getElementById(`toggle-${id}`);
-                const label = toggle.previousElementSibling;
-
-                if (product.inStock) {
-                    toggle.classList.add('active');
-                    label.textContent = 'In Stock';
-                    label.className = 'toggle-label in';
-                } else {
-                    toggle.classList.remove('active');
-                    label.textContent = 'Out of Stock';
-                    label.className = 'toggle-label out';
+            if (!product) return;
+            
+            try {
+                const res = await fetch(`${API_BASE}/api/products/${id}/stock`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ in_stock: !product.inStock })
+                });
+                if (res.ok) {
+                    product.inStock = !product.inStock;
+                    const toggle = document.getElementById(`toggle-${id}`);
+                    const label = document.getElementById(`label-${id}`);
+                    
+                    if (product.inStock) {
+                        toggle.classList.add('active');
+                        label.textContent = 'In Stock';
+                        label.className = 'toggle-label in';
+                    } else {
+                        toggle.classList.remove('active');
+                        label.textContent = 'Out of Stock';
+                        label.className = 'toggle-label out';
+                    }
+                    renderProducts();
+                    showToast(`${product.name} is now ${product.inStock ? 'available' : 'out of stock'}`);
                 }
+            } catch (err) {
+                console.error('Failed to toggle stock:', err);
+                showToast('Failed to update stock. Please try again.');
             }
         }
 
-        function saveStockChanges() {
-            saveStockToStorage();
-            renderProducts();
-            updateLastUpdated();
-            closeAdminModal();
-            showToast('Stock status updated successfully!');
-        }
-
         // Order Modal
-        let selectedProduct = null;
-
         function openOrderModal(productId) {
             selectedProduct = products.find(p => p.id === productId);
             if (!selectedProduct) return;
@@ -1527,17 +1482,61 @@
             document.getElementById('order-modal').classList.remove('active');
         }
 
-        function handleOrderSubmit(e) {
+        async function handleOrderSubmit(e) {
             e.preventDefault();
-            closeOrderModal();
-            showToast('Order request submitted! We will contact you shortly.');
+            if (!selectedProduct) return;
+
+            const formData = new FormData(e.target);
+            const orderData = {
+                product_id: selectedProduct.id,
+                product_name: selectedProduct.name,
+                customer_name: formData.get('name'),
+                phone: formData.get('phone'),
+                quantity: parseInt(formData.get('quantity')),
+                delivery: formData.get('delivery')
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/api/orders`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+                if (res.ok) {
+                    e.target.reset();
+                    closeOrderModal();
+                    showToast('Order request submitted! We will contact you shortly.');
+                }
+            } catch (err) {
+                console.error('Failed to submit order:', err);
+                showToast('Failed to submit order. Please try again.');
+            }
         }
 
         // Contact Form
-        function handleContactSubmit(e) {
+        async function handleContactSubmit(e) {
             e.preventDefault();
-            showToast('Message sent! We will get back to you soon.');
-            e.target.reset();
+            const formData = new FormData(e.target);
+            
+            try {
+                const res = await fetch(`${API_BASE}/api/contacts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: formData.get('name'),
+                        phone: formData.get('phone'),
+                        interest: formData.get('interest'),
+                        message: formData.get('message')
+                    })
+                });
+                if (res.ok) {
+                    e.target.reset();
+                    showToast('Message sent! We will get back to you soon.');
+                }
+            } catch (err) {
+                console.error('Failed to submit contact:', err);
+                showToast('Failed to send message. Please try again.');
+            }
         }
 
         // Toast

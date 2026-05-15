@@ -4,3 +4,10 @@
 !.gitignore
 !mku.html
 !BACKEND_DEPLOYMENT_GUIDE.md
+!package.json
+!server.js
+!.env.example
+!README.md
+
+# Database (optional - uncomment if you want to track it)
+# !mkulima.db
