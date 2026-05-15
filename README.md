@@ -1,2 +1,0 @@
-# mkulimaseedling
-farm website
