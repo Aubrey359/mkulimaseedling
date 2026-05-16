@@ -105,6 +105,9 @@ async function initDb() {
   }
 }
 
+// Root redirect → main HTML
+app.get('/', (_, res) => res.sendFile(path.join(__dirname, 'mku.html')));
+
 // --- API Routes ---
 
 // GET all products
