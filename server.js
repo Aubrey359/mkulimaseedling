@@ -8,7 +8,66 @@ const app = express();
 const DB_PATH = path.join(__dirname, 'mkulima.db');
 const db = new Database(DB_PATH);
 
+// IP Whitelisting Middleware
+function ipInRange(ip, range) {
+  // Handle localhost/development
+  if (['127.0.0.1', '::1'].includes(ip)) return true;
+  
+  // Parse IP
+  const ipParts = ip.split('.').map(Number);
+  if (ipParts.some(part => isNaN(part))) return false;
+  
+  // Check if range is CIDR or single IP
+  if (range.includes('/')) {
+    const [rangeIp, cidr] = range.split('/');
+    const rangeParts = rangeIp.split('.').map(Number);
+    const mask = (0xffffffff << (32 - parseInt(cidr))) >>> 0;
+    const ipNum = (ipParts[0] << 24) + (ipParts[1] << 16) + (ipParts[2] << 8) + ipParts[3];
+    const rangeNum = (rangeParts[0] << 24) + (rangeParts[1] << 16) + (rangeParts[2] << 8) + rangeParts[3];
+    return (ipNum & mask) === (rangeNum & mask);
+  } else {
+    // Single IP
+    const rangeParts = range.split('.').map(Number);
+    return ipParts[0] === rangeParts[0] && 
+           ipParts[1] === rangeParts[1] && 
+           ipParts[2] === rangeParts[2] && 
+           ipParts[3] === rangeParts[3];
+  }
+}
+
+function whitelistMiddleware(req, res, next) {
+  const allowedRanges = [
+    '74.220.48.0/24',
+    '74.220.56.0/24',
+    '216.151.17.91',
+    '216.151.17.92'
+  ];
+  
+  // Get client IP (considering proxies)
+  const ip = req.headers['x-forwarded-for'] || 
+             req.headers['x-real-ip'] || 
+             req.connection.remoteAddress ||
+             req.socket.remoteAddress ||
+             (req.connection.socket ? req.connection.socket.remoteAddress : null);
+  
+  // Extract IP from ::ffff:192.168.1.1 format if needed
+  const cleanIp = (ip || '').replace(/^::ffff:/, '');
+  
+  // Check if IP is allowed
+  const isAllowed = allowedRanges.some(range => ipInRange(cleanIp, range));
+  
+  if (!isAllowed) {
+    return res.status(403).json({ 
+      error: 'Access denied', 
+      message: 'Your IP address is not authorized to access this API.' 
+    });
+  }
+  
+  next();
+}
+
 // Middleware
+app.use(whitelistMiddleware);
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));

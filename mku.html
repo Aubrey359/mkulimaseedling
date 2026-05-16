@@ -1018,6 +1018,271 @@
         .order-product-info p {
             color: var(--text-light);
         }
+
+        /* Prompt Enhancer Section */
+        .prompt-enhancer-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f5f7f4 50%, #fff8e1 100%);
+        }
+
+        .prompt-enhancer-container {
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .prompt-enhancer-container h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+        }
+
+        .prompt-enhancer-container .subtitle {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .prompt-enhancer-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .prompt-enhancer-card:focus-within {
+            border-color: var(--primary-light);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 0 0 4px rgba(27,94,32,0.1);
+        }
+
+        .prompt-enhancer-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .prompt-enhancer-label i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .prompt-textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 18px 20px;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            line-height: 1.7;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #fafafa;
+            color: var(--text);
+        }
+
+        .prompt-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(27,94,32,0.1);
+            background: white;
+        }
+
+        .prompt-textarea::placeholder {
+            color: #aaa;
+        }
+
+        .prompt-enhancer-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .enhance-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(27,94,32,0.3);
+        }
+
+        .enhance-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(27,94,32,0.4);
+        }
+
+        .enhance-btn:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .enhance-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .enhance-btn .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .enhance-btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .enhance-btn.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .enhance-result {
+            margin-top: 28px;
+            text-align: left;
+            display: none;
+            animation: fadeSlideIn 0.4s ease;
+        }
+
+        .enhance-result.visible {
+            display: block;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .enhance-result-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .enhance-result-header i {
+            font-size: 1rem;
+        }
+
+        .enhance-result-box {
+            background: #f0f7f0;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 12px 12px 0;
+            padding: 20px 24px;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .enhance-result-box .original-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .enhance-result-box .original-text {
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .enhance-result-box .enhanced-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .enhance-result-box .enhanced-text {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .enhance-tips {
+            margin-top: 20px;
+            background: #fffde7;
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: #5d4037;
+            line-height: 1.6;
+        }
+
+        .enhance-tips i {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .prompt-enhancer-section {
+                padding: 60px 0;
+            }
+
+            .prompt-enhancer-container h2 {
+                font-size: 1.7rem;
+            }
+
+            .prompt-enhancer-card {
+                padding: 28px 20px;
+            }
+
+            .prompt-textarea {
+                min-height: 110px;
+                font-size: 0.95rem;
+            }
+
+            .enhance-btn {
+                padding: 14px 30px;
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1073,6 +1338,50 @@
                 <div class="badge">
                     <i class="fas fa-leaf"></i>
                     <span>100% Organic</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prompt Enhancer Section -->
+    <section class="prompt-enhancer-section" id="prompt-enhancer">
+        <div class="container">
+            <div class="prompt-enhancer-container">
+                <h2><i class="fas fa-magic" style="color:var(--accent)"></i> Enhance Your Prompt</h2>
+                <p class="subtitle">
+                    Type a question or request about our seedlings and click <strong>Enhance Prompt</strong> to get a clearer, more detailed version with added context.
+                </p>
+                <div class="prompt-enhancer-card">
+                    <div class="prompt-enhancer-label">
+                        <i class="fas fa-keyboard"></i>
+                        <span>Your Prompt</span>
+                    </div>
+                    <textarea
+                        id="prompt-input"
+                        class="prompt-textarea"
+                        placeholder="e.g. I want to plant maize on my farm in Muranga..."></textarea>
+                    <div class="prompt-enhancer-actions">
+                        <button class="enhance-btn" id="enhance-btn" onclick="enhancePrompt()">
+                            <span class="btn-text"><i class="fas fa-wand-magic-sparkles"></i> Enhance Prompt</span>
+                            <span class="spinner"></span>
+                        </button>
+                    </div>
+                    <div class="enhance-result" id="enhance-result">
+                        <div class="enhance-result-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Enhanced Prompt</span>
+                        </div>
+                        <div class="enhance-result-box">
+                            <div class="original-label">Original</div>
+                            <div class="original-text" id="original-text"></div>
+                            <div class="enhanced-label">Enhanced</div>
+                            <div class="enhanced-text" id="enhanced-text"></div>
+                        </div>
+                        <div class="enhance-tips">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="enhance-tip-text"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1581,6 +1890,166 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        // ─── Prompt Enhancer ───────────────────────────────────────────────
+        let PRODUCT_CATALOG = [];
+
+        // Derive search keywords from a product name (e.g. "Maize (Hybrid)" → ["maize", "hybrid"])
+        function buildKeywords(name) {
+            return name
+                .toLowerCase()
+                .replace(/[^a-z\s]/g, '')
+                .split(/\s+/)
+                .filter(Boolean);
+        }
+
+        // Load product catalog from the server so it stays in sync with the database
+        async function loadProductCatalog() {
+            try {
+                const res = await fetch('/api/products');
+                const products = await res.json();
+                PRODUCT_CATALOG = products
+                    .filter(p => p.inStock)
+                    .map(p => ({
+                        name: p.name,
+                        category: p.category,
+                        price: p.price,
+                        unit: p.unit,
+                        keywords: buildKeywords(p.name),
+                    }));
+            } catch (err) {
+                console.warn('Could not load product catalog for prompt enhancer:', err);
+            }
+        }
+
+        // Kick off catalog load as soon as the page loads
+        loadProductCatalog();
+
+        const LOCATIONS = [
+            'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Nyeri', 'Muranga',
+            'Kiambu', 'Machakos', 'Kitui', 'Meru', 'Embu', 'Thika', 'Ruiru', 'Kikuyu'
+        ];
+
+        const ENHANCEMENT_TIPS = {
+            general:    'Tip: Add your county or town for delivery-specific advice.',
+            product:    'Tip: Mention your farm size and location for tailored spacing and yield estimates.',
+            order:      'Tip: Include your preferred delivery date and quantity for a faster response.',
+            advice:     'Tip: Describe your soil type, rainfall pattern, and farm size for the best guidance.',
+            comparison: 'Tip: Let us know your budget range and intended market (local or commercial).',
+        };
+
+        function detectPromptType(text) {
+            const lower = text.toLowerCase();
+            const hasProduct = PRODUCT_CATALOG.some(p => p.keywords.some(k => lower.includes(k)));
+            const isOrder    = /\b(order|buy|purchase|need\s+\d+|want\s+\d+|get\s+\d+|deliver|delivery|how\s+much|price|cost)\b/i.test(text);
+            const isAdvice   = /\b(how\s+to|best\s+way|recommend|advice|should\s+i|can\s+i|is\s+it|grow|plant|care|fertiliz|water|spac|yield|disease|pest)\b/i.test(text);
+            const isCompare  = /\b(better|vs|versus|compare|difference|which|what\s+is\s+best)\b/i.test(lower);
+
+            if (isCompare || (hasProduct && isAdvice)) return 'comparison';
+            if (isOrder)  return 'order';
+            if (isAdvice) return 'advice';
+            if (hasProduct) return 'product';
+            return 'general';
+        }
+
+        function findMentionedProduct(text) {
+            const lower = text.toLowerCase();
+            return PRODUCT_CATALOG.find(p => p.keywords.some(k => lower.includes(k)));
+        }
+
+        function findMentionedLocation(text) {
+            return LOCATIONS.find(l => text.toLowerCase().includes(l.toLowerCase()));
+        }
+
+        function enhancePrompt() {
+            const input  = document.getElementById('prompt-input');
+            const btn    = document.getElementById('enhance-btn');
+            const result = document.getElementById('enhance-result');
+            const raw    = input.value.trim();
+
+            if (!raw) {
+                showToast('Please type a prompt first.');
+                input.focus();
+                return;
+            }
+
+            // Show loading state
+            btn.classList.add('loading');
+            btn.disabled = true;
+            result.classList.remove('visible');
+
+            // Simulate brief processing delay for UX
+            setTimeout(() => {
+                const type       = detectPromptType(raw);
+                const product    = findMentionedProduct(raw);
+                const location   = findMentionedLocation(raw);
+                const enhanced   = buildEnhancedPrompt(raw, type, product, location);
+                const tip        = ENHANCEMENT_TIPS[type] || ENHANCEMENT_TIPS.general;
+
+                document.getElementById('original-text').textContent  = raw;
+                document.getElementById('enhanced-text').textContent  = enhanced;
+                document.getElementById('enhance-tip-text').textContent = tip;
+
+                btn.classList.remove('loading');
+                btn.disabled = false;
+                result.classList.add('visible');
+
+                // Smooth-scroll to result
+                setTimeout(() => {
+                    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }, 600);
+        }
+
+        function buildEnhancedPrompt(original, type, product, location) {
+            const locCtx = location
+                ? `I am based in ${location}, Kenya. `
+                : 'I am based in Kenya. ';
+
+            // Safe fallback when the catalog hasn't loaded yet
+            const fallbackProduct = PRODUCT_CATALOG[0] || { name: 'our seedlings', unit: 'unit', price: 0 };
+
+            switch (type) {
+                case 'product': {
+                    const p = product || fallbackProduct;
+                    const stockLine = p && p.price
+                        ? `I saw that MKULIMA Seedlings Ltd lists ${p.name} at KES ${p.price} per ${p.unit}. `
+                        : '';
+                    return `${original.charAt(0).toUpperCase() + original.slice(1)} ${locCtx}${stockLine}Could you please confirm the current stock availability, provide the exact price per ${p?.unit || 'unit'}, and let me know the expected delivery timeline to my location? I would also appreciate any agronomic tips specific to my region.`;
+                }
+
+                case 'order': {
+                    const p = product || fallbackProduct;
+                    return `I would like to place an order with MKULIMA Seedlings Ltd. ${locCtx}I am interested in ${p ? p.name + ' seedlings' : 'seedlings'} and would like to know: (1) the current price per ${p?.unit || 'unit'}, (2) minimum order quantity, (3) available delivery options and estimated time to my location, and (4) whether you accept M-Pesa or bank transfer for payment. Please also confirm if the seedlings are currently in stock.`;
+                }
+
+                case 'advice': {
+                    return `I am a farmer ${locCtx}and I need expert agronomic advice. ${original.charAt(0).toUpperCase() + original.slice(1)} My farm details: I am interested in working with certified seedlings from MKULIMA Seedlings Ltd, a KDB-certified nursery in Nairobi serving farmers across all 47 counties. Could you provide step-by-step guidance tailored to my specific conditions, including recommended varieties, spacing, fertiliser schedule, and expected harvest timeline?`;
+                }
+
+                case 'comparison': {
+                    return `I am comparing options for my farm ${locCtx}and would like a detailed comparison. ${original.charAt(0).toUpperCase() + original.slice(1)} Please consider factors such as: market demand in my region, drought tolerance, yield per acre, input costs, and suitability for my soil and climate. I am particularly interested in options available from MKULIMA Seedlings Ltd, a KDB-certified nursery supplying farmers across Kenya.`;
+                }
+
+                case 'general':
+                default: {
+                    return `I am reaching out to MKULIMA Seedlings Ltd, a KDB-certified seedling nursery based in Nairobi that serves farmers across all 47 counties in Kenya. ${locCtx}${original.charAt(0).toUpperCase() + original.slice(1)} Could you please provide detailed information including current stock availability, pricing per unit, delivery options to my location, and any relevant agronomic guidance? I am looking for certified, disease-free planting materials suitable for my farm.`;
+                }
+            }
+        }
+
+        // Allow Ctrl+Enter / Cmd+Enter to submit the prompt
+        document.addEventListener('DOMContentLoaded', () => {
+            const promptInput = document.getElementById('prompt-input');
+            if (promptInput) {
+                promptInput.addEventListener('keydown', (e) => {
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                        e.preventDefault();
+                        enhancePrompt();
+                    }
+                });
+            }
         });
     </script>
 </body>
