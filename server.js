@@ -108,6 +108,18 @@ async function initDb() {
 // Root redirect → main HTML
 app.get('/', (_, res) => res.sendFile(path.join(__dirname, 'mku.html')));
 
+// Serve sitemap.xml with correct content type
+app.get('/sitemap.xml', (_, res) => {
+  res.type('application/xml');
+  res.sendFile(path.join(__dirname, 'sitemap.xml'));
+});
+
+// Serve robots.txt
+app.get('/robots.txt', (_, res) => {
+  res.type('text/plain');
+  res.sendFile(path.join(__dirname, 'robots.txt'));
+});
+
 // --- API Routes ---
 
 // GET all products
