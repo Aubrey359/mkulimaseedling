@@ -355,6 +355,18 @@
             opacity: 0.3;
         }
 
+        .product-image img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            object-position: center;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
         .stock-badge {
             position: absolute;
             top: 15px;
@@ -1774,7 +1786,7 @@
             grid.innerHTML = filtered.map(product => `
                 <div class="product-card" data-category="${product.category}">
                     <div class="product-image">
-                        <i class="fas ${product.icon}"></i>
+                        ${product.image ? `<img src="/Images/${encodeURIComponent(product.image)}" alt="${product.name}" loading="lazy">` : `<i class="fas ${product.icon}"></i>`}
                         <div class="stock-badge ${product.inStock ? 'in-stock' : 'out-stock'}">
                             <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
                             ${product.inStock ? 'In Stock' : 'Out of Stock'}

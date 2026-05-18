@@ -46,6 +46,7 @@ async function initDb() {
       price       INTEGER NOT NULL,
       unit        TEXT DEFAULT 'seedling',
       icon        TEXT DEFAULT 'fa-seedling',
+      image       TEXT,
       description TEXT,
       in_stock    BOOLEAN DEFAULT true
     );
@@ -74,31 +75,31 @@ async function initDb() {
   const { rows } = await pool.query('SELECT COUNT(*) AS c FROM products');
   if (parseInt(rows[0].c) === 0) {
     const seeds = [
-      ['Maize (Hybrid)',           'grain',       5,  'seedling', 'fa-corn',        'High-yield hybrid maize. Drought tolerant.',       true],
-      ['Tomato (Rio Grande)',       'vegetable',   8,  'seedling', 'fa-apple-whole', 'Classic processing tomato. Heavy producer.',        true],
-      ['Cabbage (Sukuma)',          'vegetable',   6,  'seedling', 'fa-leaf',        'Tender, fast-maturing cabbage variety.',            true],
-      ['Kale (Sukuma Wiki)',        'vegetable',   5,  'seedling', 'fa-leaf',        'Popular Kenyan kale. High yield.',                  true],
-      ['Mango (Apple)',             'fruit',       80, 'seedling', 'fa-tree',        'Sweet dwarf mango. Fruits in 2-3 years.',           true],
-      ['Avocado (Hass)',            'fruit',       120,'seedling', 'fa-tree',        'Premium Hass avocado. High market value.',          true],
-      ['Passion (Purple)',          'fruit',       30, 'seedling', 'fa-flower',      'Sweet purple passion. Vigorous climber.',           true],
-      ['Coffee (Arabica)',          'cash_crop',   25, 'seedling', 'fa-mug-hot',     'High-quality Arabica coffee seedlings.',            true],
-      ['Tea',                       'cash_crop',   15, 'seedling', 'fa-mug-hot',     'Selected tea clones. High yield.',                  true],
-      ['Sugarcane',                 'cash_crop',   10, 'seedling', 'fa-cane',        'High-sucrose sugarcane. Fast growing.',             true],
-      ['Napier Grass',              'fodder',      3,  'seedling', 'fa-grass',       'Improved Napier. Excellent for dairy.',             true],
-      ['Banana (Giant Cavendish)',  'fruit',       20, 'sucker',   'fa-tree',        'Large bunch banana. Reliable producer.',            true],
-      ['Orange (Washington)',       'fruit',       60, 'seedling', 'fa-tree',        'Juicy navel orange. Disease resistant.',            true],
-      ['Lemon',                     'fruit',       50, 'seedling', 'fa-tree',        'Dwarf Meyer lemon. Year-round fruiting.',           true],
-      ['Papaya (Mountain)',         'fruit',       15, 'seedling', 'fa-tree',        'Sweet mountain papaya. Early fruiting.',            true],
-      ['Watermelon',                'vegetable',   8,  'seedling', 'fa-apple-whole', 'Sweet red flesh. Large fruits.',                    true],
-      ['Spinach',                   'vegetable',   5,  'seedling', 'fa-leaf',        'Tender-leaf spinach. Fast growing.',                true],
-      ['Onion (Red Creole)',        'vegetable',   4,  'seedling', 'fa-onion',       'Red onion. Pungent, good storage.',                 true],
-      ['Jacaranda',                 'ornamental',  200,'seedling', 'fa-flower',      'Purple flowering tree. Landscaping.',               true],
-      ['Bamboo',                    'tree',        150,'seedling', 'fa-tree',        'Giant bamboo. Fast growing, versatile.',            false],
+      ['Maize (Hybrid)',           'grain',       5,  'seedling', 'fa-corn',        'High-yield hybrid maize. Drought tolerant.',       true, null],
+      ['Tomato (Rio Grande)',       'vegetable',   8,  'seedling', 'fa-apple-whole', 'Classic processing tomato. Heavy producer.',        true,  'red thunder.png'],
+      ['Cabbage (Sukuma)',          'vegetable',   6,  'seedling', 'fa-leaf',        'Tender, fast-maturing cabbage variety.',            true,  'red cabbage.png'],
+      ['Kale (Sukuma Wiki)',        'vegetable',   5,  'seedling', 'fa-leaf',        'Popular Kenyan kale. High yield.',                  true,  null],
+      ['Mango (Apple)',             'fruit',       80, 'seedling', 'fa-tree',        'Sweet dwarf mango. Fruits in 2-3 years.',           true,  null],
+      ['Avocado (Hass)',            'fruit',       120,'seedling', 'fa-tree',        'Premium Hass avocado. High market value.',          true,  null],
+      ['Passion (Purple)',          'fruit',       30, 'seedling', 'fa-flower',      'Sweet purple passion. Vigorous climber.',           true,  null],
+      ['Coffee (Arabica)',          'cash_crop',   25, 'seedling', 'fa-mug-hot',     'High-quality Arabica coffee seedlings.',            true,  null],
+      ['Tea',                       'cash_crop',   15, 'seedling', 'fa-mug-hot',     'Selected tea clones. High yield.',                  true,  null],
+      ['Sugarcane',                 'cash_crop',   10, 'seedling', 'fa-cane',        'High-sucrose sugarcane. Fast growing.',             true,  null],
+      ['Napier Grass',              'fodder',      3,  'seedling', 'fa-grass',       'Improved Napier. Excellent for dairy.',             true,  null],
+      ['Banana (Giant Cavendish)',  'fruit',       20, 'sucker',   'fa-tree',        'Large bunch banana. Reliable producer.',            true,  null],
+      ['Orange (Washington)',       'fruit',       60, 'seedling', 'fa-tree',        'Juicy navel orange. Disease resistant.',            true,  null],
+      ['Lemon',                     'fruit',       50, 'seedling', 'fa-tree',        'Dwarf Meyer lemon. Year-round fruiting.',           true,  null],
+      ['Papaya (Mountain)',         'fruit',       15, 'seedling', 'fa-tree',        'Sweet mountain papaya. Early fruiting.',            true,  null],
+      ['Watermelon',                'vegetable',   8,  'seedling', 'fa-apple-whole', 'Sweet red flesh. Large fruits.',                    true,  null],
+      ['Spinach',                   'vegetable',   5,  'seedling', 'fa-leaf',        'Tender-leaf spinach. Fast growing.',                true,  null],
+      ['Onion (Red Creole)',        'vegetable',   4,  'seedling', 'fa-onion',       'Red onion. Pungent, good storage.',                 true,  null],
+      ['Jacaranda',                 'ornamental',  200,'seedling', 'fa-flower',      'Purple flowering tree. Landscaping.',               true,  null],
+      ['Bamboo',                    'tree',        150,'seedling', 'fa-tree',        'Giant bamboo. Fast growing, versatile.',            false, null],
     ];
-    for (const [name, category, price, unit, icon, description, in_stock] of seeds) {
+    for (const [name, category, price, unit, icon, description, in_stock, image] of seeds) {
       await pool.query(
-        'INSERT INTO products (name, category, price, unit, icon, description, in_stock) VALUES ($1,$2,$3,$4,$5,$6,$7)',
-        [name, category, price, unit, icon, description, in_stock]
+        'INSERT INTO products (name, category, price, unit, icon, image, description, in_stock) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)',
+        [name, category, price, unit, icon, image, description, in_stock]
       );
     }
     console.log('✅ Seeded 20 products');
