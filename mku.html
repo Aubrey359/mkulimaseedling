@@ -1786,7 +1786,7 @@
             grid.innerHTML = filtered.map(product => `
                 <div class="product-card" data-category="${product.category}">
                     <div class="product-image">
-                        ${product.image ? `<img src="/Images/${encodeURIComponent(product.image)}" alt="${product.name}" loading="lazy">` : `<i class="fas ${product.icon}"></i>`}
+                        ${product.image ? `<img src="${product.image.startsWith('http') ? product.image : '/Images/' + encodeURIComponent(product.image)}" alt="${product.name}" loading="lazy">` : `<i class="fas ${product.icon}"></i>`}
                         <div class="stock-badge ${product.inStock ? 'in-stock' : 'out-stock'}">
                             <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
                             ${product.inStock ? 'In Stock' : 'Out of Stock'}
@@ -1814,7 +1814,14 @@
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            e.target.classList.add('active');
+            // Handle both event object and direct call
+            if (e && e.target) {
+                e.target.classList.add('active');
+            } else {
+                // If called without event, find the clicked button and add active class
+                const clickedBtn = document.querySelector(`button[onclick="filterProducts('${category}')"]`);
+                if (clickedBtn) clickedBtn.classList.add('active');
+            }
             renderProducts();
         }
 
