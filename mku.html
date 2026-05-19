@@ -1334,283 +1334,32 @@
             color: var(--text-light);
         }
 
-        /* Prompt Enhancer Section */
-        .prompt-enhancer-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #e8f5e9 0%, #f5f7f4 50%, #fff8e1 100%);
-        }
-
-        .prompt-enhancer-container {
-            max-width: 720px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .prompt-enhancer-container h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            color: var(--primary-dark);
-            margin-bottom: 12px;
-        }
-
-        .prompt-enhancer-container .subtitle {
-            color: var(--text-light);
-            font-size: 1.05rem;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-
         .prompt-enhancer-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            border: 2px solid transparent;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .prompt-enhancer-card:focus-within {
-            border-color: var(--primary-light);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 0 0 4px rgba(27,94,32,0.1);
-        }
-
-        .prompt-enhancer-label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 16px;
-            font-size: 1rem;
-        }
-
-        .prompt-enhancer-label i {
-            color: var(--accent);
-            font-size: 1.1rem;
+            padding: 28px 20px;
         }
 
         .prompt-textarea {
-            width: 100%;
-            min-height: 140px;
-            padding: 18px 20px;
-            border: 2px solid var(--border);
-            border-radius: 14px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            line-height: 1.7;
-            resize: vertical;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            background: #fafafa;
-            color: var(--text);
-        }
-
-        .prompt-textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(27,94,32,0.1);
-            background: white;
-        }
-
-        .prompt-textarea::placeholder {
-            color: #aaa;
-        }
-
-        .prompt-enhancer-actions {
-            display: flex;
-            justify-content: center;
-            margin-top: 24px;
+            min-height: 110px;
+            font-size: 0.95rem;
         }
 
         .enhance-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 40px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(27,94,32,0.3);
-        }
-
-        .enhance-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(27,94,32,0.4);
-        }
-
-        .enhance-btn:active:not(:disabled) {
-            transform: translateY(-1px);
-        }
-
-        .enhance-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .enhance-btn .spinner {
-            display: none;
-            width: 18px;
-            height: 18px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-
-        .enhance-btn.loading .spinner {
-            display: inline-block;
-        }
-
-        .enhance-btn.loading .btn-text {
-            display: none;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .enhance-result {
-            margin-top: 28px;
-            text-align: left;
-            display: none;
-            animation: fadeSlideIn 0.4s ease;
-        }
-
-        .enhance-result.visible {
-            display: block;
-        }
-
-        @keyframes fadeSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .enhance-result-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 14px;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .enhance-result-header i {
+            padding: 14px 30px;
             font-size: 1rem;
-        }
-
-        .enhance-result-box {
-            background: #f0f7f0;
-            border-left: 4px solid var(--primary);
-            border-radius: 0 12px 12px 0;
-            padding: 20px 24px;
-            font-size: 1rem;
-            line-height: 1.8;
-            color: var(--text);
-        }
-
-        .enhance-result-box .original-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-
-        .enhance-result-box .original-text {
-            color: var(--text-light);
-            font-style: italic;
-            margin-bottom: 14px;
-            padding-bottom: 14px;
-            border-bottom: 1px dashed #ccc;
-        }
-
-        .enhance-result-box .enhanced-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-
-        .enhance-result-box .enhanced-text {
-            color: var(--text);
-            font-weight: 500;
-        }
-
-        .enhance-tips {
-            margin-top: 20px;
-            background: #fffde7;
-            border-radius: 12px;
-            padding: 16px 20px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 0.9rem;
-            color: #5d4037;
-            line-height: 1.6;
-        }
-
-        .enhance-tips i {
-            color: var(--accent);
-            font-size: 1.1rem;
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 768px) {
-            .prompt-enhancer-section {
-                padding: 60px 0;
-            }
-
-            .prompt-enhancer-container h2 {
-                font-size: 1.7rem;
-            }
-
-            .prompt-enhancer-card {
-                padding: 28px 20px;
-            }
-
-            .prompt-textarea {
-                min-height: 110px;
-                font-size: 0.95rem;
-            }
-
-            .enhance-btn {
-                padding: 14px 30px;
-                font-size: 1rem;
-            }
         }
      </style>
      
      <!-- JSON-LD Structured Data for Rich Search Results -->
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "MKULIMA Seedlings Ltd",
-        "alternateName": "MKULIMA Seedlings",
-        "description": "Kenya's trusted KDB-certified seedling nursery supplying quality seedlings for maize, tomatoes, fruits, vegetables and cash crops across all 47 counties.",
-        "url": "https://mkulimaseedling-production.up.railway.app",
-        "logo": "https://mkulimaseedling-production.up.railway.app/logo.png",
-        "image": "https://mkulimaseedling-production.up.railway.app/logo.png",
+     <script type="application/ld+json">
+     {
+       "@context": "https://schema.org",
+       "@type": "LocalBusiness",
+       "name": "MKULIMA Seedlings Ltd",
+       "alternateName": "MKULIMA Seedlings",
+       "description": "Kenya's trusted KDB-certified seedling nursery supplying quality seedlings for maize, tomatoes, fruits, vegetables and cash crops across all 47 counties.",
+       "url": "https://mkulimaseedling-production.up.railway.app",
+       "logo": "https://mkulimaseedling-production.up.railway.app/logo.png",
+       "image": "https://mkulimaseedling-production.up.railway.app/logo.png",
        "telephone": "+254700000000",
        "email": "info@mkulimaseedlings.co.ke",
        "address": {
@@ -1638,7 +1387,7 @@
          "https://www.facebook.com/mkulimaseedlings",
          "https://www.twitter.com/mkulimaseedlings"
        ],
-       "hasMap": "https://share.google/lIMUdkEPJEcDJHD4m"
+       "hasMap": "https://www.google.com/maps/place/Kenol,+Muranga+County,+Kenya"
      }
      </script>
      
@@ -1711,7 +1460,7 @@
                 </div>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#products">Seedlings</a></li>
+                     <li><a href="products.html">Seedlings</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -1751,60 +1500,16 @@
         </div>
     </section>
 
-    <!-- Prompt Enhancer Section -->
-    <section class="prompt-enhancer-section" id="prompt-enhancer">
-        <div class="container">
-            <div class="prompt-enhancer-container">
-                <h2><i class="fas fa-magic" style="color:var(--accent)"></i> Enhance Your Prompt</h2>
-                <p class="subtitle">
-                    Type a question or request about our seedlings and click <strong>Enhance Prompt</strong> to get a clearer, more detailed version with added context.
-                </p>
-                <div class="prompt-enhancer-card">
-                    <div class="prompt-enhancer-label">
-                        <i class="fas fa-keyboard"></i>
-                        <span>Your Prompt</span>
-                    </div>
-                    <textarea
-                        id="prompt-input"
-                        class="prompt-textarea"
-                        placeholder="e.g. I want to plant maize on my farm in Muranga..."></textarea>
-                    <div class="prompt-enhancer-actions">
-                        <button class="enhance-btn" id="enhance-btn" onclick="enhancePrompt()">
-                            <span class="btn-text"><i class="fas fa-wand-magic-sparkles"></i> Enhance Prompt</span>
-                            <span class="spinner"></span>
-                        </button>
-                    </div>
-                    <div class="enhance-result" id="enhance-result">
-                        <div class="enhance-result-header">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Enhanced Prompt</span>
-                        </div>
-                        <div class="enhance-result-box">
-                            <div class="original-label">Original</div>
-                            <div class="original-text" id="original-text"></div>
-                            <div class="enhanced-label">Enhanced</div>
-                            <div class="enhanced-text" id="enhanced-text"></div>
-                        </div>
-                        <div class="enhance-tips">
-                            <i class="fas fa-info-circle"></i>
-                            <span id="enhance-tip-text"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Stock Status Bar -->
     <div class="stock-bar">
         <div class="container">
             <div class="stock-bar-content">
                 <div class="stock-filters">
-                    <button class="filter-btn active" onclick="filterProducts('all')">All Seedlings</button>
-                    <button class="filter-btn" onclick="filterProducts('fruit')">Fruit Trees</button>
-                    <button class="filter-btn" onclick="filterProducts('vegetable')">Vegetables</button>
-                    <button class="filter-btn" onclick="filterProducts('tree')">Forestry Trees</button>
-                    <button class="filter-btn" onclick="filterProducts('ornamental')">Ornamental</button>
+                    <button class="filter-btn active" data-category="all" onclick="filterProducts('all', event)">All Products</button>
+                    <button class="filter-btn" data-category="fruit" onclick="filterProducts('fruit', event)">Fruit Trees</button>
+                    <button class="filter-btn" data-category="vegetable" onclick="filterProducts('vegetable', event)">Vegetables</button>
+                    <button class="filter-btn" data-category="tree" onclick="filterProducts('tree', event)">Forestry Trees</button>
+                    <button class="filter-btn" data-category="ornamental" onclick="filterProducts('ornamental', event)">Ornamental</button>
                 </div>
                 <div class="last-updated">
                     <i class="fas fa-sync-alt" id="sync-icon"></i>
@@ -1818,7 +1523,7 @@
     <section class="products-section" id="products">
         <div class="container">
             <div class="section-title">
-                <h2>Our Seedlings</h2>
+                <h2>Our Products</h2>
                 <p>Live stock status updated in real-time. Order while available!</p>
             </div>
             <div class="products-grid" id="products-grid">
@@ -1891,15 +1596,15 @@
                     <form onsubmit="handleContactSubmit(event)">
                         <div class="form-group">
                             <label>Your Name</label>
-                            <input type="text" placeholder="Ian kagunya" required>
+                            <input type="text" name="name" placeholder="Ian kagunya" required>
                         </div>
                         <div class="form-group">
                             <label>Phone Number</label>
-                            <input type="tel" placeholder="+254 7XX XXX XXX" required>
+                            <input type="tel" name="phone" placeholder="+254 7XX XXX XXX" required>
                         </div>
                         <div class="form-group">
                             <label>Interested In</label>
-                            <select required>
+                            <select name="interest" required>
                                 <option value="">Select seedling type...</option>
                                 <option value="fruit">Fruit Trees</option>
                                 <option value="vegetable">Vegetables</option>
@@ -1909,7 +1614,7 @@
                         </div>
                         <div class="form-group">
                             <label>Message</label>
-                            <textarea placeholder="Tell us what you need..."></textarea>
+                            <textarea name="message" placeholder="Tell us what you need..."></textarea>
                         </div>
                         <button type="submit" class="submit-btn">Send Message</button>
                     </form>
@@ -1990,19 +1695,19 @@
                 <form onsubmit="handleOrderSubmit(event)">
                     <div class="form-group">
                         <label>Full Name</label>
-                        <input type="text" placeholder="Your full name" required>
+                        <input type="text" name="name" placeholder="Your full name" required>
                     </div>
                     <div class="form-group">
                         <label>Phone Number</label>
-                        <input type="tel" placeholder="+254 7XX XXX XXX" required>
+                        <input type="tel" name="phone" placeholder="+254 7XX XXX XXX" required>
                     </div>
                     <div class="form-group">
                         <label>Quantity</label>
-                        <input type="number" min="1" value="10" required>
+                        <input type="number" name="quantity" min="1" value="10" required>
                     </div>
                     <div class="form-group">
                         <label>Delivery Location</label>
-                        <input type="text" placeholder="County / Town" required>
+                        <input type="text" name="delivery" placeholder="County / Town" required>
                     </div>
                     <button type="submit" class="submit-btn">Submit Order Request</button>
                 </form>
@@ -2154,7 +1859,7 @@
                     <div class="cart-empty">
                         <i class="fas fa-shopping-basket"></i>
                         <p>Your cart is empty.</p>
-                        <p style="font-size:0.85rem;margin-top:8px;">Add some seedlings to get started!</p>
+                        <p style="font-size:0.85rem;margin-top:8px;">Add some products to get started!</p>
                     </div>`;
                 return;
             }
@@ -2200,12 +1905,11 @@
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            // Handle both event object and direct call
             if (e && e.target) {
                 e.target.classList.add('active');
             } else {
-                // If called without event, find the clicked button and add active class
-                const clickedBtn = document.querySelector(`button[onclick="filterProducts('${category}')"]`);
+                // Called without event — match by data-category attribute instead of fragile onclick string
+                const clickedBtn = document.querySelector(`.filter-btn[data-category="${category}"]`);
                 if (clickedBtn) clickedBtn.classList.add('active');
             }
             renderProducts();
@@ -2585,3 +2289,6 @@
     </script>
 </body>
 </html>
+
+
+

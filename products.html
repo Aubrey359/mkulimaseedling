@@ -156,16 +156,16 @@
 
         // Update cart count
         function updateCartCount() {
-            document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.qty, 0);
         }
 
         // Add to cart
         function addToCart(product) {
             const existing = cart.find(item => item.id === product.id);
             if (existing) {
-                existing.quantity += 1;
+                existing.qty += 1;
             } else {
-                cart.push({ ...product, quantity: 1 });
+                cart.push({ ...product, qty: 1 });
             }
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
@@ -184,7 +184,8 @@
             } else {
                 let total = 0;
                 itemsContainer.innerHTML = cart.map(item => {
-                    const itemTotal = item.price * item.quantity;
+                    const itemTotal = item.price * item.qty;
+                    total += itemTotal;
                     return `
                         <div class="cart-item">
                             <div style="display: flex; align-items: center; gap: 10px;">
@@ -193,7 +194,7 @@
                                 </div>
                                 <div>
                                     <div>${item.name}</div>
-                                    <div style="font-size: 0.9rem; color: #666;">KES ${item.price} x ${item.quantity}</div>
+                                    <div style="font-size: 0.9rem; color: #666;">KES ${item.price} x ${item.qty}</div>
                                 </div>
                             </div>
                             <div>KES ${itemTotal}</div>
@@ -213,8 +214,8 @@
         // Checkout
         function checkout() {
             if (cart.length === 0) return;
-            alert('Checkout functionality would be implemented here. Total: KES ' + 
-                cart.reduce((sum, item) => sum + (item.price * item.quantity), 0));
+            alert('Checkout functionality would be implemented here. Total: KES ' +
+                cart.reduce((sum, item) => sum + (item.price * item.qty), 0));
             // In a real e-commerce site, this would redirect to payment page
         }
 
@@ -260,7 +261,7 @@
                                 <div class="product-unit">Unit: ${product.unit || 'seedling'}</div>
                                 ${stockStatus}
                                 <div class="product-price">KES ${product.price}</div>
-                                <button class="add-cart-btn" onclick="addToCart(${JSON.stringify(product).replace(/"/g, '"')})" ${!product.inStock ? 'disabled' : ''}>
+                                <button class="add-cart-btn" onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})" ${!product.inStock ? 'disabled' : ''}>
                                     <i class="fas fa-shopping-cart"></i> Add to Cart
                                 </button>
                             </div>
