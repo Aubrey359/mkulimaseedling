@@ -3,12 +3,14 @@
 # Except these files
 !.gitignore
 !mku.html
+!products.html
 !BACKEND_DEPLOYMENT_GUIDE.md
 !package.json
 !server.js
 !Procfile
 !.env.example
 !README.md
+!images/
 
 # Dependencies
 node_modules/
