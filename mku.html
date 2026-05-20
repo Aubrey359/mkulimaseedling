@@ -1476,18 +1476,6 @@
        "itemListElement": [
          {
            "@type": "Product",
-           "name": "Maize (Hybrid) Seedlings",
-           "category": "Grain",
-           "offers": {
-             "@type": "Offer",
-             "price": "5",
-             "priceCurrency": "KES",
-             "availability": "https://schema.org/InStock",
-             "unitText": "seedling"
-           }
-         },
-         {
-           "@type": "Product",
            "name": "Tomato (Rio Grande) Seedlings",
            "category": "Vegetable",
            "offers": {
@@ -1542,11 +1530,7 @@
                             <li><a href="products.html">All Seedlings</a></li>
                             <li><a href="products.html" onclick="filterProducts('fruit', null); return false;">Fruit Tree Seedlings</a></li>
                             <li><a href="products.html" onclick="filterProducts('vegetable', null); return false;">Vegetable Seedlings</a></li>
-                            <li><a href="products.html" onclick="filterProducts('grain', null); return false;">Grain Seedlings</a></li>
-                            <li><a href="products.html" onclick="filterProducts('cash_crop', null); return false;">Cash Crop Seedlings</a></li>
-                            <li><a href="products.html" onclick="filterProducts('fodder', null); return false;">Fodder Seedlings</a></li>
                             <li><a href="products.html" onclick="filterProducts('tree', null); return false;">Forestry Tree Seedlings</a></li>
-                            <li><a href="products.html" onclick="filterProducts('ornamental', null); return false;">Ornamental Seedlings</a></li>
                         </ul>
                     </li>
                     <li><a href="#about">About</a></li>
@@ -1596,11 +1580,7 @@
                     <button class="filter-btn active" data-category="all" onclick="filterProducts('all', event)">All Products</button>
                     <button class="filter-btn" data-category="fruit" onclick="filterProducts('fruit', event)">Fruit Trees</button>
                     <button class="filter-btn" data-category="vegetable" onclick="filterProducts('vegetable', event)">Vegetables</button>
-                    <button class="filter-btn" data-category="grain" onclick="filterProducts('grain', event)">Grains</button>
-                    <button class="filter-btn" data-category="cash_crop" onclick="filterProducts('cash_crop', event)">Cash Crops</button>
-                    <button class="filter-btn" data-category="fodder" onclick="filterProducts('fodder', event)">Fodder</button>
                     <button class="filter-btn" data-category="tree" onclick="filterProducts('tree', event)">Forestry Trees</button>
-                    <button class="filter-btn" data-category="ornamental" onclick="filterProducts('ornamental', event)">Ornamental</button>
                 </div>
                 <div class="last-updated">
                     <i class="fas fa-sync-alt" id="sync-icon"></i>
@@ -1698,7 +1678,6 @@
                                 <option value="fruit">Fruit Trees</option>
                                 <option value="vegetable">Vegetables</option>
                                 <option value="tree">Forestry Trees</option>
-                                <option value="ornamental">Ornamental</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1876,18 +1855,6 @@
             { id: 46, name: 'Tree Tomato', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-apple-whole', description: 'Tree tomato. Unique flavor.', inStock: true, image: 'images/tree-tomato.jpg' },
             { id: 47, name: 'Pawpaw Sharp F1', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Sharp pawpaw variety. Tropical fruit.', inStock: true, image: 'images/pawpaw-sharp.jpg' },
             { id: 48, name: 'Pawpaw Red Royale', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Red Royale pawpaw. Sweet and creamy.', inStock: true, image: 'images/pawpaw-redroyale.jpg' },
-            // Grains
-            { id: 49, name: 'Maize (Hybrid)', category: 'grain', price: 5, unit: 'seedling', icon: 'fa-corn', description: 'High-yield hybrid maize. Drought tolerant.', inStock: true, image: 'images/maize-hybrid.jpg' },
-            // Cash Crops
-            { id: 50, name: 'Coffee (Arabica)', category: 'cash_crop', price: 25, unit: 'seedling', icon: 'fa-mug-hot', description: 'High-quality Arabica coffee seedlings.', inStock: true, image: 'images/coffee-arabica.jpg' },
-            { id: 51, name: 'Tea', category: 'cash_crop', price: 15, unit: 'seedling', icon: 'fa-mug-hot', description: 'Selected tea clones. High yield.', inStock: true, image: 'images/tea.jpg' },
-            { id: 52, name: 'Sugarcane', category: 'cash_crop', price: 10, unit: 'seedling', icon: 'fa-cane', description: 'High-sucrose sugarcane. Fast growing.', inStock: true, image: 'images/sugarcane.jpg' },
-            // Fodder
-            { id: 53, name: 'Napier Grass', category: 'fodder', price: 3, unit: 'seedling', icon: 'fa-grass', description: 'Improved Napier. Excellent for dairy.', inStock: true, image: 'images/napier-grass.jpg' },
-            // Ornamental
-            { id: 54, name: 'Jacaranda', category: 'ornamental', price: 200, unit: 'seedling', icon: 'fa-flower', description: 'Purple flowering tree. Landscaping.', inStock: true, image: 'images/jacaranda.jpg' },
-            // Trees
-            { id: 55, name: 'Bamboo', category: 'tree', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Giant bamboo. Fast growing, versatile.', inStock: false, image: 'images/bamboo.jpg' }
         ];
 
         // Initialize
@@ -1913,10 +1880,6 @@
         const CATEGORY_LABELS = {
             vegetable:   'Vegetable Seedlings',
             fruit:       'Fruit Tree Seedlings',
-            grain:       'Grain Seedlings',
-            cash_crop:   'Cash Crop Seedlings',
-            fodder:      'Fodder Seedlings',
-            ornamental:  'Ornamental Seedlings',
             tree:        'Tree Seedlings',
         };
 
