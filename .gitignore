@@ -11,6 +11,7 @@
 !.env.example
 !README.md
 !images/
+!Images/
 
 # Dependencies
 node_modules/
