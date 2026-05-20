@@ -219,10 +219,25 @@
             // In a real e-commerce site, this would redirect to payment page
         }
 
+        // Category display name mapping
+        const CATEGORY_LABELS = {
+            vegetable:   'Vegetable Seedlings',
+            fruit:       'Fruit Tree Seedlings',
+            grain:       'Grain Seedlings',
+            cash_crop:   'Cash Crop Seedlings',
+            fodder:      'Fodder Seedlings',
+            ornamental:  'Ornamental Seedlings',
+            tree:        'Tree Seedlings',
+        };
+
+        function getCategoryLabel(cat) {
+            return CATEGORY_LABELS[cat] || cat.charAt(0).toUpperCase() + cat.slice(1);
+        }
+
         // Render products grouped by category
         function renderProducts() {
             const container = document.getElementById('productsContainer');
-            
+
             // Group products by category
             const categories = {};
             products.forEach(product => {
@@ -237,25 +252,25 @@
             for (const [category, items] of Object.entries(categories)) {
                 html += `
                     <div class="category-section">
-                        <h2 class="category-title">${category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+                        <h2 class="category-title">${getCategoryLabel(category)}</h2>
                         <div class="products-grid">
                     `;
-                
+
                 items.forEach(product => {
-                    const stockStatus = product.inStock ? 
-                        '<span class="stock-status in-stock"><i class="fas fa-check"></i> In Stock</span>' : 
+                    const stockStatus = product.inStock ?
+                        '<span class="stock-status in-stock"><i class="fas fa-check"></i> In Stock</span>' :
                         '<span class="stock-status out-stock"><i class="fas fa-times"></i> Out of Stock</span>';
-                    
+
                     html += `
                         <div class="product-card">
                             <div class="product-image">
-                                ${product.image ? 
-                                    `<img src="${product.image}" alt="${product.name}">` : 
+                                ${product.image ?
+                                    `<img src="${product.image}" alt="${product.name}">` :
                                     `<div class="product-image-placeholder"><i class="fas ${product.icon}"></i></div>`
                                 }
                             </div>
                             <div class="product-info">
-                                <div class="product-category">${product.category}</div>
+                                <div class="product-category">${getCategoryLabel(product.category)}</div>
                                 <div class="product-name">${product.name}</div>
                                 <div class="product-description">${product.description || ''}</div>
                                 <div class="product-unit">Unit: ${product.unit || 'seedling'}</div>

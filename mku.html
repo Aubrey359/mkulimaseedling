@@ -172,6 +172,63 @@
             color: var(--accent);
         }
 
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .dropdown-toggle i {
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .dropdown:hover .dropdown-toggle i {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--primary-dark);
+            list-style: none;
+            padding: 8px 0;
+            margin: 8px 0 0 0;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 10px 20px;
+            color: white;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--accent);
+        }
+
+        .dropdown-menu li a::after {
+            display: none;
+        }
+
         .admin-btn {
             background: var(--accent);
             color: var(--primary-dark);
@@ -587,6 +644,25 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 30px;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+        }
+
+        .category-title {
+            color: var(--primary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--text-light);
         }
 
         .product-card {
@@ -1460,7 +1536,19 @@
                 </div>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
-                     <li><a href="products.html">Seedlings</a></li>
+                    <li class="dropdown">
+                        <a href="products.html" class="dropdown-toggle">Seedlings <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="products.html">All Seedlings</a></li>
+                            <li><a href="products.html" onclick="filterProducts('fruit', null); return false;">Fruit Tree Seedlings</a></li>
+                            <li><a href="products.html" onclick="filterProducts('vegetable', null); return false;">Vegetable Seedlings</a></li>
+                            <li><a href="products.html" onclick="filterProducts('grain', null); return false;">Grain Seedlings</a></li>
+                            <li><a href="products.html" onclick="filterProducts('cash_crop', null); return false;">Cash Crop Seedlings</a></li>
+                            <li><a href="products.html" onclick="filterProducts('fodder', null); return false;">Fodder Seedlings</a></li>
+                            <li><a href="products.html" onclick="filterProducts('tree', null); return false;">Forestry Tree Seedlings</a></li>
+                            <li><a href="products.html" onclick="filterProducts('ornamental', null); return false;">Ornamental Seedlings</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -1508,6 +1596,9 @@
                     <button class="filter-btn active" data-category="all" onclick="filterProducts('all', event)">All Products</button>
                     <button class="filter-btn" data-category="fruit" onclick="filterProducts('fruit', event)">Fruit Trees</button>
                     <button class="filter-btn" data-category="vegetable" onclick="filterProducts('vegetable', event)">Vegetables</button>
+                    <button class="filter-btn" data-category="grain" onclick="filterProducts('grain', event)">Grains</button>
+                    <button class="filter-btn" data-category="cash_crop" onclick="filterProducts('cash_crop', event)">Cash Crops</button>
+                    <button class="filter-btn" data-category="fodder" onclick="filterProducts('fodder', event)">Fodder</button>
                     <button class="filter-btn" data-category="tree" onclick="filterProducts('tree', event)">Forestry Trees</button>
                     <button class="filter-btn" data-category="ornamental" onclick="filterProducts('ornamental', event)">Ornamental</button>
                 </div>
@@ -1519,16 +1610,14 @@
         </div>
     </div>
 
-    <!-- Products Section -->
+    <!-- Seedlings Section -->
     <section class="products-section" id="products">
         <div class="container">
             <div class="section-title">
-                <h2>Our Products</h2>
+                <h2>Our Seedlings</h2>
                 <p>Live stock status updated in real-time. Order while available!</p>
             </div>
-            <div class="products-grid" id="products-grid">
-                <!-- Products rendered by JavaScript -->
-            </div>
+            <div id="products-container"></div>
         </div>
     </section>
 
@@ -1755,6 +1844,85 @@
         let selectedProduct = null;
         let cart = [];
 
+        // Static products data (from products.html)
+        const staticProducts = [
+            // Tomatoes
+            { id: 1, name: 'Tomato Zara F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'High-yield tomato variety. Disease resistant.', inStock: true, image: 'images/zara f1.png' },
+            { id: 2, name: 'Tomato Nova F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Vigorous tomato plant. Excellent fruit set.', inStock: true, image: 'images/tomato-nova.jpg' },
+            { id: 3, name: 'Tomato Ansal F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Determinate tomato. Good for processing.', inStock: true, image: 'images/tomato-ansal.jpg' },
+            { id: 4, name: 'Tomato Terminator F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Disease tolerant tomato. Heavy producer.', inStock: true, image: 'images/terminator f1.png' },
+            // Cabbages
+            { id: 5, name: 'Cabbage Gloria F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Crisp cabbage. Good head formation.', inStock: true, image: 'images/gloria f1.png' },
+            { id: 6, name: 'Cabbage Pructor F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Medium maturity cabbage. Resistant to bolting.', inStock: true, image: 'images/cabbage-pructor.jpg' },
+            { id: 7, name: 'Cabbage Kilimo F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'High yielding variety. Suitable for Kenya.', inStock: true, image: 'images/cabbage-kilimo.jpg' },
+            { id: 8, name: 'Cabbage Queen F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Large head cabbage. Excellent storage.', inStock: true, image: 'images/cabbage-queen.jpg' },
+            { id: 9, name: 'Cabbage Victoria F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Uniform heads. Good market quality.', inStock: true, image: 'images/cabbage-victoria.jpg' },
+            { id: 10, name: 'Cabbage Faida', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Reliable cabbage variety. Good yield.', inStock: true, image: 'images/cabbage-faida.jpg' },
+            { id: 11, name: 'Cabbage Powerslam', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Heavy producing cabbage. Disease resistant.', inStock: true, image: 'images/cabbage-powerslam.jpg' },
+            { id: 12, name: 'Red Cabbage', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Colorful red cabbage. Nutritious and tasty.', inStock: true, image: 'images/red cabbage.png' },
+            // Spinach
+            { id: 13, name: 'Spinach Fordhook Giant', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Large leaf spinach. Fast growing.', inStock: true, image: 'images/spinach-fordhook.jpg' },
+            // Sukumawiki (Kale)
+            { id: 14, name: 'Sukumawiki Ahadi F1', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'High yielding sukuma wiki. Disease resistant.', inStock: true, image: 'images/sukumawiki-ahadi.jpg' },
+            { id: 15, name: 'Sukumawiki Spinner', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Tender leaves. Good for continuous harvest.', inStock: true, image: 'images/sukumawiki-spinner.jpg' },
+            { id: 16, name: 'Sukumawiki Tausi', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'African kale variety. Heat tolerant.', inStock: true, image: 'images/sukumawiki-tausi.jpg' },
+            { id: 17, name: 'Sukumawiki Top Bunch', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Vigorous growth. Large bunch formation.', inStock: true, image: 'images/sukumawiki-topbunch.jpg' },
+            { id: 18, name: 'Sukumawiki Thousand Headed', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Multiple harvest variety. Continuous production.', inStock: true, image: 'images/sukumawiki-thousand.jpg' },
+            { id: 19, name: 'Curly Kales Malkia F1', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Curly leaf kale. Ornamental and edible.', inStock: true, image: 'images/malika f1.png' },
+            // Capsicum
+            { id: 20, name: 'Capsicum Calypso', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Bell pepper variety. Sweet flavor.', inStock: true, image: 'images/capsicum-calypso.jpg' },
+            { id: 21, name: 'Capsicum Superbell', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Large bell pepper. Thick walls.', inStock: true, image: 'images/capsicum-superbell.jpg' },
+            { id: 22, name: 'Capsicum Superwonder', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'High yielding capsicum. Disease resistant.', inStock: true, image: 'images/capsicum-superwonder.jpg' },
+            { id: 23, name: 'Capsicum Victory Red', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Red bell pepper. Sweet and crisp.', inStock: true, image: 'images/capsicum-victoryred.jpg' },
+            { id: 24, name: 'Capsicum Victory Yellow', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Yellow bell pepper. Vibrant color.', inStock: true, image: 'images/capsicum-victoryyellow.jpg' },
+            // Peppers
+            { id: 25, name: 'Pepper Birdseye', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Hot birdseye pepper. Very spicy.', inStock: true, image: 'images/pepper-birdseye.jpg' },
+            { id: 26, name: 'Pepper Red Thunder', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Hot red pepper. Excellent for chili.', inStock: true, image: 'images/red thunder.png' },
+            // Beetroot
+            { id: 26.5, name: 'Beetroot', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-circle', description: 'Sweet red beetroot. Nutritious root vegetable.', inStock: true, image: 'images/beetroot.png' },
+            // Cauliflower
+            { id: 27, name: 'Cauliflower Bella', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'White cauliflower. Compact head.', inStock: true, image: 'images/cauliflower-bella.jpg' },
+            // Broccoli
+            { id: 28, name: 'Broccoli Titanic', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'Large broccoli head. Cold tolerant.', inStock: true, image: 'images/broccoli-titanic.jpg' },
+            { id: 29, name: 'Broccoli Harriet', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'Early maturing broccoli. Good flavor.', inStock: true, image: 'images/broccoli-harriet.jpg' },
+            // Watermelon
+            { id: 30, name: 'Watermelon Sukari', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Sweet red flesh watermelon. Large fruits.', inStock: true, image: 'images/watermelon-sukari.jpg' },
+            // Terere (Amaranth)
+            { id: 31, name: 'Terere Amaranthus', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Traditional leafy vegetable. Nutritious.', inStock: true, image: 'images/terere-amaranthus.jpg' },
+            // Manangu (Nightshade)
+            { id: 32, name: 'Manangu Giant Nightshade', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Traditional vegetable. Heat tolerant.', inStock: true, image: 'images/manangu-nightshade.jpg' },
+            // Lettuce
+            { id: 33, name: 'Lettuce Pixie', category: 'vegetable', price: 200, unit: 'seedling', icon: 'fa-leaf', description: 'Mini lettuce variety. Compact heads.', inStock: true, image: 'images/lettuce-pixie.jpg' },
+            { id: 34, name: 'Lettuce Tangerine', category: 'vegetable', price: 200, unit: 'seedling', icon: 'fa-leaf', description: 'Orange lettuce. Unique color.', inStock: true, image: 'images/lettuce-tangerine.jpg' },
+            { id: 35, name: 'Lettuce Washington', category: 'vegetable', price: 200, unit: 'seedling', icon: 'fa-leaf', description: 'Butterhead lettuce. Tender leaves.', inStock: true, image: 'images/lettuce-washington.jpg' },
+            // Fruits
+            { id: 36, name: 'Hass Avocado', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Premium Hass avocado. High market value.', inStock: true, image: 'images/avocado-hass.jpg' },
+            { id: 37, name: 'Strawberry', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-apple-whole', description: 'Sweet strawberry. Runner production.', inStock: true, image: 'images/strawberry.jpg' },
+            { id: 38, name: 'Mango Tommy', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Tommy Atkins mango. Red blush skin.', inStock: true, image: 'images/mango-tommy.jpg' },
+            { id: 39, name: 'Mango Apple', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Apple mango variety. Sweet and juicy.', inStock: true, image: 'images/mango-apple.jpg' },
+            { id: 40, name: 'Green Apple', category: 'fruit', price: 500, unit: 'seedling', icon: 'fa-tree', description: 'Green apple tree. Tart fruits.', inStock: true, image: 'images/green-apple.jpg' },
+            { id: 41, name: 'Red Apple', category: 'fruit', price: 500, unit: 'seedling', icon: 'fa-tree', description: 'Red apple tree. Sweet fruits.', inStock: true, image: 'images/red-apple.jpg' },
+            { id: 42, name: 'Dragon Fruit', category: 'fruit', price: 450, unit: 'seedling', icon: 'fa-seedling', description: 'Exotic dragon fruit. Vibrant color.', inStock: true, image: 'images/dragon-fruit.jpg' },
+            { id: 43, name: 'Passion Purple', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Purple passion fruit. Sweet flavor.', inStock: true, image: 'images/passion-purple.jpg' },
+            { id: 44, name: 'Passion Yellow', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Yellow passion fruit. Tangy taste.', inStock: true, image: 'images/passion-yellow.jpg' },
+            { id: 45, name: 'Sweet Granadilla', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Sweet granadilla. Delicious fruit.', inStock: true, image: 'images/granadilla.jpg' },
+            { id: 46, name: 'Tree Tomato', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-apple-whole', description: 'Tree tomato. Unique flavor.', inStock: true, image: 'images/tree-tomato.jpg' },
+            { id: 47, name: 'Pawpaw Sharp F1', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Sharp pawpaw variety. Tropical fruit.', inStock: true, image: 'images/pawpaw-sharp.jpg' },
+            { id: 48, name: 'Pawpaw Red Royale', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Red Royale pawpaw. Sweet and creamy.', inStock: true, image: 'images/pawpaw-redroyale.jpg' },
+            // Grains
+            { id: 49, name: 'Maize (Hybrid)', category: 'grain', price: 5, unit: 'seedling', icon: 'fa-corn', description: 'High-yield hybrid maize. Drought tolerant.', inStock: true, image: 'images/maize-hybrid.jpg' },
+            // Cash Crops
+            { id: 50, name: 'Coffee (Arabica)', category: 'cash_crop', price: 25, unit: 'seedling', icon: 'fa-mug-hot', description: 'High-quality Arabica coffee seedlings.', inStock: true, image: 'images/coffee-arabica.jpg' },
+            { id: 51, name: 'Tea', category: 'cash_crop', price: 15, unit: 'seedling', icon: 'fa-mug-hot', description: 'Selected tea clones. High yield.', inStock: true, image: 'images/tea.jpg' },
+            { id: 52, name: 'Sugarcane', category: 'cash_crop', price: 10, unit: 'seedling', icon: 'fa-cane', description: 'High-sucrose sugarcane. Fast growing.', inStock: true, image: 'images/sugarcane.jpg' },
+            // Fodder
+            { id: 53, name: 'Napier Grass', category: 'fodder', price: 3, unit: 'seedling', icon: 'fa-grass', description: 'Improved Napier. Excellent for dairy.', inStock: true, image: 'images/napier-grass.jpg' },
+            // Ornamental
+            { id: 54, name: 'Jacaranda', category: 'ornamental', price: 200, unit: 'seedling', icon: 'fa-flower', description: 'Purple flowering tree. Landscaping.', inStock: true, image: 'images/jacaranda.jpg' },
+            // Trees
+            { id: 55, name: 'Bamboo', category: 'tree', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Giant bamboo. Fast growing, versatile.', inStock: false, image: 'images/bamboo.jpg' }
+        ];
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadProducts();
@@ -1764,49 +1932,92 @@
         async function loadProducts() {
             try {
                 const res = await fetch(`${API_BASE}/api/products`);
-                products = await res.json();
+                const apiProducts = await res.json();
+                products = apiProducts.length > 0 ? apiProducts : staticProducts;
                 renderProducts();
             } catch (err) {
                 console.error('Failed to load products:', err);
-                showToast('Failed to load products. Please refresh.');
+                products = staticProducts;
+                renderProducts();
             }
         }
 
-        // Render Products
-        function renderProducts() {
-            const grid = document.getElementById('products-grid');
-            const filtered = currentFilter === 'all' 
-                ? products 
-                : products.filter(p => p.category === currentFilter);
+        // Category display name mapping
+        const CATEGORY_LABELS = {
+            vegetable:   'Vegetable Seedlings',
+            fruit:       'Fruit Tree Seedlings',
+            grain:       'Grain Seedlings',
+            cash_crop:   'Cash Crop Seedlings',
+            fodder:      'Fodder Seedlings',
+            ornamental:  'Ornamental Seedlings',
+            tree:        'Tree Seedlings',
+        };
 
-            grid.innerHTML = filtered.map(product => `
-                <div class="product-card" data-category="${product.category}">
-                    <div class="product-image">
-                        ${product.image ? `<img src="${product.image.startsWith('http') ? product.image : '/Images/' + encodeURIComponent(product.image)}" alt="${product.name}" loading="lazy">` : `<i class="fas ${product.icon}"></i>`}
-                        <div class="stock-badge ${product.inStock ? 'in-stock' : 'out-stock'}">
-                            <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
-                            ${product.inStock ? 'In Stock' : 'Out of Stock'}
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">${product.category}</div>
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-desc">${product.description || ''}</div>
-                        <div class="product-footer">
-                            <div class="price">KES ${product.price}<span>/${product.unit}</span></div>
-                            <div style="display:flex;gap:8px;align-items:center;">
-                                <button class="add-cart-btn" onclick="addToCart(${product.id}, this)" ${!product.inStock ? 'disabled' : ''}>
-                                    <i class="fas fa-cart-plus"></i> Add to Cart
-                                </button>
-                                <button class="order-btn ${product.inStock ? 'available' : 'unavailable'}"
-                                    ${product.inStock ? `onclick="openOrderModal(${product.id})"` : 'disabled'}>
-                                    ${product.inStock ? 'Order Now' : 'Unavailable'}
-                                </button>
+        function getCategoryLabel(cat) {
+            return CATEGORY_LABELS[cat] || cat.charAt(0).toUpperCase() + cat.slice(1);
+        }
+
+        // Render Products grouped by category
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            
+            // Group products by category
+            const categories = {};
+            const filtered = currentFilter === 'all'
+                ? products
+                : products.filter(p => p.category === currentFilter);
+            
+            filtered.forEach(product => {
+                if (!categories[product.category]) {
+                    categories[product.category] = [];
+                }
+                categories[product.category].push(product);
+            });
+
+            // Build HTML with category sections
+            let html = '';
+            for (const [category, items] of Object.entries(categories)) {
+                html += `
+                    <div class="category-section">
+                        <h2 class="category-title">${getCategoryLabel(category)}</h2>
+                        <div class="products-grid">
+                `;
+
+                items.forEach(product => {
+                    html += `
+                        <div class="product-card" data-category="${product.category}">
+                            <div class="product-image">
+                                ${product.image ? `<img src="${product.image.startsWith('http') ? product.image : '/Images/' + encodeURIComponent(product.image)}" alt="${product.name}" loading="lazy">` : `<i class="fas ${product.icon}"></i>`}
+                                <div class="stock-badge ${product.inStock ? 'in-stock' : 'out-stock'}">
+                                    <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                    ${product.inStock ? 'In Stock' : 'Out of Stock'}
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">${getCategoryLabel(product.category)}</div>
+                                <div class="product-name">${product.name}</div>
+                                <div class="product-desc">${product.description || ''}</div>
+                                <div class="product-footer">
+                                    <div class="price">KES ${product.price}<span>/${product.unit}</span></div>
+                                    <div style="display:flex;gap:8px;align-items:center;">
+                                        <button class="add-cart-btn" onclick="addToCart(${product.id}, this)" ${!product.inStock ? 'disabled' : ''}>
+                                            <i class="fas fa-cart-plus"></i> Add to Cart
+                                        </button>
+                                        <button class="order-btn ${product.inStock ? 'available' : 'unavailable'}"
+                                            ${product.inStock ? `onclick="openOrderModal(${product.id})"` : 'disabled'}>
+                                            ${product.inStock ? 'Order Now' : 'Unavailable'}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            `).join('');
+                    `;
+                });
+                
+                html += '</div></div>';
+            }
+            
+            container.innerHTML = html;
         }
 
         // ─── Cart Functions ───────────────────────────────────────────────────
