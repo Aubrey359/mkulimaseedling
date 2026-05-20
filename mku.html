@@ -1770,39 +1770,7 @@
         </div>
     </div>
 
-    <!-- Order Modal -->
-    <div class="modal-overlay" id="order-modal">
-        <div class="modal order-modal" style="max-width: 500px;">
-            <div class="modal-header">
-                <h2><i class="fas fa-shopping-cart"></i> Place Order</h2>
-                <button class="modal-close" onclick="closeOrderModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="order-product-summary" id="order-summary">
-                    <!-- Filled by JS -->
-                </div>
-                <form onsubmit="handleOrderSubmit(event)">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="name" placeholder="Your full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="tel" name="phone" placeholder="+254 7XX XXX XXX" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity</label>
-                        <input type="number" name="quantity" min="1" value="10" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Delivery Location</label>
-                        <input type="text" name="delivery" placeholder="County / Town" required>
-                    </div>
-                    <button type="submit" class="submit-btn">Submit Order Request</button>
-                </form>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Toast -->
     <div class="toast" id="toast">
@@ -1841,7 +1809,6 @@
         let products = [];
         let currentFilter = 'all';
         let isAdmin = false;
-        let selectedProduct = null;
         let cart = [];
 
         // Static products data (from products.html)
@@ -1999,15 +1966,11 @@
                                 <div class="product-desc">${product.description || ''}</div>
                                 <div class="product-footer">
                                     <div class="price">KES ${product.price}<span>/${product.unit}</span></div>
-                                    <div style="display:flex;gap:8px;align-items:center;">
-                                        <button class="add-cart-btn" onclick="addToCart(${product.id}, this)" ${!product.inStock ? 'disabled' : ''}>
-                                            <i class="fas fa-cart-plus"></i> Add to Cart
-                                        </button>
-                                        <button class="order-btn ${product.inStock ? 'available' : 'unavailable'}"
-                                            ${product.inStock ? `onclick="openOrderModal(${product.id})"` : 'disabled'}>
-                                            ${product.inStock ? 'Order Now' : 'Unavailable'}
-                                        </button>
-                                    </div>
+                                     <div style="width:100%;">
+                                         <button class="add-cart-btn" onclick="addToCart(${product.id}, this)" ${!product.inStock ? 'disabled' : ''}>
+                                             <i class="fas fa-cart-plus"></i> Add to Cart
+                                         </button>
+                                     </div>
                                 </div>
                             </div>
                         </div>
@@ -2217,56 +2180,7 @@
             }
         }
 
-        // Order Modal
-        function openOrderModal(productId) {
-            selectedProduct = products.find(p => p.id === productId);
-            if (!selectedProduct) return;
 
-            const summary = document.getElementById('order-summary');
-            summary.innerHTML = `
-                <i class="fas ${selectedProduct.icon}"></i>
-                <div class="order-product-info">
-                    <h3>${selectedProduct.name}</h3>
-                    <p>KES ${selectedProduct.price} per ${selectedProduct.unit}</p>
-                </div>
-            `;
-            document.getElementById('order-modal').classList.add('active');
-        }
-
-        function closeOrderModal() {
-            document.getElementById('order-modal').classList.remove('active');
-        }
-
-        async function handleOrderSubmit(e) {
-            e.preventDefault();
-            if (!selectedProduct) return;
-
-            const formData = new FormData(e.target);
-            const orderData = {
-                product_id: selectedProduct.id,
-                product_name: selectedProduct.name,
-                customer_name: formData.get('name'),
-                phone: formData.get('phone'),
-                quantity: parseInt(formData.get('quantity')),
-                delivery: formData.get('delivery')
-            };
-
-            try {
-                const res = await fetch(`${API_BASE}/api/orders`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderData)
-                });
-                if (res.ok) {
-                    e.target.reset();
-                    closeOrderModal();
-                    showToast('Order request submitted! We will contact you shortly.');
-                }
-            } catch (err) {
-                console.error('Failed to submit order:', err);
-                showToast('Failed to submit order. Please try again.');
-            }
-        }
 
         // Contact Form
         async function handleContactSubmit(e) {
