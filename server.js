@@ -15,88 +15,91 @@ let nextProductId = 1;
 let nextOrderId = 1;
 let nextContactId = 1;
 
-// Seed data for in-memory mode
+// Seed data for in-memory mode — 55 products matching products.html
 const SEED_PRODUCTS = [
   // Tomatoes
-  ['Tomato Zara F1',              'vegetable',   8,  'seedling', 'fa-apple-whole', 'High-yield tomato variety. Disease resistant.',           true, 'https://images.unsplash.com/photo-1561136594-ebf61b8c4c25?w=400&h=300&fit=crop'],
-  ['Tomato Nova F1',              'vegetable',   8,  'seedling', 'fa-apple-whole', 'Vigorous tomato plant. Excellent fruit set.',             true, 'https://images.unsplash.com/photo-1561136594-ebf61b8c4c25?w=400&h=300&fit=crop'],
-  ['Tomato Ansal F1',             'vegetable',   8,  'seedling', 'fa-apple-whole', 'Determinate tomato. Good for processing.',                true, 'https://images.unsplash.com/photo-1561136594-ebf61b8c4c25?w=400&h=300&fit=crop'],
-  ['Tomato Terminator F1',        'vegetable',   8,  'seedling', 'fa-apple-whole', 'Disease tolerant tomato. Heavy producer.',                true, 'https://images.unsplash.com/photo-1561136594-ebf61b8c4c25?w=400&h=300&fit=crop'],
+  ['Tomato Zara F1',              'vegetable',   4,  'seedling', 'fa-apple-whole', 'High-yield tomato variety. Disease resistant.',           true, 'images/zara f1.png'],
+  ['Tomato Nova F1',              'vegetable',   5,  'seedling', 'fa-apple-whole', 'Vigorous tomato plant. Excellent fruit set.',             true, 'images/tomato-nova.jpg'],
+  ['Tomato Ansal F1',             'vegetable',   6,  'seedling', 'fa-apple-whole', 'Determinate tomato. Good for processing.',                true, 'images/tomato-ansal.jpg'],
+  ['Tomato Terminator F1',        'vegetable',   4,  'seedling', 'fa-apple-whole', 'Disease tolerant tomato. Heavy producer.',                true, 'images/terminator f1.png'],
   // Cabbages
-  ['Cabbage Gloria F1',           'vegetable',   6,  'seedling', 'fa-leaf',        'Crisp cabbage. Good head formation.',                     true, 'https://images.unsplash.com/photo-1594282583010-818c69d5a2a9?w=400&h=300&fit=crop'],
-  ['Cabbage Pructor F1',          'vegetable',   6,  'seedling', 'fa-leaf',        'Medium maturity cabbage. Resistant to bolting.',          true, 'https://images.unsplash.com/photo-1594282583010-818c69d5a2a9?w=400&h=300&fit=crop'],
-  ['Cabbage Kilimo F1',           'vegetable',   6,  'seedling', 'fa-leaf',        'High yielding variety. Suitable for Kenya.',              true, 'https://images.unsplash.com/photo-1594282583010-818c69d5a2a9?w=400&h=300&fit=crop'],
-  ['Cabbage Queen F1',            'vegetable',   6,  'seedling', 'fa-leaf',        'Large head cabbage. Excellent storage.',                  true, 'https://images.unsplash.com/photo-1594282583010-818c69d5a2a9?w=400&h=300&fit=crop'],
-  ['Cabbage Victoria F1',         'vegetable',   6,  'seedling', 'fa-leaf',        'Uniform heads. Good market quality.',                     true, 'https://images.unsplash.com/photo-1594282583010-818c69d5a2a9?w=400&h=300&fit=crop'],
-  ['Cabbage Faida',               'vegetable',   6,  'seedling', 'fa-leaf',        'Reliable cabbage variety. Good yield.',                   true, 'https://images.unsplash.com/photo-1594282583010-818c69d5a2a9?w=400&h=300&fit=crop'],
-  ['Cabbage Powerslam',           'vegetable',   6,  'seedling', 'fa-leaf',        'Heavy producing cabbage. Disease resistant.',             true, 'https://images.unsplash.com/photo-1594282583010-818c69d5a2a9?w=400&h=300&fit=crop'],
-  ['Red Cabbage',                 'vegetable',   6,  'seedling', 'fa-leaf',        'Colorful red cabbage. Nutritious and tasty.',             true, 'https://images.unsplash.com/photo-1594282583010-818c69d5a2a9?w=400&h=300&fit=crop'],
+  ['Cabbage Gloria F1',           'vegetable',   2.5,'seedling', 'fa-leaf',        'Crisp cabbage. Good head formation.',                     true, 'images/gloria f1.png'],
+  ['Cabbage Pructor F1',          'vegetable',   2,  'seedling', 'fa-leaf',        'Medium maturity cabbage. Resistant to bolting.',          true, 'images/cabbage-pructor.jpg'],
+  ['Cabbage Kilimo F1',           'vegetable',   2,  'seedling', 'fa-leaf',        'High yielding variety. Suitable for Kenya.',              true, 'images/cabbage-kilimo.jpg'],
+  ['Cabbage Queen F1',            'vegetable',   2,  'seedling', 'fa-leaf',        'Large head cabbage. Excellent storage.',                  true, 'images/cabbage-queen.jpg'],
+  ['Cabbage Victoria F1',         'vegetable',   2,  'seedling', 'fa-leaf',        'Uniform heads. Good market quality.',                     true, 'images/cabbage-victoria.jpg'],
+  ['Cabbage Faida',               'vegetable',   2,  'seedling', 'fa-leaf',        'Reliable cabbage variety. Good yield.',                   true, 'images/cabbage-faida.jpg'],
+  ['Cabbage Powerslam',           'vegetable',   2,  'seedling', 'fa-leaf',        'Heavy producing cabbage. Disease resistant.',             true, 'images/cabbage-powerslam.jpg'],
+  ['Red Cabbage',                 'vegetable',   4,  'seedling', 'fa-leaf',        'Colorful red cabbage. Nutritious and tasty.',             true, 'images/red cabbage.png'],
   // Spinach
-  ['Spinach Fordhook Giant',      'vegetable',   5,  'seedling', 'fa-leaf',        'Large leaf spinach. Fast growing.',                        true, 'https://images.unsplash.com/photo-1576045058966-5156a113a0e9?w=400&h=300&fit=crop'],
+  ['Spinach Fordhook Giant',      'vegetable',   2,  'seedling', 'fa-leaf',        'Large leaf spinach. Fast growing.',                        true, 'images/spinach-fordhook.jpg'],
   // Sukumawiki (Kale)
-  ['Sukumawiki Ahadi F1',         'vegetable',   5,  'seedling', 'fa-leaf',        'High yielding sukuma wiki. Disease resistant.',           true, 'https://images.unsplash.com/photo-1515694346933-4c9d2cdc0c2d?w=400&h=300&fit=crop'],
-  ['Sukumawiki Spinner',          'vegetable',   5,  'seedling', 'fa-leaf',        'Tender leaves. Good for continuous harvest.',               true, 'https://images.unsplash.com/photo-1515694346933-4c9d2cdc0c2d?w=400&h=300&fit=crop'],
-  ['Sukumawiki Tausi',            'vegetable',   5,  'seedling', 'fa-leaf',        'African kale variety. Heat tolerant.',                      true, 'https://images.unsplash.com/photo-1515694346933-4c9d2cdc0c2d?w=400&h=300&fit=crop'],
-  ['Sukumawiki Top Bunch',        'vegetable',   5,  'seedling', 'fa-leaf',        'Vigorous growth. Large bunch formation.',                 true, 'https://images.unsplash.com/photo-1515694346933-4c9d2cdc0c2d?w=400&h=300&fit=crop'],
-  ['Sukumawiki Thousand Headed',   'vegetable',   5,  'seedling', 'fa-leaf',        'Multiple harvest variety. Continuous production.',          true, 'https://images.unsplash.com/photo-1515694346933-4c9d2cdc0c2d?w=400&h=300&fit=crop'],
-  ['Curly Kales Malkia F1',       'vegetable',   5,  'seedling', 'fa-leaf',        'Curly leaf kale. Ornamental and edible.',                 true, 'https://images.unsplash.com/photo-1515694346933-4c9d2cdc0c2d?w=400&h=300&fit=crop'],
+  ['Sukumawiki Ahadi F1',         'vegetable',   2,  'seedling', 'fa-leaf',        'High yielding sukuma wiki. Disease resistant.',           true, 'images/sukumawiki-ahadi.jpg'],
+  ['Sukumawiki Spinner',          'vegetable',   2,  'seedling', 'fa-leaf',        'Tender leaves. Good for continuous harvest.',               true, 'images/sukumawiki-spinner.jpg'],
+  ['Sukumawiki Tausi',            'vegetable',   2,  'seedling', 'fa-leaf',        'African kale variety. Heat tolerant.',                      true, 'images/sukumawiki-tausi.jpg'],
+  ['Sukumawiki Top Bunch',        'vegetable',   2,  'seedling', 'fa-leaf',        'Vigorous growth. Large bunch formation.',                 true, 'images/sukumawiki-topbunch.jpg'],
+  ['Sukumawiki Thousand Headed',   'vegetable',   2,  'seedling', 'fa-leaf',        'Multiple harvest variety. Continuous production.',          true, 'images/sukumawiki-thousand.jpg'],
+  ['Curly Kales Malkia F1',       'vegetable',   3,  'seedling', 'fa-leaf',        'Curly leaf kale. Ornamental and edible.',                 true, 'images/malika f1.png'],
   // Capsicum
-  ['Capsicum Calypso',            'vegetable',   10, 'seedling', 'fa-pepper-hot',  'Bell pepper variety. Sweet flavor.',                        true, 'https://images.unsplash.com/photo-1563565721-c52c6b01dbc1?w=400&h=300&fit=crop'],
-  ['Capsicum Superbell',          'vegetable',   10, 'seedling', 'fa-pepper-hot',  'Large bell pepper. Thick walls.',                         true, 'https://images.unsplash.com/photo-1563565721-c52c6b01dbc1?w=400&h=300&fit=crop'],
-  ['Capsicum Superwonder',        'vegetable',   10, 'seedling', 'fa-pepper-hot',  'High yielding capsicum. Disease resistant.',              true, 'https://images.unsplash.com/photo-1563565721-c52c6b01dbc1?w=400&h=300&fit=crop'],
-  ['Capsicum Victory Red',        'vegetable',   10, 'seedling', 'fa-pepper-hot',  'Red bell pepper. Sweet and crisp.',                       true, 'https://images.unsplash.com/photo-1563565721-c52c6b01dbc1?w=400&h=300&fit=crop'],
-  ['Capsicum Victory Yellow',     'vegetable',   10, 'seedling', 'fa-pepper-hot',  'Yellow bell pepper. Vibrant color.',                      true, 'https://images.unsplash.com/photo-1563565721-c52c6b01dbc1?w=400&h=300&fit=crop'],
+  ['Capsicum Calypso',            'vegetable',   4,  'seedling', 'fa-pepper-hot',  'Bell pepper variety. Sweet flavor.',                        true, 'images/capsicum-calypso.jpg'],
+  ['Capsicum Superbell',          'vegetable',   4,  'seedling', 'fa-pepper-hot',  'Large bell pepper. Thick walls.',                         true, 'images/capsicum-superbell.jpg'],
+  ['Capsicum Superwonder',        'vegetable',   4,  'seedling', 'fa-pepper-hot',  'High yielding capsicum. Disease resistant.',              true, 'images/capsicum-superwonder.jpg'],
+  ['Capsicum Victory Red',        'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Red bell pepper. Sweet and crisp.',                       true, 'images/capsicum-victoryred.jpg'],
+  ['Capsicum Victory Yellow',     'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Yellow bell pepper. Vibrant color.',                      true, 'images/capsicum-victoryyellow.jpg'],
+  ['Capsicum Nyuki Yellow',       'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Yellow Nyuki pepper. Hot variety.',                       true, 'images/capsicum-nyuki-yellow.jpg'],
+  ['Capsicum Nyuki Red',          'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Red Nyuki pepper. Hot variety.',                          true, 'images/capsicum-nyuki-red.jpg'],
   // Peppers
-  ['Pepper Birdseye',             'vegetable',   8,  'seedling', 'fa-pepper-hot',  'Hot birdseye pepper. Very spicy.',                          true, 'https://images.unsplash.com/photo-1589299940469-159684810300?w=400&h=300&fit=crop'],
-  ['Pepper Red Thunder',          'vegetable',   8,  'seedling', 'fa-pepper-hot',  'Hot red pepper. Excellent for chili.',                      true, 'https://images.unsplash.com/photo-1589299940469-159684810300?w=400&h=300&fit=crop'],
+  ['Pepper Birdseye',             'vegetable',   5,  'seedling', 'fa-pepper-hot',  'Hot birdseye pepper. Very spicy.',                          true, 'images/pepper-birdseye.jpg'],
+  ['Pepper Red Thunder',          'vegetable',   5,  'seedling', 'fa-pepper-hot',  'Hot red pepper. Excellent for chili.',                      true, 'images/red thunder.png'],
+  // Beetroot
+  ['Beetroot',                    'vegetable',   4,  'seedling', 'fa-circle',      'Sweet red beetroot. Nutritious root vegetable.',           true, 'images/beetroot.png'],
   // Cauliflower
-  ['Cauliflower Bella',           'vegetable',   8,  'seedling', 'fa-seedling',    'White cauliflower. Compact head.',                          true, 'https://images.unsplash.com/photo-1565067246077-8c0c5c8a1c8e?w=400&h=300&fit=crop'],
+  ['Cauliflower Bella',           'vegetable',   3,  'seedling', 'fa-seedling',    'White cauliflower. Compact head.',                          true, 'images/cauliflower-bella.jpg'],
   // Broccoli
-  ['Broccoli Titanic',            'vegetable',   8,  'seedling', 'fa-seedling',    'Large broccoli head. Cold tolerant.',                       true, 'https://images.unsplash.com/photo-1583475001909-0a4e0c4c4c4c?w=400&h=300&fit=crop'],
-  ['Broccoli Harriet',            'vegetable',   8,  'seedling', 'fa-seedling',    'Early maturing broccoli. Good flavor.',                     true, 'https://images.unsplash.com/photo-1583475001909-0a4e0c4c4c4c?w=400&h=300&fit=crop'],
+  ['Broccoli Titanic',            'vegetable',   3,  'seedling', 'fa-seedling',    'Large broccoli head. Cold tolerant.',                       true, 'images/broccoli-titanic.jpg'],
+  ['Broccoli Harriet',            'vegetable',   3,  'seedling', 'fa-seedling',    'Early maturing broccoli. Good flavor.',                     true, 'images/broccoli-harriet.jpg'],
   // Watermelon
-  ['Watermelon Sukari',           'vegetable',   8,  'seedling', 'fa-apple-whole', 'Sweet red flesh watermelon. Large fruits.',                 true, 'https://images.unsplash.com/photo-1564193565846-5c2c5a5a5a5a?w=400&h=300&fit=crop'],
+  ['Watermelon Sukari',           'vegetable',   6,  'seedling', 'fa-apple-whole', 'Sweet red flesh watermelon. Large fruits.',                 true, 'images/watermelon-sukari.jpg'],
   // Terere (Amaranth)
-  ['Terere Amaranthus',           'vegetable',   5,  'seedling', 'fa-leaf',        'Traditional leafy vegetable. Nutritious.',                  true, 'https://images.unsplash.com/photo-1515694346933-4c9d2cdc0c2d?w=400&h=300&fit=crop'],
+  ['Terere Amaranthus',           'vegetable',   2,  'seedling', 'fa-leaf',        'Traditional leafy vegetable. Nutritious.',                  true, 'images/terere-amaranthus.jpg'],
   // Manangu (Nightshade)
-  ['Manangu Giant Nightshade',    'vegetable',   5,  'seedling', 'fa-leaf',        'Traditional vegetable. Heat tolerant.',                     true, 'https://images.unsplash.com/photo-1515694346933-4c9d2cdc0c2d?w=400&h=300&fit=crop'],
+  ['Manangu Giant Nightshade',    'vegetable',   2,  'seedling', 'fa-leaf',        'Traditional vegetable. Heat tolerant.',                     true, 'images/manangu-nightshade.jpg'],
   // Lettuce
-  ['Lettuce Pixie',               'vegetable',   200,'seedling', 'fa-leaf',        'Mini lettuce variety. Compact heads.',                      true, 'https://images.unsplash.com/photo-1516689301880-8c6a3a3b3b3b?w=400&h=300&fit=crop'],
-  ['Lettuce Tangerine',           'vegetable',   200,'seedling', 'fa-leaf',        'Orange lettuce. Unique color.',                             true, 'https://images.unsplash.com/photo-1516689301880-8c6a3a3b3b3b?w=400&h=300&fit=crop'],
-  ['Lettuce Washington',          'vegetable',   200,'seedling', 'fa-leaf',        'Butterhead lettuce. Tender leaves.',                        true, 'https://images.unsplash.com/photo-1516689301880-8c6a3a3b3b3b?w=400&h=300&fit=crop'],
+  ['Lettuce Pixie',               'vegetable',   3,  'seedling', 'fa-leaf',        'Mini lettuce variety. Compact heads.',                      true, 'images/lettuce-pixie.jpg'],
+  ['Lettuce Tangerine',           'vegetable',   3,  'seedling', 'fa-leaf',        'Orange lettuce. Unique color.',                             true, 'images/lettuce-tangerine.jpg'],
+  ['Lettuce Washington',          'vegetable',   3,  'seedling', 'fa-leaf',        'Butterhead lettuce. Tender leaves.',                        true, 'images/lettuce-washington.jpg'],
+  // Cucumber
+  ['Cucumber Ashley',             'vegetable',   6,  'seedling', 'fa-leaf',        'Cucumber variety. Good yield.',                             true, 'images/cucumber-ashley.jpg'],
+  // Courgette
+  ['Courgette Zucchini',          'vegetable',   6,  'seedling', 'fa-leaf',        'Zucchini squash. Productive variety.',                      true, 'images/courgette-zucchini.jpg'],
   // Fruits
-  ['Hass Avocado',                'fruit',       150,'seedling', 'fa-tree',        'Premium Hass avocado. High market value.',                  true, 'https://images.unsplash.com/photo-1523042707052-8021c9c7c32a?w=400&h=300&fit=crop'],
-  ['Strawberry',                  'fruit',       50, 'seedling', 'fa-apple-whole', 'Sweet strawberry. Runner production.',                      true, 'https://images.unsplash.com/photo-1518633387331-3e0257b1c1c1?w=400&h=300&fit=crop'],
-  ['Mango Tommy',                 'fruit',       150,'seedling', 'fa-tree',        'Tommy Atkins mango. Red blush skin.',                       true, 'https://images.unsplash.com/photo-1591073111884-9c2f50a0a0a0?w=400&h=300&fit=crop'],
-  ['Mango Apple',                 'fruit',       150,'seedling', 'fa-tree',        'Apple mango variety. Sweet and juicy.',                     true, 'https://images.unsplash.com/photo-1591073111884-9c2f50a0a0a0?w=400&h=300&fit=crop'],
-  ['Green Apple',                 'fruit',       500,'seedling', 'fa-tree',        'Green apple tree. Tart fruits.',                            true, 'https://images.unsplash.com/photo-1560806887-1e4cd0d1a1a1?w=400&h=300&fit=crop'],
-  ['Red Apple',                   'fruit',       500,'seedling', 'fa-tree',        'Red apple tree. Sweet fruits.',                             true, 'https://images.unsplash.com/photo-1560806887-1e4cd0d1a1a1?w=400&h=300&fit=crop'],
-  ['Dragon Fruit',                'fruit',       450,'seedling', 'fa-seedling',    'Exotic dragon fruit. Vibrant color.',                       true, 'https://images.unsplash.com/photo-1526318472351-3a5a0c0c0c0c?w=400&h=300&fit=crop'],
-  ['Passion Purple',              'fruit',       50, 'seedling', 'fa-flower',      'Purple passion fruit. Sweet flavor.',                       true, 'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Passion Yellow',              'fruit',       50, 'seedling', 'fa-flower',      'Yellow passion fruit. Tangy taste.',                        true, 'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Sweet Granadilla',            'fruit',       50, 'seedling', 'fa-flower',      'Sweet granadilla. Delicious fruit.',                        true, 'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Tree Tomato',                 'fruit',       50, 'seedling', 'fa-apple-whole', 'Tree tomato. Unique flavor.',                               true, 'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Pawpaw Sharp F1',             'fruit',       100,'seedling', 'fa-tree',        'Sharp pawpaw variety. Tropical fruit.',                       true, 'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Pawpaw Red Royale',           'fruit',       100,'seedling', 'fa-tree',        'Red Royale pawpaw. Sweet and creamy.',                      true, 'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  // Existing products
-  ['Maize (Hybrid)',              'grain',       5,  'seedling', 'fa-corn',        'High-yield hybrid maize. Drought tolerant.',              true, 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop'],
-  ['Tomato (Rio Grande)',         'vegetable',   8,  'seedling', 'fa-apple-whole', 'Classic processing tomato. Heavy producer.',               true,  'https://images.unsplash.com/photo-1561136594-ebf61b8c4c25?w=400&h=300&fit=crop'],
-  ['Cabbage (Sukuma)',            'vegetable',   6,  'seedling', 'fa-leaf',        'Tender, fast-maturing cabbage variety.',                   true,  'https://images.unsplash.com/photo-1594282583010-818c69d5a2a9?w=400&h=300&fit=crop'],
-  ['Kale (Sukuma Wiki)',          'vegetable',   5,  'seedling', 'fa-leaf',        'Popular Kenyan kale. High yield.',                         true,  'https://images.unsplash.com/photo-1515694346933-4c9d2cdc0c2d?w=400&h=300&fit=crop'],
-  ['Mango (Apple)',               'fruit',       80, 'seedling', 'fa-tree',        'Sweet dwarf mango. Fruits in 2-3 years.',                  true,  'https://images.unsplash.com/photo-1591073111884-9c2f50a0a0a0?w=400&h=300&fit=crop'],
-  ['Avocado (Hass)',              'fruit',       120,'seedling', 'fa-tree',        'Premium Hass avocado. High market value.',                   true,  'https://images.unsplash.com/photo-1523042707052-8021c9c7c32a?w=400&h=300&fit=crop'],
-  ['Passion (Purple)',            'fruit',       30, 'seedling', 'fa-flower',      'Sweet purple passion. Vigorous climber.',                  true,  'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Coffee (Arabica)',            'cash_crop',   25, 'seedling', 'fa-mug-hot',     'High-quality Arabica coffee seedlings.',                     true,  'https://images.unsplash.com/photo-1511920170033-f83967b73c33?w=400&h=300&fit=crop'],
-  ['Tea',                         'cash_crop',   15, 'seedling', 'fa-mug-hot',     'Selected tea clones. High yield.',                         true,  'https://images.unsplash.com/photo-1544787205-8c1c2a1a1a1a?w=400&h=300&fit=crop'],
-  ['Sugarcane',                   'cash_crop',   10, 'seedling', 'fa-cane',        'High-sucrose sugarcane. Fast growing.',                      true,  'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Napier Grass',                'fodder',      3,  'seedling', 'fa-grass',       'Improved Napier. Excellent for dairy.',                      true,  'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Banana (Giant Cavendish)',    'fruit',       20, 'sucker',   'fa-tree',        'Large bunch banana. Reliable producer.',                     true,  'https://images.unsplash.com/photo-1574226516107-7d3a0c0c0c0c?w=400&h=300&fit=crop'],
-  ['Orange (Washington)',         'fruit',       60, 'seedling', 'fa-tree',        'Juicy navel orange. Disease resistant.',                     true,  'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Lemon',                       'fruit',       50, 'seedling', 'fa-tree',        'Dwarf Meyer lemon. Year-round fruiting.',                    true,  'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Papaya (Mountain)',           'fruit',       15, 'seedling', 'fa-tree',        'Sweet mountain papaya. Early fruiting.',                     true,  'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Onion (Red Creole)',          'vegetable',   4,  'seedling', 'fa-onion',       'Red onion. Pungent, good storage.',                          true,  'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Jacaranda',                   'ornamental',  200,'seedling', 'fa-flower',      'Purple flowering tree. Landscaping.',                        true,  'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
-  ['Bamboo',                      'tree',        150,'seedling', 'fa-tree',        'Giant bamboo. Fast growing, versatile.',                   false, 'https://images.unsplash.com/photo-1560185127-6b4a5a5a5a5a?w=400&h=300&fit=crop'],
+  ['Hass Avocado',                'fruit',       150,'seedling', 'fa-tree',        'Premium Hass avocado. High market value.',                  true, 'images/avocado-hass.jpg'],
+  ['Strawberry',                  'fruit',       50, 'seedling', 'fa-apple-whole', 'Sweet strawberry. Runner production.',                      true, 'images/strawberry.jpg'],
+  ['Mango Tommy',                 'fruit',       150,'seedling', 'fa-tree',        'Tommy Atkins mango. Red blush skin.',                       true, 'images/mango-tommy.jpg'],
+  ['Mango Apple',                 'fruit',       150,'seedling', 'fa-tree',        'Apple mango variety. Sweet and juicy.',                     true, 'images/mango-apple.jpg'],
+  ['Green Apple',                 'fruit',       500,'seedling', 'fa-tree',        'Green apple tree. Tart fruits.',                            true, 'images/green-apple.jpg'],
+  ['Red Apple',                   'fruit',       500,'seedling', 'fa-tree',        'Red apple tree. Sweet fruits.',                             true, 'images/red-apple.jpg'],
+  ['Dragon Fruit',                'fruit',       450,'seedling', 'fa-seedling',    'Exotic dragon fruit. Vibrant color.',                       true, 'images/dragon-fruit.jpg'],
+  ['Passion Purple',              'fruit',       50, 'seedling', 'fa-flower',      'Purple passion fruit. Sweet flavor.',                       true, 'images/passion-purple.jpg'],
+  ['Passion Yellow',              'fruit',       50, 'seedling', 'fa-flower',      'Yellow passion fruit. Tangy taste.',                        true, 'images/passion-yellow.jpg'],
+  ['Sweet Granadilla',            'fruit',       50, 'seedling', 'fa-flower',      'Sweet granadilla. Delicious fruit.',                        true, 'images/granadilla.jpg'],
+  ['Tree Tomato',                 'fruit',       50, 'seedling', 'fa-apple-whole', 'Tree tomato. Unique flavor.',                               true, 'images/tree-tomato.jpg'],
+  ['Pawpaw Sharp F1',             'fruit',       100,'seedling', 'fa-tree',        'Sharp pawpaw variety. Tropical fruit.',                       true, 'images/pawpaw-sharp.jpg'],
+  ['Pawpaw Red Royale',           'fruit',       150,'seedling', 'fa-tree',        'Red Royale pawpaw. Sweet and creamy.',                      true, 'images/pawpaw-redroyale.jpg'],
+  ['Pawpaw Vega F1',              'fruit',       200,'seedling', 'fa-tree',        'Vega pawpaw variety. High yield.',                          true, 'images/pawpaw-vega.jpg'],
+  ['Pawpaw Glory F1',             'fruit',       100,'seedling', 'fa-tree',        'Glory pawpaw variety. Good fruit quality.',                 true, 'images/pawpaw-glory.jpg'],
+  // Grains
+  ['Maize (Hybrid)',              'grain',       5,  'seedling', 'fa-corn',        'High-yield hybrid maize. Drought tolerant.',              true, 'images/maize-hybrid.jpg'],
+  // Cash Crops
+  ['Coffee (Arabica)',            'cash_crop',   25, 'seedling', 'fa-mug-hot',     'High-quality Arabica coffee seedlings.',                     true, 'images/coffee-arabica.jpg'],
+  ['Tea',                         'cash_crop',   15, 'seedling', 'fa-mug-hot',     'Selected tea clones. High yield.',                         true, 'images/tea.jpg'],
+  ['Sugarcane',                   'cash_crop',   10, 'seedling', 'fa-cane',        'High-sucrose sugarcane. Fast growing.',                      true, 'images/sugarcane.jpg'],
+  // Fodder
+  ['Napier Grass',                'fodder',      3,  'seedling', 'fa-grass',       'Improved Napier. Excellent for dairy.',                      true, 'images/napier-grass.jpg'],
+  // Ornamental
+  ['Jacaranda',                   'ornamental',  200,'seedling', 'fa-flower',      'Purple flowering tree. Landscaping.',                        true, 'images/jacaranda.jpg'],
+  // Trees
+  ['Bamboo',                      'tree',        150,'seedling', 'fa-tree',        'Giant bamboo. Fast growing, versatile.',                   false, 'images/bamboo.jpg'],
 ];
 
 // ── PostgreSQL connection ───────────────────────────────────────────────────
@@ -201,26 +204,89 @@ async function initDb() {
     const { rows } = await pool.query('SELECT COUNT(*) AS c FROM products');
     if (parseInt(rows[0].c) === 0) {
       const seeds = [
-        ['Maize (Hybrid)',           'grain',       5,  'seedling', 'fa-corn',        'High-yield hybrid maize. Drought tolerant.',       true, null],
-        ['Tomato (Rio Grande)',       'vegetable',   8,  'seedling', 'fa-apple-whole', 'Classic processing tomato. Heavy producer.',        true,  'red thunder.png'],
-        ['Cabbage (Sukuma)',          'vegetable',   6,  'seedling', 'fa-leaf',        'Tender, fast-maturing cabbage variety.',            true,  'red cabbage.png'],
-        ['Kale (Sukuma Wiki)',        'vegetable',   5,  'seedling', 'fa-leaf',        'Popular Kenyan kale. High yield.',                  true,  null],
-        ['Mango (Apple)',             'fruit',       80, 'seedling', 'fa-tree',        'Sweet dwarf mango. Fruits in 2-3 years.',           true,  null],
-        ['Avocado (Hass)',            'fruit',       120,'seedling', 'fa-tree',        'Premium Hass avocado. High market value.',          true,  null],
-        ['Passion (Purple)',          'fruit',       30, 'seedling', 'fa-flower',      'Sweet purple passion. Vigorous climber.',           true,  null],
-        ['Coffee (Arabica)',          'cash_crop',   25, 'seedling', 'fa-mug-hot',     'High-quality Arabica coffee seedlings.',            true,  null],
-        ['Tea',                       'cash_crop',   15, 'seedling', 'fa-mug-hot',     'Selected tea clones. High yield.',                  true,  null],
-        ['Sugarcane',                 'cash_crop',   10, 'seedling', 'fa-cane',        'High-sucrose sugarcane. Fast growing.',             true,  null],
-        ['Napier Grass',              'fodder',      3,  'seedling', 'fa-grass',       'Improved Napier. Excellent for dairy.',             true,  null],
-        ['Banana (Giant Cavendish)',  'fruit',       20, 'sucker',   'fa-tree',        'Large bunch banana. Reliable producer.',            true,  null],
-        ['Orange (Washington)',       'fruit',       60, 'seedling', 'fa-tree',        'Juicy navel orange. Disease resistant.',            true,  null],
-        ['Lemon',                     'fruit',       50, 'seedling', 'fa-tree',        'Dwarf Meyer lemon. Year-round fruiting.',           true,  null],
-        ['Papaya (Mountain)',         'fruit',       15, 'seedling', 'fa-tree',        'Sweet mountain papaya. Early fruiting.',            true,  null],
-        ['Watermelon',                'vegetable',   8,  'seedling', 'fa-apple-whole', 'Sweet red flesh. Large fruits.',                    true,  null],
-        ['Spinach',                   'vegetable',   5,  'seedling', 'fa-leaf',        'Tender-leaf spinach. Fast growing.',                true,  null],
-        ['Onion (Red Creole)',        'vegetable',   4,  'seedling', 'fa-onion',       'Red onion. Pungent, good storage.',                 true,  null],
-        ['Jacaranda',                 'ornamental',  200,'seedling', 'fa-flower',      'Purple flowering tree. Landscaping.',               true,  null],
-        ['Bamboo',                    'tree',        150,'seedling', 'fa-tree',        'Giant bamboo. Fast growing, versatile.',            false, null],
+        // Tomatoes
+        ['Tomato Zara F1',              'vegetable',   4,  'seedling', 'fa-apple-whole', 'High-yield tomato variety. Disease resistant.',           true, 'images/zara f1.png'],
+        ['Tomato Nova F1',              'vegetable',   5,  'seedling', 'fa-apple-whole', 'Vigorous tomato plant. Excellent fruit set.',             true, 'images/tomato-nova.jpg'],
+        ['Tomato Ansal F1',             'vegetable',   6,  'seedling', 'fa-apple-whole', 'Determinate tomato. Good for processing.',                true, 'images/tomato-ansal.jpg'],
+        ['Tomato Terminator F1',        'vegetable',   4,  'seedling', 'fa-apple-whole', 'Disease tolerant tomato. Heavy producer.',                true, 'images/terminator f1.png'],
+        // Cabbages
+        ['Cabbage Gloria F1',           'vegetable',   2.5,'seedling', 'fa-leaf',        'Crisp cabbage. Good head formation.',                     true, 'images/gloria f1.png'],
+        ['Cabbage Pructor F1',          'vegetable',   2,  'seedling', 'fa-leaf',        'Medium maturity cabbage. Resistant to bolting.',          true, 'images/cabbage-pructor.jpg'],
+        ['Cabbage Kilimo F1',           'vegetable',   2,  'seedling', 'fa-leaf',        'High yielding variety. Suitable for Kenya.',              true, 'images/cabbage-kilimo.jpg'],
+        ['Cabbage Queen F1',            'vegetable',   2,  'seedling', 'fa-leaf',        'Large head cabbage. Excellent storage.',                  true, 'images/cabbage-queen.jpg'],
+        ['Cabbage Victoria F1',         'vegetable',   2,  'seedling', 'fa-leaf',        'Uniform heads. Good market quality.',                     true, 'images/cabbage-victoria.jpg'],
+        ['Cabbage Faida',               'vegetable',   2,  'seedling', 'fa-leaf',        'Reliable cabbage variety. Good yield.',                   true, 'images/cabbage-faida.jpg'],
+        ['Cabbage Powerslam',           'vegetable',   2,  'seedling', 'fa-leaf',        'Heavy producing cabbage. Disease resistant.',             true, 'images/cabbage-powerslam.jpg'],
+        ['Red Cabbage',                 'vegetable',   4,  'seedling', 'fa-leaf',        'Colorful red cabbage. Nutritious and tasty.',             true, 'images/red cabbage.png'],
+        // Spinach
+        ['Spinach Fordhook Giant',      'vegetable',   2,  'seedling', 'fa-leaf',        'Large leaf spinach. Fast growing.',                        true, 'images/spinach-fordhook.jpg'],
+        // Sukumawiki (Kale)
+        ['Sukumawiki Ahadi F1',         'vegetable',   2,  'seedling', 'fa-leaf',        'High yielding sukuma wiki. Disease resistant.',           true, 'images/sukumawiki-ahadi.jpg'],
+        ['Sukumawiki Spinner',          'vegetable',   2,  'seedling', 'fa-leaf',        'Tender leaves. Good for continuous harvest.',               true, 'images/sukumawiki-spinner.jpg'],
+        ['Sukumawiki Tausi',            'vegetable',   2,  'seedling', 'fa-leaf',        'African kale variety. Heat tolerant.',                      true, 'images/sukumawiki-tausi.jpg'],
+        ['Sukumawiki Top Bunch',        'vegetable',   2,  'seedling', 'fa-leaf',        'Vigorous growth. Large bunch formation.',                 true, 'images/sukumawiki-topbunch.jpg'],
+        ['Sukumawiki Thousand Headed',   'vegetable',   2,  'seedling', 'fa-leaf',        'Multiple harvest variety. Continuous production.',          true, 'images/sukumawiki-thousand.jpg'],
+        ['Curly Kales Malkia F1',       'vegetable',   3,  'seedling', 'fa-leaf',        'Curly leaf kale. Ornamental and edible.',                 true, 'images/malika f1.png'],
+        // Capsicum
+        ['Capsicum Calypso',            'vegetable',   4,  'seedling', 'fa-pepper-hot',  'Bell pepper variety. Sweet flavor.',                        true, 'images/capsicum-calypso.jpg'],
+        ['Capsicum Superbell',          'vegetable',   4,  'seedling', 'fa-pepper-hot',  'Large bell pepper. Thick walls.',                         true, 'images/capsicum-superbell.jpg'],
+        ['Capsicum Superwonder',        'vegetable',   4,  'seedling', 'fa-pepper-hot',  'High yielding capsicum. Disease resistant.',              true, 'images/capsicum-superwonder.jpg'],
+        ['Capsicum Victory Red',        'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Red bell pepper. Sweet and crisp.',                       true, 'images/capsicum-victoryred.jpg'],
+        ['Capsicum Victory Yellow',     'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Yellow bell pepper. Vibrant color.',                      true, 'images/capsicum-victoryyellow.jpg'],
+        ['Capsicum Nyuki Yellow',       'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Yellow Nyuki pepper. Hot variety.',                       true, 'images/capsicum-nyuki-yellow.jpg'],
+        ['Capsicum Nyuki Red',          'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Red Nyuki pepper. Hot variety.',                          true, 'images/capsicum-nyuki-red.jpg'],
+        // Peppers
+        ['Pepper Birdseye',             'vegetable',   5,  'seedling', 'fa-pepper-hot',  'Hot birdseye pepper. Very spicy.',                          true, 'images/pepper-birdseye.jpg'],
+        ['Pepper Red Thunder',          'vegetable',   5,  'seedling', 'fa-pepper-hot',  'Hot red pepper. Excellent for chili.',                      true, 'images/red thunder.png'],
+        // Beetroot
+        ['Beetroot',                    'vegetable',   4,  'seedling', 'fa-circle',      'Sweet red beetroot. Nutritious root vegetable.',           true, 'images/beetroot.png'],
+        // Cauliflower
+        ['Cauliflower Bella',           'vegetable',   3,  'seedling', 'fa-seedling',    'White cauliflower. Compact head.',                          true, 'images/cauliflower-bella.jpg'],
+        // Broccoli
+        ['Broccoli Titanic',            'vegetable',   3,  'seedling', 'fa-seedling',    'Large broccoli head. Cold tolerant.',                       true, 'images/broccoli-titanic.jpg'],
+        ['Broccoli Harriet',            'vegetable',   3,  'seedling', 'fa-seedling',    'Early maturing broccoli. Good flavor.',                     true, 'images/broccoli-harriet.jpg'],
+        // Watermelon
+        ['Watermelon Sukari',           'vegetable',   6,  'seedling', 'fa-apple-whole', 'Sweet red flesh watermelon. Large fruits.',                 true, 'images/watermelon-sukari.jpg'],
+        // Terere (Amaranth)
+        ['Terere Amaranthus',           'vegetable',   2,  'seedling', 'fa-leaf',        'Traditional leafy vegetable. Nutritious.',                  true, 'images/terere-amaranthus.jpg'],
+        // Manangu (Nightshade)
+        ['Manangu Giant Nightshade',    'vegetable',   2,  'seedling', 'fa-leaf',        'Traditional vegetable. Heat tolerant.',                     true, 'images/manangu-nightshade.jpg'],
+        // Lettuce
+        ['Lettuce Pixie',               'vegetable',   3,  'seedling', 'fa-leaf',        'Mini lettuce variety. Compact heads.',                      true, 'images/lettuce-pixie.jpg'],
+        ['Lettuce Tangerine',           'vegetable',   3,  'seedling', 'fa-leaf',        'Orange lettuce. Unique color.',                             true, 'images/lettuce-tangerine.jpg'],
+        ['Lettuce Washington',          'vegetable',   3,  'seedling', 'fa-leaf',        'Butterhead lettuce. Tender leaves.',                        true, 'images/lettuce-washington.jpg'],
+        // Cucumber
+        ['Cucumber Ashley',             'vegetable',   6,  'seedling', 'fa-leaf',        'Cucumber variety. Good yield.',                             true, 'images/cucumber-ashley.jpg'],
+        // Courgette
+        ['Courgette Zucchini',          'vegetable',   6,  'seedling', 'fa-leaf',        'Zucchini squash. Productive variety.',                      true, 'images/courgette-zucchini.jpg'],
+        // Fruits
+        ['Hass Avocado',                'fruit',       150,'seedling', 'fa-tree',        'Premium Hass avocado. High market value.',                  true, 'images/avocado-hass.jpg'],
+        ['Strawberry',                  'fruit',       50, 'seedling', 'fa-apple-whole', 'Sweet strawberry. Runner production.',                      true, 'images/strawberry.jpg'],
+        ['Mango Tommy',                 'fruit',       150,'seedling', 'fa-tree',        'Tommy Atkins mango. Red blush skin.',                       true, 'images/mango-tommy.jpg'],
+        ['Mango Apple',                 'fruit',       150,'seedling', 'fa-tree',        'Apple mango variety. Sweet and juicy.',                     true, 'images/mango-apple.jpg'],
+        ['Green Apple',                 'fruit',       500,'seedling', 'fa-tree',        'Green apple tree. Tart fruits.',                            true, 'images/green-apple.jpg'],
+        ['Red Apple',                   'fruit',       500,'seedling', 'fa-tree',        'Red apple tree. Sweet fruits.',                             true, 'images/red-apple.jpg'],
+        ['Dragon Fruit',                'fruit',       450,'seedling', 'fa-seedling',    'Exotic dragon fruit. Vibrant color.',                       true, 'images/dragon-fruit.jpg'],
+        ['Passion Purple',              'fruit',       50, 'seedling', 'fa-flower',      'Purple passion fruit. Sweet flavor.',                       true, 'images/passion-purple.jpg'],
+        ['Passion Yellow',              'fruit',       50, 'seedling', 'fa-flower',      'Yellow passion fruit. Tangy taste.',                        true, 'images/passion-yellow.jpg'],
+        ['Sweet Granadilla',            'fruit',       50, 'seedling', 'fa-flower',      'Sweet granadilla. Delicious fruit.',                        true, 'images/granadilla.jpg'],
+        ['Tree Tomato',                 'fruit',       50, 'seedling', 'fa-apple-whole', 'Tree tomato. Unique flavor.',                               true, 'images/tree-tomato.jpg'],
+        ['Pawpaw Sharp F1',             'fruit',       100,'seedling', 'fa-tree',        'Sharp pawpaw variety. Tropical fruit.',                       true, 'images/pawpaw-sharp.jpg'],
+        ['Pawpaw Red Royale',           'fruit',       150,'seedling', 'fa-tree',        'Red Royale pawpaw. Sweet and creamy.',                      true, 'images/pawpaw-redroyale.jpg'],
+        ['Pawpaw Vega F1',              'fruit',       200,'seedling', 'fa-tree',        'Vega pawpaw variety. High yield.',                          true, 'images/pawpaw-vega.jpg'],
+        ['Pawpaw Glory F1',             'fruit',       100,'seedling', 'fa-tree',        'Glory pawpaw variety. Good fruit quality.',                 true, 'images/pawpaw-glory.jpg'],
+        // Grains
+        ['Maize (Hybrid)',              'grain',       5,  'seedling', 'fa-corn',        'High-yield hybrid maize. Drought tolerant.',              true, 'images/maize-hybrid.jpg'],
+        // Cash Crops
+        ['Coffee (Arabica)',            'cash_crop',   25, 'seedling', 'fa-mug-hot',     'High-quality Arabica coffee seedlings.',                     true, 'images/coffee-arabica.jpg'],
+        ['Tea',                         'cash_crop',   15, 'seedling', 'fa-mug-hot',     'Selected tea clones. High yield.',                         true, 'images/tea.jpg'],
+        ['Sugarcane',                   'cash_crop',   10, 'seedling', 'fa-cane',        'High-sucrose sugarcane. Fast growing.',                      true, 'images/sugarcane.jpg'],
+        // Fodder
+        ['Napier Grass',                'fodder',      3,  'seedling', 'fa-grass',       'Improved Napier. Excellent for dairy.',                      true, 'images/napier-grass.jpg'],
+        // Ornamental
+        ['Jacaranda',                   'ornamental',  200,'seedling', 'fa-flower',      'Purple flowering tree. Landscaping.',                        true, 'images/jacaranda.jpg'],
+        // Trees
+        ['Bamboo',                      'tree',        150,'seedling', 'fa-tree',        'Giant bamboo. Fast growing, versatile.',                   false, 'images/bamboo.jpg'],
       ];
       for (const [name, category, price, unit, icon, description, in_stock, image] of seeds) {
         await pool.query(
@@ -228,7 +294,7 @@ async function initDb() {
           [name, category, price, unit, icon, image, description, in_stock]
         );
       }
-      console.log('✅ Seeded 20 products');
+      console.log('✅ Seeded 55 products');
     }
     useDb = true;
     console.log('✅ Database connected');
