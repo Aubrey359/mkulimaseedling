@@ -1,2549 +1,683 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Primary SEO -->
-    <title>MKULIMA Seedlings Ltd - Quality Seedlings for Kenyan Farmers</title>
-    <meta name="description" content="MKULIMA Seedlings Ltd - Kenya's trusted KDB-certified seedling nursery. We supply quality seedlings for maize, tomatoes, fruits, vegetables & cash crops across all 47 counties. Order online!">
-    <meta name="keywords" content="seedlings Kenya, maize seedlings, tomato seedlings, fruit seedlings, vegetable seedlings, avocado seedlings, coffee seedlings, tea seedlings, Nairobi seedlings, KDB certified">
-    <meta name="author" content="MKULIMA Seedlings Ltd">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://mkulimaseedling-production.up.railway.app/">
-    
-    <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
-    <meta property="og:title" content="MKULIMA Seedlings Ltd - Quality Seedlings for Kenyan Farmers">
-    <meta property="og:description" content="Kenya's trusted KDB-certified seedling nursery. Quality seedlings for maize, tomatoes, fruits, vegetables & cash crops. Serving all 47 counties.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mkulimaseedling-production.up.railway.app/">
-    <meta property="og:image" content="https://mkulimaseedling-production.up.railway.app/logo.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="MKULIMA Seedlings Ltd">
-    <meta property="og:locale" content="en_KE">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MKULIMA Seedlings Ltd - Quality Seedlings for Kenyan Farmers">
-    <meta name="twitter:description" content="Kenya's trusted KDB-certified seedling nursery. Quality seedlings for maize, tomatoes, fruits, vegetables & cash crops.">
-    <meta name="twitter:image" content="https://mkulimaseedling-production.up.railway.app/logo.png">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="/favicon.png">
-    
-    <!-- Sitemap -->
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-    
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #1b5e20;
-            --primary-light: #2e7d32;
-            --primary-dark: #0d3b10;
-            --accent: #f9a825;
-            --accent-hover: #f57f17;
-            --in-stock: #2e7d32;
-            --out-stock: #c62828;
-            --bg: #f5f7f4;
-            --card: #ffffff;
-            --text: #1a1a1a;
-            --text-light: #666;
-            --border: #e0e0e0;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            color: white;
-            padding: 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-
-        .header-top {
-            background: rgba(0,0,0,0.2);
-            padding: 8px 0;
-            font-size: 0.85rem;
-        }
-
-        .header-top .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header-top a {
-            color: rgba(255,255,255,0.9);
-            text-decoration: none;
-            margin-left: 20px;
-            transition: color 0.3s;
-        }
-
-        .header-top a:hover {
-            color: var(--accent);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-        }
-
-        .logo i {
-            font-size: 2rem;
-            color: var(--accent);
-        }
-
-        .logo span {
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        /* Dropdown */
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .dropdown-toggle i {
-            font-size: 0.7rem;
-            transition: transform 0.3s;
-        }
-
-        .dropdown:hover .dropdown-toggle i {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: var(--primary-dark);
-            list-style: none;
-            padding: 8px 0;
-            margin: 8px 0 0 0;
-            min-width: 220px;
-            border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-            z-index: 1000;
-        }
-
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-
-        .dropdown-menu li a {
-            display: block;
-            padding: 10px 20px;
-            color: white;
-            font-weight: 400;
-            white-space: nowrap;
-        }
-
-        .dropdown-menu li a:hover {
-            background: rgba(255,255,255,0.1);
-            color: var(--accent);
-        }
-
-        .dropdown-menu li a::after {
-            display: none;
-        }
-
-        .admin-btn {
-            background: var(--accent);
-            color: var(--primary-dark);
-            border: none;
-            padding: 10px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .admin-btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(249,168,37,0.4);
-        }
-
-        /* Cart Button */
-        .cart-btn {
-            position: relative;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.2rem;
-            margin-left: 10px;
-        }
-
-        .cart-btn:hover {
-            background: var(--accent);
-            color: var(--primary-dark);
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: var(--accent);
-            color: var(--primary-dark);
-            font-size: 0.7rem;
-            font-weight: 700;
-            min-width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 4px;
-            transition: transform 0.3s;
-        }
-
-        .cart-count.bump {
-            animation: cartBump 0.3s ease;
-        }
-
-        @keyframes cartBump {
-            0%   { transform: scale(1); }
-            50%  { transform: scale(1.4); }
-            100% { transform: scale(1); }
-        }
-
-        /* Cart Drawer */
-        .cart-drawer-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            justify-content: flex-end;
-        }
-
-        .cart-drawer-overlay.active {
-            display: flex;
-        }
-
-        .cart-drawer {
-            background: white;
-            width: 400px;
-            max-width: 90vw;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            box-shadow: -5px 0 30px rgba(0,0,0,0.15);
-            animation: cartSlideIn 0.3s ease;
-        }
-
-        @keyframes cartSlideIn {
-            from { transform: translateX(100%); }
-            to   { transform: translateX(0); }
-        }
-
-        .cart-drawer-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-drawer-header h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cart-drawer-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.4rem;
-            cursor: pointer;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
-        }
-
-        .cart-drawer-close:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .cart-drawer-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 24px;
-        }
-
-        .cart-empty {
-            text-align: center;
-            color: var(--text-light);
-            padding: 60px 20px;
-        }
-
-        .cart-empty i {
-            font-size: 3rem;
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-
-        .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            margin-bottom: 12px;
-            transition: box-shadow 0.3s;
-        }
-
-        .cart-item:hover {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-        }
-
-        .cart-item-icon {
-            width: 48px;
-            height: 48px;
-            background: #e8f5e9;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-name {
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-        }
-
-        .cart-item-price {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-
-        .cart-item-remove {
-            background: none;
-            border: none;
-            color: #c62828;
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 6px;
-            border-radius: 6px;
-            transition: background 0.3s;
-        }
-
-        .cart-item-remove:hover {
-            background: #ffebee;
-        }
-
-        .cart-drawer-footer {
-            padding: 20px 24px;
-            border-top: 1px solid var(--border);
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .cart-total .amount {
-            color: var(--primary);
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-
-        .cart-checkout-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .cart-checkout-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Add to Cart button on product card */
-        .add-cart-btn {
-            padding: 8px 20px;
-            border-radius: 25px;
-            border: 2px solid var(--primary);
-            background: white;
-            color: var(--primary);
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .add-cart-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .add-cart-btn.added {
-            background: var(--in-stock);
-            border-color: var(--in-stock);
-            color: white;
-        }
-
-        /* Hero - Modern App Design */
-        .hero {
-            background: linear-gradient(rgba(13,59,16,0.75), rgba(27,94,32,0.85)), url('https://images.unsplash.com/photo-1501004197550-148fb1b40b0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-            background-attachment: fixed;
-            color: white;
-            padding: 140px 0 100px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.3) 100%);
-            z-index: 0;
-        }
-
-        .hero .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.8rem;
-            margin-bottom: 25px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            letter-spacing: -0.5px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            max-width: 650px;
-            margin: 0 auto 45px;
-            opacity: 0.95;
-            line-height: 1.7;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-
-        .hero-badges {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-            padding: 0 10px;
-        }
-
-        .badge {
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(15px);
-            padding: 14px 28px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid rgba(255,255,255,0.25);
-            transition: all 0.3s ease;
-            font-weight: 500;
-            backface-visibility: hidden;
-        }
-
-        .badge:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-
-        .badge i {
-            color: var(--accent);
-            font-size: 1.1rem;
-        }
-
-        /* Stock Status Bar */
-        .stock-bar {
-            background: white;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 70px;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .stock-bar-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .stock-filters {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 8px 20px;
-            border: 2px solid var(--border);
-            background: white;
-            border-radius: 25px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .filter-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .filter-btn:hover:not(.active) {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .last-updated {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .last-updated i {
-            color: var(--accent);
-        }
-
-        /* Products Grid - Modern App Design */
-        .products-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, #f5f7f4 0%, #e8f5e9 100%);
-            position: relative;
-        }
-
-        .products-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-title h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            color: var(--primary-dark);
-            margin-bottom: 15px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-
-        .section-title p {
-            color: var(--text-light);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .category-section {
-            margin-bottom: 50px;
-        }
-
-        .category-title {
-            color: var(--primary);
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 50px;
-            font-size: 1.2rem;
-            color: var(--text-light);
-        }
-
-        .product-card {
-            background: var(--card);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-
-        .product-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-        }
-
-        .product-image {
-            height: 240px;
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-image i {
-            font-size: 5rem;
-            color: var(--primary);
-            opacity: 0.3;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-
-        .stock-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .stock-badge.in-stock {
-            background: #e8f5e9;
-            color: var(--in-stock);
-        }
-
-        .stock-badge.out-stock {
-            background: #ffebee;
-            color: var(--out-stock);
-        }
-
-        .stock-badge i {
-            font-size: 0.7rem;
-        }
-
-        .product-info {
-            padding: 25px;
-        }
-
-        .product-category {
-            color: var(--primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .product-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text);
-        }
-
-        .product-desc {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid var(--border);
-        }
-
-        .price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .price span {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            font-weight: 400;
-        }
-
-        .order-btn {
-            padding: 10px 24px;
-            border-radius: 25px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-        }
-
-        .order-btn.available {
-            background: var(--primary);
-            color: white;
-        }
-
-        .order-btn.available:hover {
-            background: var(--primary-dark);
-        }
-
-        .order-btn.unavailable {
-            background: #e0e0e0;
-            color: #999;
-            cursor: not-allowed;
-        }
-
-        /* About Section - Modern App Design */
-        .about-section {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);
-            padding: 100px 0;
-            position: relative;
-        }
-
-        .about-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .about-content h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            color: var(--primary-dark);
-            margin-bottom: 25px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .about-content h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-
-        .about-content p {
-            color: var(--text-light);
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-
-        .features-list {
-            list-style: none;
-            margin-top: 35px;
-        }
-
-        .features-list li {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            font-weight: 500;
-            padding: 12px 15px;
-            border-radius: 12px;
-            transition: background 0.3s;
-        }
-
-        .features-list li:hover {
-            background: rgba(232, 245, 233, 0.5);
-        }
-
-        .features-list i {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-
-        .about-image {
-            border-radius: 24px;
-            height: 420px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
-        }
-
-        .about-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(27,94,32,0.1) 0%, rgba(46,125,50,0.1) 100%);
-            z-index: 1;
-        }
-
-        .about-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 24px;
-            transition: transform 0.5s ease;
-        }
-
-        .about-image:hover .about-img {
-            transform: scale(1.05);
-        }
-
-        /* Contact Section - Modern App Design */
-        .contact-section {
-            padding: 100px 0;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            color: white;
-            position: relative;
-        }
-
-        .contact-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-        }
-
-        .contact-info h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            margin-bottom: 25px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .contact-info h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-
-        .contact-info p {
-            opacity: 0.95;
-            margin-bottom: 35px;
-            font-size: 1.1rem;
-            line-height: 1.7;
-        }
-
-        .contact-details {
-            list-style: none;
-        }
-
-        .contact-details li {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-            padding: 12px 15px;
-            border-radius: 12px;
-            transition: background 0.3s;
-        }
-
-        .contact-details li:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .contact-details i {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-dark);
-            flex-shrink: 0;
-        }
-
-        .contact-form {
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(15px);
-            padding: 45px;
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.25);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            background: rgba(255,255,255,0.9);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--accent);
-            color: var(--primary-dark);
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-        }
-
-        .submit-btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-        }
-
-        /* Footer - Modern App Design */
-        footer {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, #0a2e0a 100%);
-            color: white;
-            padding: 60px 0 30px;
-            position: relative;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-        }
-
-        .footer-logo i {
-            color: var(--accent);
-            font-size: 1.8rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 12px;
-        }
-
-        .social-links a {
-            width: 42px;
-            height: 42px;
-            background: rgba(255,255,255,0.12);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
-        }
-
-        .social-links a:hover {
-            background: var(--accent);
-            color: var(--primary-dark);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(249,168,37,0.3);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
-        }
-
-        /* Admin Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 85vh;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-            animation: modalSlide 0.3s ease;
-        }
-
-        @keyframes modalSlide {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 25px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
-        }
-
-        .modal-close:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .modal-body {
-            padding: 30px;
-            overflow-y: auto;
-            max-height: 60vh;
-        }
-
-        .admin-product-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px;
-            border: 2px solid var(--border);
-            border-radius: 15px;
-            margin-bottom: 15px;
-            transition: all 0.3s;
-        }
-
-        .admin-product-item:hover {
-            border-color: var(--primary-light);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        .admin-product-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .admin-product-icon {
-            width: 50px;
-            height: 50px;
-            background: #e8f5e9;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.3rem;
-        }
-
-        .admin-product-name {
-            font-weight: 600;
-            font-size: 1.05rem;
-        }
-
-        .admin-product-category {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-
-        .status-toggle {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 60px;
-            height: 32px;
-            background: #e0e0e0;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .toggle-switch.active {
-            background: var(--in-stock);
-        }
-
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 26px;
-            height: 26px;
-            background: white;
-            border-radius: 50%;
-            transition: transform 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .toggle-switch.active::after {
-            transform: translateX(28px);
-        }
-
-        .toggle-label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            min-width: 80px;
-            text-align: right;
-        }
-
-        .toggle-label.in {
-            color: var(--in-stock);
-        }
-
-        .toggle-label.out {
-            color: var(--out-stock);
-        }
-
-        .modal-footer {
-            padding: 20px 30px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-        }
-
-        .btn-secondary {
-            padding: 12px 24px;
-            border: 2px solid var(--border);
-            background: white;
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-primary {
-            padding: 12px 24px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Login Modal */
-        .login-form {
-            padding: 40px;
-        }
-
-        .login-form h2 {
-            text-align: center;
-            margin-bottom: 10px;
-            color: var(--primary-dark);
-            font-family: 'Playfair Display', serif;
-        }
-
-        .login-form p {
-            text-align: center;
-            color: var(--text-light);
-            margin-bottom: 30px;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            transition: border-color 0.3s;
-        }
-
-        .login-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .login-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .login-error {
-            color: var(--out-stock);
-            text-align: center;
-            margin-top: 15px;
-            display: none;
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--primary-dark);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 3000;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.4s;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .toast i {
-            color: var(--accent);
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .about-grid,
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stock-bar-content {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .modal {
-                width: 95%;
-                max-height: 90vh;
-            }
-        }
-
-        /* Order Modal */
-        .order-modal .modal-body {
-            padding: 30px;
-        }
-
-        .order-product-summary {
-            background: #f5f7f4;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .order-product-summary i {
-            font-size: 3rem;
-            color: var(--primary);
-        }
-
-        .order-product-info h3 {
-            margin-bottom: 5px;
-        }
-
-        .order-product-info p {
-            color: var(--text-light);
-        }
-
-        .prompt-enhancer-card {
-            padding: 28px 20px;
-        }
-
-        .prompt-textarea {
-            min-height: 110px;
-            font-size: 0.95rem;
-        }
-
-        .enhance-btn {
-            padding: 14px 30px;
-            font-size: 1rem;
-        }
-     </style>
-     
-     <!-- JSON-LD Structured Data for Rich Search Results -->
-     <script type="application/ld+json">
-     {
-       "@context": "https://schema.org",
-       "@type": "LocalBusiness",
-       "name": "MKULIMA Seedlings Ltd",
-       "alternateName": "MKULIMA Seedlings",
-       "description": "Kenya's trusted KDB-certified seedling nursery supplying quality seedlings for tomatoes, fruits and vegetables across all 47 counties.",
-       "url": "https://mkulimaseedling-production.up.railway.app",
-       "logo": "https://mkulimaseedling-production.up.railway.app/logo.png",
-       "image": "https://mkulimaseedling-production.up.railway.app/logo.png",
-       "telephone": "+254700000000",
-       "email": "info@mkulimaseedlings.co.ke",
-       "address": {
-         "@type": "PostalAddress",
-         "streetAddress": "Kenol",
-         "addressLocality": "Muranga",
-         "addressRegion": "Muranga County",
-         "postalCode": "00100",
-         "addressCountry": "KE"
-       },
-       "geo": {
-         "@type": "GeoCoordinates",
-         "latitude": -1.2921,
-         "longitude": 36.8219
-       },
-       "areaServed": "Kenya",
-       "priceRange": "$$",
-       "openingHoursSpecification": {
-         "@type": "OpeningHoursSpecification",
-         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-         "opens": "08:00",
-         "closes": "17:00"
-       },
-        "sameAs": [
-          "https://web.facebook.com/readyseedlings",
-          "https://web.facebook.com/readyseedlings"
-        ],
-       "hasMap": "https://www.google.com/maps/place/Kenol,+Muranga+County,+Kenya"
-     }
-     </script>
-     
-     <!-- Product Catalog Structured Data -->
-     <script type="application/ld+json">
-     {
-       "@context": "https://schema.org",
-       "@type": "ItemList",
-       "name": "Seedlings Catalog",
-       "itemListElement": [
-         {
-           "@type": "Product",
-           "name": "Tomato (Rio Grande) Seedlings",
-           "category": "Vegetable",
-           "offers": {
-             "@type": "Offer",
-             "price": "8",
-             "priceCurrency": "KES",
-             "availability": "https://schema.org/InStock",
-             "unitText": "seedling"
-           }
-         },
-         {
-           "@type": "Product",
-           "name": "Avocado (Hass) Seedlings",
-           "category": "Fruit",
-           "offers": {
-             "@type": "Offer",
-             "price": "120",
-             "priceCurrency": "KES",
-             "availability": "https://schema.org/InStock",
-             "unitText": "seedling"
-           }
-         }
-       ]
-     }
-     </script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MKULIMA Seedlings Ltd - Quality Seedlings for Kenyan Farmers</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:#2d6a2d;--green-dark:#1a4a1a;--green-light:#e8f5e9;
+  --accent:#f9a825;--white:#fff;--shadow:0 4px 24px rgba(0,0,0,.15);--radius:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',sans-serif;color:#222;background:#fff;overflow-x:hidden}
+
+/* TOP BAR */
+.topbar{background:var(--green-dark);color:#cfe8cf;font-size:.8rem;padding:7px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.topbar a{color:#a5d6a7;text-decoration:none}.topbar a:hover{color:#fff}
+
+/* NAV */
+nav{background:rgba(255,255,255,.97);position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.nav-inner{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 32px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo img{height:48px;object-fit:contain}
+.logo-fallback{width:52px;height:52px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1rem}
+.logo-text{font-size:1.05rem;font-weight:800;color:var(--green-dark);line-height:1.2}
+.logo-text span{display:block;font-size:.7rem;font-weight:400;color:#666}
+.nav-links{display:flex;gap:4px;align-items:center;list-style:none}
+.nav-links a{text-decoration:none;color:#333;padding:8px 14px;border-radius:6px;font-size:.88rem;font-weight:600;transition:.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--green-dark);background:var(--green-light)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.cart-btn{background:var(--green);color:#fff;border:none;padding:9px 18px;border-radius:22px;cursor:pointer;font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:6px;transition:.2s}
+.cart-btn:hover{background:var(--green-dark)}
+.cart-count{background:var(--accent);color:#000;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:24px;height:2px;background:#333;border-radius:2px}
+@media(max-width:900px){
+  .nav-links{display:none;position:absolute;top:72px;left:0;right:0;background:#fff;flex-direction:column;padding:12px 24px;box-shadow:0 8px 24px rgba(0,0,0,.12);gap:2px}
+  .nav-links.open{display:flex}
+  .hamburger{display:flex}
+}
+
+/* HERO SLIDER */
+.hero{position:relative;height:92vh;min-height:520px;overflow:hidden}
+.slides{display:flex;width:300%;height:100%;transition:transform .8s cubic-bezier(.4,0,.2,1)}
+.slide{width:33.333%;height:100%;position:relative;flex-shrink:0}
+.slide-bg{width:100%;height:100%;background-size:cover;background-position:center;position:relative}
+.slide-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.65) 0%,rgba(0,0,0,.3) 60%,transparent 100%)}
+.slide-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 80px;z-index:2;max-width:680px}
+.slide-tag{display:inline-block;background:var(--accent);color:#000;font-size:.72rem;font-weight:800;padding:5px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;width:fit-content}
+.slide-content h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.slide-content p{font-size:1.05rem;color:rgba(255,255,255,.88);line-height:1.7;margin-bottom:28px;max-width:500px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{padding:13px 30px;border-radius:30px;font-size:.92rem;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:all .25s;display:inline-block}
+.btn-accent{background:var(--accent);color:#000}.btn-accent:hover{background:#f57f17;transform:translateY(-2px)}
+.btn-outline-white{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.7)}.btn-outline-white:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+.hero-dots{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;border:2px solid rgba(255,255,255,.6);transition:.3s}
+.dot.active{background:#fff;width:28px;border-radius:5px}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.4);color:#fff;width:50px;height:50px;border-radius:50%;cursor:pointer;font-size:1.3rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:.2s}
+.hero-arrow:hover{background:rgba(255,255,255,.25)}
+.hero-arrow.prev{left:24px}.hero-arrow.next{right:24px}
+
+/* BADGES STRIP */
+.badges-strip{background:var(--green);padding:16px 32px;display:flex;justify-content:center;gap:0;flex-wrap:wrap}
+.badge-item{color:#fff;font-size:.85rem;font-weight:600;padding:8px 28px;display:flex;align-items:center;gap:8px;border-right:1px solid rgba(255,255,255,.25)}
+.badge-item:last-child{border-right:none}
+@media(max-width:600px){.badge-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.2)}}
+
+/* SECTION */
+section{padding:72px 32px}
+.section-inner{max-width:1200px;margin:auto}
+.section-label{font-size:.78rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-label::before{content:'';width:32px;height:3px;background:var(--accent);border-radius:2px;display:inline-block}
+.section-title{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:900;color:#1a1a1a;line-height:1.2;margin-bottom:12px}
+.section-sub{color:#666;font-size:1rem;line-height:1.7;max-width:600px}
+
+/* SERVICES (photo cards like GrowPact) */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:40px}
+.service-card{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);position:relative;height:300px;cursor:pointer;transition:transform .3s}
+.service-card:hover{transform:translateY(-6px)}
+.service-card-bg{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .4s}
+.service-card:hover .service-card-bg{transform:scale(1.06)}
+.service-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.2) 60%,transparent 100%)}
+.service-card-body{position:absolute;bottom:0;left:0;right:0;padding:22px 20px;z-index:2}
+.service-card-icon{font-size:2rem;margin-bottom:8px}
+.service-card-title{color:#fff;font-size:1.1rem;font-weight:800;margin-bottom:4px}
+.service-card-desc{color:rgba(255,255,255,.82);font-size:.82rem;line-height:1.5}
+
+/* ABOUT SPLIT */
+.about-split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+@media(max-width:768px){.about-split{grid-template-columns:1fr}}
+.about-image-wrap{position:relative}
+.about-main-img{width:100%;height:420px;object-fit:cover;border-radius:var(--radius);box-shadow:var(--shadow)}
+.about-main-img-fallback{width:100%;height:420px;background:url('https://mkulimaseedling-production.up.railway.app/images/nursery.jpg') center/cover no-repeat,linear-gradient(135deg,#c8e6c9,#a5d6a7);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:100px}
+.about-badge-box{position:absolute;bottom:-20px;right:-20px;background:var(--green);color:#fff;padding:20px 24px;border-radius:var(--radius);text-align:center;box-shadow:var(--shadow)}
+.about-badge-box .num{font-size:2rem;font-weight:900;line-height:1}
+.about-badge-box .lbl{font-size:.72rem;opacity:.85;margin-top:4px}
+.about-text .section-title{margin-top:10px}
+.about-text p{color:#555;line-height:1.8;margin-bottom:14px}
+.pillars{display:flex;flex-direction:column;gap:10px;margin:20px 0}
+.pillar{display:flex;align-items:flex-start;gap:12px}
+.pillar-icon{width:36px;height:36px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
+.pillar-text{font-size:.88rem;color:#444;line-height:1.5;font-weight:500}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+@media(max-width:600px){.stats-row{grid-template-columns:1fr 1fr}}
+.stat-box{background:var(--green-light);border-radius:10px;padding:16px;text-align:center}
+.stat-num{font-size:1.5rem;font-weight:900;color:var(--green-dark)}
+.stat-lbl{font-size:.72rem;color:#555;margin-top:4px}
+
+/* PRODUCTS */
+.products-bg{background:#f5f8f5}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 28px}
+.filter-btn{padding:8px 20px;border-radius:20px;border:2px solid var(--green);background:#fff;color:var(--green);font-weight:700;cursor:pointer;transition:.2s;font-size:.85rem}
+.filter-btn.active,.filter-btn:hover{background:var(--green);color:#fff}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.product-card{background:#fff;border-radius:var(--radius);box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.product-img-wrap{height:180px;overflow:hidden;position:relative}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.product-card:hover .product-img-wrap img{transform:scale(1.08)}
+.product-img-fallback{width:100%;height:100%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:64px}
+.product-cat-tag{position:absolute;top:10px;left:10px;background:var(--green);color:#fff;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:12px;text-transform:uppercase}
+.product-body{padding:14px;flex:1;display:flex;flex-direction:column}
+.product-name{font-size:.95rem;font-weight:800;color:#1a1a1a;margin-bottom:4px}
+.product-desc{font-size:.78rem;color:#666;line-height:1.5;flex:1;margin-bottom:12px}
+.product-footer{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.product-price{font-size:1rem;font-weight:900;color:var(--green-dark)}
+.stock-in{font-size:.68rem;background:#e8f5e9;color:var(--green-dark);padding:2px 8px;border-radius:10px;font-weight:700}
+.stock-low{font-size:.68rem;background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:10px;font-weight:700}
+.add-btn{background:var(--green);color:#fff;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:.78rem;font-weight:700;transition:.2s;white-space:nowrap}
+.add-btn:hover{background:var(--green-dark)}
+
+/* FULL-WIDTH CTA BANNER */
+.cta-banner{position:relative;padding:80px 32px;text-align:center;overflow:hidden}
+.cta-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.cta-bg::after{content:'';position:absolute;inset:0;background:rgba(20,60,20,.75)}
+.cta-content{position:relative;z-index:2;max-width:620px;margin:auto}
+.cta-content h2{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:#fff;margin-bottom:14px}
+.cta-content p{color:rgba(255,255,255,.85);font-size:1.02rem;line-height:1.7;margin-bottom:28px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+@media(max-width:768px){.contact-grid{grid-template-columns:1fr}}
+.contact-info-cards{display:flex;flex-direction:column;gap:16px}
+.contact-card{display:flex;gap:16px;align-items:flex-start;background:#f9fdf9;border-radius:var(--radius);padding:18px}
+.contact-card-icon{width:46px;height:46px;background:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;color:#fff}
+.contact-card-label{font-size:.72rem;color:#888;margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.contact-card-value{font-weight:700;color:#1a1a1a;font-size:.9rem}
+.contact-card-value a{color:var(--green-dark);text-decoration:none}
+.contact-card-value a:hover{text-decoration:underline}
+.contact-form-wrap{background:#fff;border-radius:var(--radius);padding:32px;box-shadow:var(--shadow)}
+.contact-form-wrap h3{font-size:1.2rem;font-weight:800;color:var(--green-dark);margin-bottom:22px}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:.82rem;font-weight:700;margin-bottom:6px;color:#333}
+.fg input,.fg select,.fg textarea{width:100%;padding:11px 14px;border:2px solid #e8e8e8;border-radius:8px;font-size:.88rem;font-family:inherit;transition:border .2s;background:#fafafa}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--green);background:#fff}
+.fg textarea{resize:vertical;min-height:100px}
+.submit-btn{width:100%;background:var(--green);color:#fff;border:none;padding:14px;border-radius:10px;font-size:1rem;font-weight:800;cursor:pointer;transition:.2s;letter-spacing:.5px}
+.submit-btn:hover{background:var(--green-dark)}
+.success-msg{display:none;background:#e8f5e9;color:var(--green-dark);padding:12px;border-radius:8px;margin-top:10px;font-weight:700;text-align:center}
+
+/* CART */
+.cart-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300}
+.cart-overlay.open{display:block}
+.cart-sidebar{position:fixed;right:-440px;top:0;width:min(440px,100vw);height:100vh;background:#fff;z-index:301;box-shadow:-8px 0 40px rgba(0,0,0,.15);transition:right .3s;display:flex;flex-direction:column}
+.cart-sidebar.open{right:0}
+.cart-header{padding:20px 24px;border-bottom:2px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
+.cart-header h3{font-size:1.15rem;font-weight:800;color:var(--green-dark)}
+.close-btn{background:none;border:none;font-size:1.6rem;cursor:pointer;color:#999;line-height:1}
+.cart-items{flex:1;overflow-y:auto;padding:16px 24px}
+.cart-empty{text-align:center;padding:48px 20px;color:#999}
+.cart-empty span{font-size:52px;display:block;margin-bottom:12px}
+.cart-item{display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid #f4f4f4}
+.cart-item-icon{font-size:28px;width:48px;height:48px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.cart-item-info{flex:1}
+.cart-item-name{font-weight:700;font-size:.88rem;color:#1a1a1a}
+.cart-item-price{color:var(--green-dark);font-weight:800;font-size:.85rem;margin-top:2px}
+.cart-item-qty{display:flex;align-items:center;gap:8px;margin-top:8px}
+.qty-btn{background:var(--green-light);border:none;width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:1rem;font-weight:700;color:var(--green-dark);display:flex;align-items:center;justify-content:center}
+.qty-num{font-weight:700;min-width:22px;text-align:center;font-size:.9rem}
+.remove-item{background:none;border:none;color:#e53935;cursor:pointer;font-size:1.1rem;padding:4px;margin-left:auto}
+.cart-footer{padding:20px 24px;border-top:2px solid #f0f0f0}
+.cart-total{display:flex;justify-content:space-between;font-weight:800;font-size:1.05rem;margin-bottom:14px;color:#1a1a1a}
+.wa-order-btn{width:100%;background:#25d366;color:#fff;border:none;padding:14px;border-radius:10px;font-size:.95rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
+.wa-order-btn:hover{background:#128c7e}
+
+/* FOOTER */
+footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
+.footer-grid{max-width:1200px;margin:auto;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.footer-grid{grid-template-columns:1fr}}
+.footer-brand p{margin-top:12px;font-size:.84rem;opacity:.75;line-height:1.8}
+.footer-col h4{font-size:.88rem;font-weight:800;margin-bottom:16px;color:#a5d6a7;text-transform:uppercase;letter-spacing:1px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.85rem;transition:.2s}
+.footer-col ul li a:hover{color:#fff}
+.social-links{display:flex;gap:10px;margin-top:16px}
+.social-link{width:38px;height:38px;background:rgba(255,255,255,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:1.1rem;transition:.2s}
+.social-link:hover{background:rgba(255,255,255,.22)}
+.footer-bottom{max-width:1200px;margin:auto;border-top:1px solid rgba(255,255,255,.12);padding-top:20px;text-align:center;font-size:.8rem;opacity:.6}
+
+/* FLOATS */
+.wa-float{position:fixed;bottom:28px;right:28px;width:58px;height:58px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.7rem;box-shadow:0 4px 20px rgba(37,211,102,.4);text-decoration:none;z-index:150;transition:.25s}
+.wa-float:hover{transform:scale(1.1)}
+.scroll-top{position:fixed;bottom:98px;right:28px;width:42px;height:42px;background:var(--green);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.1rem;display:none;align-items:center;justify-content:center;z-index:150;box-shadow:var(--shadow);transition:.2s}
+.scroll-top.show{display:flex}
+.scroll-top:hover{background:var(--green-dark)}
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-top">
-            <div class="container">
-                <div>
-                    <i class="fas fa-map-marker-alt"></i> Muranga, Kenya
-                </div>
-                <div>
-                    <a href="tel:+0711844850/0115657187"><i class="fas fa-phone"></i> 0711844850/0115657187</a>
-                    <a href="mailto:info@mkulimaseedlings.com"><i class="fas fa-envelope"></i> info@mkulimaseedlings.com</a>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <i class="fas fa-seedling"></i>
-                    <div>MKULIMA <span>Seedlings</span></div>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li class="dropdown">
-                        <a href="products.html" class="dropdown-toggle">Seedlings <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="products.html">All Seedlings</a></li>
-                            <li><a href="products.html" onclick="filterProducts('fruit', null); return false;">Fruit Tree Seedlings</a></li>
-                            <li><a href="products.html" onclick="filterProducts('vegetable', null); return false;">Vegetable Seedlings</a></li>
-                            <li><a href="products.html" onclick="filterProducts('tree', null); return false;">Forestry Tree Seedlings</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <button class="admin-btn" onclick="openLoginModal()">
-                    <i class="fas fa-lock"></i> Admin
-                </button>
-                <button class="cart-btn" onclick="toggleCart()" title="Shopping Cart">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="cart-count">0</span>
-                </button>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </nav>
-        </div>
-    </header>
 
-    <!-- Hero -->
-    <section class="hero" id="home">
-        <div class="container">
-            <h1>Do it right from the start</h1>
-            <p>MKULIMA Seedlings Ltd provides certified, high-quality seedlings to farmers across Kenya. From fruits to trees, we help you cultivate success.</p>
-            <div class="hero-badges">
-                <div class="badge">
-                    <i class="fas fa-check-circle"></i>
-                    <span>KDB Certified</span>
-                </div>
-                <div class="badge">
-                    <i class="fas fa-truck"></i>
-                    <span>Countrywide Delivery</span>
-                </div>
-                <div class="badge">
-                    <i class="fas fa-leaf"></i>
-                    <span>100% Organic</span>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- TOP BAR -->
+<div class="topbar">
+  <span>📍 Along Kabati Road, Muranga County, Kenya</span>
+  <span>
+    📞 <a href="tel:+254711844850">0711 844 850</a> / <a href="tel:+254115657187">0115 657 187</a>
+    &nbsp;|&nbsp; ✉️ <a href="mailto:info@mkulimaseedlings.com">info@mkulimaseedlings.com</a>
+    &nbsp;|&nbsp; 🕐 Mon–Sat: 8:00 AM – 5:00 PM
+  </span>
+</div>
 
-    <!-- Stock Status Bar -->
-    <div class="stock-bar">
-        <div class="container">
-            <div class="stock-bar-content">
-                <div class="stock-filters">
-                    <button class="filter-btn active" data-category="all" onclick="filterProducts('all', event)">All Products</button>
-                    <button class="filter-btn" data-category="fruit" onclick="filterProducts('fruit', event)">Fruit Trees</button>
-                    <button class="filter-btn" data-category="vegetable" onclick="filterProducts('vegetable', event)">Vegetables</button>
-                    <button class="filter-btn" data-category="tree" onclick="filterProducts('tree', event)">Forestry Trees</button>
-                </div>
-                <div class="last-updated">
-                    <i class="fas fa-sync-alt" id="sync-icon"></i>
-                    <span id="last-updated">Last updated: Just now</span>
-                </div>
-            </div>
-        </div>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#home">
+      <img src="https://mkulimaseedling-production.up.railway.app/logo.png" alt="MKULIMA Seedlings" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="logo-fallback" style="display:none">MK</div>
+      <div class="logo-text">MKULIMA Seedlings Ltd<span>KDB & KEPHIS Certified Nursery</span></div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#services">Seedlings</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#products">Shop</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+      <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
     </div>
+  </div>
+</nav>
 
-    <!-- Seedlings Section -->
-    <section class="products-section" id="products">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Seedlings</h2>
-                <p>Live stock status updated in real-time. Order while available!</p>
+<!-- HERO SLIDER -->
+<section id="home" style="padding:0">
+  <div class="hero">
+    <button class="hero-arrow prev" onclick="changeSlide(-1)">‹</button>
+    <button class="hero-arrow next" onclick="changeSlide(1)">›</button>
+    <div class="slides" id="slides">
+
+      <!-- SLIDE 1 -->
+      <div class="slide">
+        <div class="slide-bg" style="background-image:url('https://mkulimaseedling-production.up.railway.app/images/hero1.jpg'),url('https://mkulimaseedling-production.up.railway.app/images/nursery.jpg'),linear-gradient(135deg,#1a4a1a,#2d6a2d)">
+          <div class="slide-content">
+            <span class="slide-tag">🌱 KDB & KEPHIS Certified</span>
+            <h1>Do It Right<br>From The Start</h1>
+            <p>MKULIMA Seedlings Ltd provides certified, high-quality seedlings to farmers across all 47 counties in Kenya. From fruits to trees — we help you cultivate success.</p>
+            <div class="hero-btns">
+              <a href="#products" class="btn btn-accent">Browse Seedlings →</a>
+              <a href="#contact" class="btn btn-outline-white">Contact Us</a>
             </div>
-            <div id="products-container"></div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- About Section -->
-    <section class="about-section" id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-content">
-                    <h2>About MKULIMA Seedlings Ltd</h2>
-                    <p>MKULIMA Seedlings Ltd has grown to become one of Kenya's leading suppliers of certified seedlings and fertilizers . We are committed to supporting Kenyan farmers with high-quality seedlings, disease-free planting materials.We dont just sell seedlings we go beyond supplying by empowering our farmers through farm training and after sale services ensuring success from planting to harvesting.</p>
-                    <p>Our nursery produces over 1,000,000 seedlings annually, serving farmers across the country. We specialize in fruit trees, vegetable seedlings and High quality fertilizers.</p>
-                    
-                    <ul class="features-list">
-                        <li>
-                            <i class="fas fa-certificate"></i>
-                            KDB & KEPHIS Certified Nursery
-                        </li>
-                        <li>
-                            <i class="fas fa-flask"></i>
-                            Tissue Culture & Grafted Varieties
-                        </li>
-                        <li>
-                            <i class="fas fa-users"></i>
-                            Over 100,000 Farmers Served
-                        </li>
-                        <li>
-                            <i class="fas fa-hand-holding-heart"></i>
-                            Free Agronomic Support
-                        </li>
-                    </ul>
-                </div>
-                <div class="about-image">
-                    <img src="workers.png" alt="MKULIMA Seedlings workers" class="about-img">
-                </div>
+      <!-- SLIDE 2 -->
+      <div class="slide">
+        <div class="slide-bg" style="background-image:url('https://mkulimaseedling-production.up.railway.app/images/hero2.jpg'),url('https://mkulimaseedling-production.up.railway.app/images/farm.jpg'),linear-gradient(135deg,#2d4a1a,#4a7a2d)">
+          <div class="slide-content">
+            <span class="slide-tag">🚚 Countrywide Delivery</span>
+            <h1>Quality Seedlings<br>For Every Farmer</h1>
+            <p>From smallholder to large-scale farmer — our disease-free, certified seedlings, agronomic guidance, and after-sale support set you up for success every season.</p>
+            <div class="hero-btns">
+              <a href="#services" class="btn btn-accent">Our Seedlings →</a>
+              <a href="https://wa.me/254711844850" target="_blank" class="btn btn-outline-white">💬 WhatsApp Order</a>
             </div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
-        <div class="container">
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <h2>Get In Touch</h2>
-                    <p>Ready to order or need advice on the best seedlings for your farm? Reach out to us today.</p>
-                    <ul class="contact-details">
-                        <li>
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Along Kabati, Muranga County.</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-phone"></i>
-                            <span>0711844850/0115657187</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-envelope"></i>
-                            <span>info@mkulimaseedlings.com</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-clock"></i>
-                            <span>Mon - Sat: 8:00 AM - 5:00 PM</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="contact-form">
-                    <form onsubmit="handleContactSubmit(event)">
-                        <div class="form-group">
-                            <label>Your Name</label>
-                            <input type="text" name="name" placeholder="Ian kagunya" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input type="tel" name="phone" placeholder="+254 7XX XXX XXX" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Interested In</label>
-                            <select name="interest" required>
-                                <option value="">Select seedling type...</option>
-                                <option value="fruit">Fruit Trees</option>
-                                <option value="vegetable">Vegetables</option>
-                                <option value="tree">Forestry Trees</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Message</label>
-                            <textarea name="message" placeholder="Tell us what you need..."></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn">Send Message</button>
-                    </form>
-                </div>
+      <!-- SLIDE 3 -->
+      <div class="slide">
+        <div class="slide-bg" style="background-image:url('https://mkulimaseedling-production.up.railway.app/images/hero3.jpg'),url('https://mkulimaseedling-production.up.railway.app/images/workers.jpg'),url('https://mkulimaseedling-production.up.railway.app/workers.png'),linear-gradient(135deg,#1a3a2d,#2d6a50)">
+          <div class="slide-content">
+            <span class="slide-tag">🌿 100% Organic & Certified</span>
+            <h1>Empowering Kenyan<br>Farmers to Thrive</h1>
+            <p>Beyond seedlings — we offer free agronomic support, farm training, and after-sale services ensuring your success from planting all the way to harvesting.</p>
+            <div class="hero-btns">
+              <a href="#about" class="btn btn-accent">About Us →</a>
+              <a href="#contact" class="btn btn-outline-white">Get In Touch</a>
             </div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-seedling"></i>
-                    MKULIMA Seedlings Ltd
-                </div>
-                <div class="social-links">
-                    <a href="https://web.facebook.com/readyseedlings"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 MKULIMA Seedlings Ltd. All rights reserved. | KDB Certified Nursery</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Login Modal -->
-    <div class="modal-overlay" id="login-modal">
-        <div class="modal" style="max-width: 450px;">
-            <div class="modal-header">
-                <h2><i class="fas fa-lock"></i> Admin Login</h2>
-                <button class="modal-close" onclick="closeLoginModal()">&times;</button>
-            </div>
-            <div class="login-form">
-                <h2>Welcome Back</h2>
-                <p>Enter your credentials to manage stock</p>
-                <input type="password" class="login-input" id="admin-password" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')handleLogin()">
-                <button class="login-btn" onclick="handleLogin()">Login</button>
-                <p class="login-error" id="login-error">Incorrect password. Please try again.</p>
-
-            </div>
-        </div>
     </div>
+    <div class="hero-dots" id="heroDots">
+      <div class="dot active" onclick="goToSlide(0)"></div>
+      <div class="dot" onclick="goToSlide(1)"></div>
+      <div class="dot" onclick="goToSlide(2)"></div>
+    </div>
+  </div>
+</section>
 
-    <!-- Admin Modal -->
-    <div class="modal-overlay" id="admin-modal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2><i class="fas fa-cog"></i> Manage Stock Status</h2>
-                <button class="modal-close" onclick="closeAdminModal()">&times;</button>
-            </div>
-            <div class="modal-body" id="admin-product-list">
-                <!-- Admin products rendered by JS -->
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" onclick="closeAdminModal()">Cancel</button>
-                <button class="btn-primary" onclick="saveStockChanges()">
-                    <i class="fas fa-save"></i> Save Changes
-                </button>
-            </div>
+<!-- BADGES STRIP -->
+<div class="badges-strip">
+  <div class="badge-item">✅ KDB Certified</div>
+  <div class="badge-item">✅ KEPHIS Certified</div>
+  <div class="badge-item">🚚 47 Counties Delivery</div>
+  <div class="badge-item">🌿 100% Organic</div>
+  <div class="badge-item">🌱 1M+ Seedlings/Year</div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">Quality Seedlings for<br>Every Type of Farmer</h2>
+    <p class="section-sub">Certified, disease-free planting materials for fruits, vegetables, and forestry — delivered across Kenya.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-card-bg" style="background-image:url('https://mkulimaseedling-production.up.railway.app/images/fruit.jpg'),url('https://mkulimaseedling-production.up.railway.app/images/avocado.jpg'),linear-gradient(135deg,#1a4a1a,#3d7a3d);width:100%;height:100%"></div>
+        <div class="service-card-overlay"></div>
+        <div class="service-card-body">
+          <div class="service-card-icon">🍎</div>
+          <div class="service-card-title">Fruit Tree Seedlings</div>
+          <div class="service-card-desc">Grafted & non-grafted avocado, mango, citrus, passion fruit, macadamia and more — high yield varieties for home & commercial orchards.</div>
         </div>
-    </div>
-
-
-
-    <!-- Toast -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toast-message">Changes saved successfully!</span>
-    </div>
-
-    <!-- Cart Drawer -->
-    <div class="cart-drawer-overlay" id="cart-drawer-overlay" onclick="if(event.target===this)toggleCart()">
-        <div class="cart-drawer">
-            <div class="cart-drawer-header">
-                <h3><i class="fas fa-shopping-basket"></i> Your Cart</h3>
-                <button class="cart-drawer-close" onclick="toggleCart()">&times;</button>
-            </div>
-            <div class="cart-drawer-body" id="cart-body">
-                <!-- Cart items rendered by JS -->
-            </div>
-            <div class="cart-drawer-footer">
-                <div class="cart-total">
-                    <span>Total</span>
-                    <span class="amount" id="cart-total">KES 0</span>
-                </div>
-                <button class="cart-checkout-btn" onclick="checkoutCart()">
-                    <i class="fas fa-whatsapp"></i> Order via WhatsApp
-                </button>
-            </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-bg" style="background-image:url('https://mkulimaseedling-production.up.railway.app/images/vegetable.jpg'),url('https://mkulimaseedling-production.up.railway.app/images/tomato.jpg'),linear-gradient(135deg,#2d5a1a,#4a8a2d);width:100%;height:100%"></div>
+        <div class="service-card-overlay"></div>
+        <div class="service-card-body">
+          <div class="service-card-icon">🥦</div>
+          <div class="service-card-title">Vegetable Seedlings</div>
+          <div class="service-card-desc">Fast-growing, high-yielding F1 hybrid vegetables — tomatoes, capsicum, kale, broccoli, onions and more for small & large-scale production.</div>
         </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-bg" style="background-image:url('https://mkulimaseedling-production.up.railway.app/images/forestry.jpg'),url('https://mkulimaseedling-production.up.railway.app/images/tree.jpg'),linear-gradient(135deg,#1a3a2d,#2d6a50);width:100%;height:100%"></div>
+        <div class="service-card-overlay"></div>
+        <div class="service-card-body">
+          <div class="service-card-icon">🌳</div>
+          <div class="service-card-title">Forestry Tree Seedlings</div>
+          <div class="service-card-desc">Grevillea, eucalyptus, cypress and bamboo for timber, reforestation, boundary planting, windbreaks and agroforestry systems.</div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-bg" style="background-image:url('https://mkulimaseedling-production.up.railway.app/images/training.jpg'),url('https://mkulimaseedling-production.up.railway.app/images/farm2.jpg'),linear-gradient(135deg,#3a2a0a,#7a5a1a);width:100%;height:100%"></div>
+        <div class="service-card-overlay"></div>
+        <div class="service-card-body">
+          <div class="service-card-icon">🎓</div>
+          <div class="service-card-title">Agronomic Support</div>
+          <div class="service-card-desc">Free farm training, after-sale support and agronomic guidance — we empower our farmers from planting to harvest for guaranteed success.</div>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <script>
-        // Backend API Configuration
-        const API_BASE = '';
-        const ADMIN_PASSWORD = 'mkulima2026!';
+<!-- ABOUT -->
+<section id="about" style="background:#f5f8f5">
+  <div class="section-inner">
+    <div class="about-split">
+      <div class="about-image-wrap">
+        <img class="about-main-img"
+          src="https://mkulimaseedling-production.up.railway.app/workers.png"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+          alt="MKULIMA team"/>
+        <div class="about-main-img-fallback" style="display:none">🌱</div>
+        <div class="about-badge-box">
+          <div class="num">1M+</div>
+          <div class="lbl">Seedlings<br>Per Year</div>
+        </div>
+      </div>
+      <div class="about-text">
+        <div class="section-label">Get to Know Us</div>
+        <h2 class="section-title">Smart Farming for a Greener, More Profitable Kenya</h2>
+        <p>MKULIMA Seedlings Ltd has grown to become one of Kenya's leading suppliers of certified seedlings and fertilizers. We are committed to supporting Kenyan farmers with high-quality, disease-free planting materials.</p>
+        <p>We don't just sell seedlings — we go beyond supplying by empowering our farmers through farm training and after-sale services, ensuring success from planting all the way to harvesting.</p>
+        <div class="pillars">
+          <div class="pillar"><div class="pillar-icon">✅</div><div class="pillar-text">KDB & KEPHIS Certified Nursery — meeting the highest quality standards</div></div>
+          <div class="pillar"><div class="pillar-icon">🌱</div><div class="pillar-text">Tissue Culture & Grafted Varieties — fast-maturing, disease-resistant stock</div></div>
+          <div class="pillar"><div class="pillar-icon">🎓</div><div class="pillar-text">Free Agronomic Support — training and guidance from planting to harvest</div></div>
+          <div class="pillar"><div class="pillar-icon">🚚</div><div class="pillar-text">Countrywide Delivery — serving all 47 counties across Kenya</div></div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-num">1M+</div><div class="stat-lbl">Seedlings/Year</div></div>
+          <div class="stat-box"><div class="stat-num">100K+</div><div class="stat-lbl">Farmers Served</div></div>
+          <div class="stat-box"><div class="stat-num">47</div><div class="stat-lbl">Counties</div></div>
+          <div class="stat-box"><div class="stat-num">100%</div><div class="stat-lbl">Certified</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // State
-        let products = [];
-        let currentFilter = 'all';
-        let isAdmin = false;
-        let cart = [];
+<!-- PRODUCTS SHOP -->
+<section id="products" class="products-bg">
+  <div class="section-inner">
+    <div class="section-label">Live Stock</div>
+    <h2 class="section-title">Browse & Order Our Seedlings</h2>
+    <p class="section-sub">Certified, ready-to-plant seedlings. Add to cart and order via WhatsApp instantly.</p>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterProducts('all',this)">🌿 All</button>
+      <button class="filter-btn" onclick="filterProducts('fruit',this)">🍎 Fruit Trees</button>
+      <button class="filter-btn" onclick="filterProducts('vegetable',this)">🥦 Vegetables</button>
+      <button class="filter-btn" onclick="filterProducts('forestry',this)">🌳 Forestry</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</section>
 
-        // Static products data (from products.html)
-        const staticProducts = [
-            // Tomatoes
-            { id: 1, name: 'Tomato Zara F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'High-yield tomato variety. Disease resistant.', inStock: true, image: 'Images/zara f1.png' },
-            { id: 2, name: 'Tomato Nova F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Vigorous tomato plant. Excellent fruit set.', inStock: true, image: 'Images/tomato-nova.jpg' },
-            { id: 3, name: 'Tomato Ansal F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Determinate tomato. Good for processing.', inStock: true, image: 'Images/tomato-ansal.jpg' },
-            { id: 4, name: 'Tomato Terminator F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Disease tolerant tomato. Heavy producer.', inStock: true, image: 'Images/terminator f1.png' },
-            // Cabbages
-            { id: 5, name: 'Cabbage Gloria F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Crisp cabbage. Good head formation.', inStock: true, image: 'Images/gloria f1.png' },
-            { id: 6, name: 'Cabbage Pructor F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Medium maturity cabbage. Resistant to bolting.', inStock: true, image: 'Images/cabbage-pructor.jpg' },
-            { id: 7, name: 'Cabbage Kilimo F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'High yielding variety. Suitable for Kenya.', inStock: true, image: 'Images/cabbage-kilimo.jpg' },
-            { id: 8, name: 'Cabbage Queen F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Large head cabbage. Excellent storage.', inStock: true, image: 'Images/cabbage-queen.jpg' },
-            { id: 9, name: 'Cabbage Victoria F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Uniform heads. Good market quality.', inStock: true, image: 'Images/cabbage-victoria.jpg' },
-            { id: 10, name: 'Cabbage Faida', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Reliable cabbage variety. Good yield.', inStock: true, image: 'Images/cabbage-faida.jpg' },
-            { id: 11, name: 'Cabbage Powerslam', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Heavy producing cabbage. Disease resistant.', inStock: true, image: 'Images/cabbage-powerslam.jpg' },
-            { id: 12, name: 'Red Cabbage', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Colorful red cabbage. Nutritious and tasty.', inStock: true, image: 'Images/red cabbage.png' },
-            // Spinach
-            { id: 13, name: 'Spinach Fordhook Giant', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Large leaf spinach. Fast growing.', inStock: true, image: 'Images/spinach-fordhook.jpg' },
-            // Sukumawiki (Kale)
-            { id: 14, name: 'Sukumawiki Ahadi F1', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'High yielding sukuma wiki. Disease resistant.', inStock: true, image: 'Images/sukumawiki-ahadi.jpg' },
-            { id: 15, name: 'Sukumawiki Spinner', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Tender leaves. Good for continuous harvest.', inStock: true, image: 'Images/sukumawiki-spinner.jpg' },
-            { id: 16, name: 'Sukumawiki Tausi', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'African kale variety. Heat tolerant.', inStock: true, image: 'Images/sukumawiki-tausi.jpg' },
-            { id: 17, name: 'Sukumawiki Top Bunch', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Vigorous growth. Large bunch formation.', inStock: true, image: 'Images/sukumawiki-topbunch.jpg' },
-            { id: 18, name: 'Sukumawiki Thousand Headed', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Multiple harvest variety. Continuous production.', inStock: true, image: 'Images/sukumawiki-thousand.jpg' },
-            { id: 19, name: 'Curly Kales Malkia F1', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Curly leaf kale. Ornamental and edible.', inStock: true, image: 'Images/malika f1.png' },
-            // Capsicum
-            { id: 20, name: 'Capsicum Calypso', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Bell pepper variety. Sweet flavor.', inStock: true, image: 'Images/capsicum-calypso.jpg' },
-            { id: 21, name: 'Capsicum Superbell', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Large bell pepper. Thick walls.', inStock: true, image: 'Images/capsicum-superbell.jpg' },
-            { id: 22, name: 'Capsicum Superwonder', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'High yielding capsicum. Disease resistant.', inStock: true, image: 'Images/capsicum-superwonder.jpg' },
-            { id: 23, name: 'Capsicum Victory Red', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Red bell pepper. Sweet and crisp.', inStock: true, image: 'Images/capsicum-victoryred.jpg' },
-            { id: 24, name: 'Capsicum Victory Yellow', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Yellow bell pepper. Vibrant color.', inStock: true, image: 'Images/capsicum-victoryyellow.jpg' },
-            // Peppers
-            { id: 25, name: 'Pepper Birdseye', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Hot birdseye pepper. Very spicy.', inStock: true, image: 'Images/pepper-birdseye.jpg' },
-            { id: 26, name: 'Pepper Red Thunder', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Hot red pepper. Excellent for chili.', inStock: true, image: 'Images/red thunder.png' },
-            // Beetroot
-            { id: 26.5, name: 'Beetroot', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-circle', description: 'Sweet red beetroot. Nutritious root vegetable.', inStock: true, image: 'Images/beetroot.png' },
-            // Cauliflower
-            { id: 27, name: 'Cauliflower Bella', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'White cauliflower. Compact head.', inStock: true, image: 'Images/cauliflower-bella.jpg' },
-            // Broccoli
-            { id: 28, name: 'Broccoli Titanic', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'Large broccoli head. Cold tolerant.', inStock: true, image: 'Images/broccoli-titanic.jpg' },
-            { id: 29, name: 'Broccoli Harriet', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'Early maturing broccoli. Good flavor.', inStock: true, image: 'Images/broccoli-harriet.jpg' },
-            // Watermelon
-            { id: 30, name: 'Watermelon Sukari', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Sweet red flesh watermelon. Large fruits.', inStock: true, image: 'Images/watermelon-sukari.jpg' },
-            // Terere (Amaranth)
-            { id: 31, name: 'Terere Amaranthus', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Traditional leafy vegetable. Nutritious.', inStock: true, image: 'Images/terere-amaranthus.jpg' },
-            // Manangu (Nightshade)
-            { id: 32, name: 'Manangu Giant Nightshade', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Traditional vegetable. Heat tolerant.', inStock: true, image: 'Images/manangu-nightshade.jpg' },
-             // Lettuce
-             { id: 33, name: 'Lettuce', category: 'vegetable', price: 200, unit: 'seedling', icon: 'fa-leaf', description: 'Common lettuce variety.', inStock: true, image: 'Images/lettuce-pixie.jpg' },
-            // Fruits
-            { id: 36, name: 'Hass Avocado', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Premium Hass avocado. High market value.', inStock: true, image: 'Images/avocado-hass.jpg' },
-            { id: 37, name: 'Strawberry', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-apple-whole', description: 'Sweet strawberry. Runner production.', inStock: true, image: 'Images/strawberry.jpg' },
-            { id: 38, name: 'Mango Tommy', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Tommy Atkins mango. Red blush skin.', inStock: true, image: 'Images/mango-tommy.jpg' },
-            { id: 39, name: 'Mango Apple', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Apple mango variety. Sweet and juicy.', inStock: true, image: 'Images/mango-apple.jpg' },
-            { id: 40, name: 'Green Apple', category: 'fruit', price: 500, unit: 'seedling', icon: 'fa-tree', description: 'Green apple tree. Tart fruits.', inStock: true, image: 'Images/green-apple.jpg' },
-            { id: 41, name: 'Red Apple', category: 'fruit', price: 500, unit: 'seedling', icon: 'fa-tree', description: 'Red apple tree. Sweet fruits.', inStock: true, image: 'Images/red-apple.jpg' },
-            { id: 42, name: 'Dragon Fruit', category: 'fruit', price: 450, unit: 'seedling', icon: 'fa-seedling', description: 'Exotic dragon fruit. Vibrant color.', inStock: true, image: 'Images/dragon-fruit.jpg' },
-            { id: 43, name: 'Passion Purple', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Purple passion fruit. Sweet flavor.', inStock: true, image: 'Images/passion-purple.jpg' },
-            { id: 44, name: 'Passion Yellow', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Yellow passion fruit. Tangy taste.', inStock: true, image: 'Images/passion-yellow.jpg' },
-            { id: 45, name: 'Sweet Granadilla', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Sweet granadilla. Delicious fruit.', inStock: true, image: 'Images/granadilla.jpg' },
-            { id: 46, name: 'Tree Tomato', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-apple-whole', description: 'Tree tomato. Unique flavor.', inStock: true, image: 'Images/tree-tomato.jpg' },
-            { id: 47, name: 'Pawpaw Sharp F1', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Sharp pawpaw variety. Tropical fruit.', inStock: true, image: 'Images/pawpaw-sharp.jpg' },
-            { id: 48, name: 'Pawpaw Red Royale', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Red Royale pawpaw. Sweet and creamy.', inStock: true, image: 'Images/pawpaw-redroyale.jpg' },
-            { id: 49, name: 'Pawpaw Sunrise', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Sunrise pawpaw. Early maturing.', inStock: true, image: 'Images/pawpaw-sunrise.jpg' },
-            { id: 50, name: 'Oranges', category: 'fruit', price: 200, unit: 'seedling', icon: 'fa-tree', description: 'Oranges. Vibrant orange flesh.', inStock: true, image: 'Images/orange.jpg' },
-            
-        ];
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <div class="cta-bg" style="background-image:url('https://mkulimaseedling-production.up.railway.app/images/farm.jpg'),url('https://mkulimaseedling-production.up.railway.app/images/nursery.jpg'),linear-gradient(135deg,#1a4a1a,#2d6a2d)"></div>
+  <div class="cta-content">
+    <div class="section-label" style="justify-content:center;color:#a5d6a7">Order Today</div>
+    <h2>Ready to Start Growing?</h2>
+    <p>Place your order via WhatsApp and get certified seedlings delivered to your farm anywhere in Kenya.</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/254711844850" target="_blank" class="btn btn-accent">💬 Order on WhatsApp</a>
+      <a href="tel:+254711844850" class="btn btn-outline-white">📞 Call Us Now</a>
+    </div>
+  </div>
+</div>
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProducts();
-        });
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">Reach Out</div>
+    <h2 class="section-title">Get In Touch With Us</h2>
+    <p class="section-sub" style="margin-bottom:36px">Ready to order or need advice on the best seedlings for your farm? We're here to help.</p>
+    <div class="contact-grid">
+      <div class="contact-info-cards">
+        <div class="contact-card">
+          <div class="contact-card-icon">📍</div>
+          <div><div class="contact-card-label">Location</div><div class="contact-card-value">Along Kabati Road, Muranga County, Kenya</div></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">📞</div>
+          <div><div class="contact-card-label">Phone</div><div class="contact-card-value"><a href="tel:+254711844850">0711 844 850</a> / <a href="tel:+254115657187">0115 657 187</a></div></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">✉️</div>
+          <div><div class="contact-card-label">Email</div><div class="contact-card-value"><a href="mailto:info@mkulimaseedlings.com">info@mkulimaseedlings.com</a></div></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">🕐</div>
+          <div><div class="contact-card-label">Working Hours</div><div class="contact-card-value">Monday – Saturday: 8:00 AM – 5:00 PM</div></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">💬</div>
+          <div><div class="contact-card-label">WhatsApp</div><div class="contact-card-value"><a href="https://wa.me/254711844850" target="_blank">Chat with us on WhatsApp</a></div></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">📘</div>
+          <div><div class="contact-card-label">Facebook</div><div class="contact-card-value"><a href="https://web.facebook.com/readyseedlings" target="_blank">@readyseedlings</a></div></div>
+        </div>
+      </div>
+      <div class="contact-form-wrap">
+        <h3>Send Us a Message 📲</h3>
+        <div class="fg"><label>Your Name</label><input type="text" id="fname" placeholder="e.g. John Kamau"/></div>
+        <div class="fg"><label>Phone Number</label><input type="tel" id="fphone" placeholder="e.g. 0711 000 000"/></div>
+        <div class="fg"><label>Interested In</label>
+          <select id="finterest">
+            <option value="">Select seedling type...</option>
+            <option>Fruit Trees</option><option>Vegetables</option><option>Forestry Trees</option>
+            <option>Fertilizers</option><option>General Enquiry</option>
+          </select>
+        </div>
+        <div class="fg"><label>Message</label><textarea id="fmessage" placeholder="Tell us what you need..."></textarea></div>
+        <button class="submit-btn" onclick="submitForm()">Send via WhatsApp 💬</button>
+        <div class="success-msg" id="successMsg">✅ Redirecting to WhatsApp...</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // Load products from backend
-        async function loadProducts() {
-            try {
-                const res = await fetch(`${API_BASE}/api/products`);
-                const apiProducts = await res.json();
-                products = apiProducts.length > 0 ? apiProducts : staticProducts;
-                renderProducts();
-            } catch (err) {
-                console.error('Failed to load products:', err);
-                products = staticProducts;
-                renderProducts();
-            }
-        }
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="https://mkulimaseedling-production.up.railway.app/logo.png" alt="MKULIMA" style="height:48px;opacity:.9" onerror="this.style.display='none'">
+      <p>Kenya's trusted KDB & KEPHIS certified nursery supplying quality, disease-free seedlings across all 47 counties. From planting to harvest — we've got you covered.</p>
+      <div class="social-links">
+        <a class="social-link" href="https://web.facebook.com/readyseedlings" target="_blank">📘</a>
+        <a class="social-link" href="https://wa.me/254711844850" target="_blank">💬</a>
+        <a class="social-link" href="mailto:info@mkulimaseedlings.com">✉️</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Our Seedlings</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#products">Shop</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <ul>
+        <li><a href="#products">Fruit Tree Seedlings</a></li>
+        <li><a href="#products">Vegetable Seedlings</a></li>
+        <li><a href="#products">Forestry Trees</a></li>
+        <li><a href="#products">Fertilizers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+254711844850">📞 0711 844 850</a></li>
+        <li><a href="tel:+254115657187">📞 0115 657 187</a></li>
+        <li><a href="mailto:info@mkulimaseedlings.com">✉️ Email Us</a></li>
+        <li><a href="https://wa.me/254711844850">💬 WhatsApp</a></li>
+        <li><a href="https://web.facebook.com/readyseedlings" target="_blank">📘 Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 MKULIMA Seedlings Ltd. All rights reserved. | KDB & KEPHIS Certified Nursery | Muranga County, Kenya</div>
+</footer>
 
-        // Category display name mapping
-        const CATEGORY_LABELS = {
-            vegetable:   'Vegetable Seedlings',
-            fruit:       'Fruit Tree Seedlings',
-            tree:        'Tree Seedlings',
-        };
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>🛒 Your Cart</h3><button class="close-btn" onclick="toggleCart()">×</button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty"><span>🌱</span>Your cart is empty.<br>Add some seedlings to get started!</div></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">KES 0</span></div>
+    <button class="wa-order-btn" onclick="orderWhatsApp()">💬 Order via WhatsApp</button>
+  </div>
+</div>
 
-        function getCategoryLabel(cat) {
-            return CATEGORY_LABELS[cat] || cat.charAt(0).toUpperCase() + cat.slice(1);
-        }
+<a class="wa-float" href="https://wa.me/254711844850" target="_blank" title="Chat on WhatsApp">💬</a>
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-        // Render Products grouped by category
-        function renderProducts() {
-            const container = document.getElementById('products-container');
-            
-            // Group products by category
-            const categories = {};
-            const filtered = currentFilter === 'all'
-                ? products
-                : products.filter(p => p.category === currentFilter);
-            
-            filtered.forEach(product => {
-                if (!categories[product.category]) {
-                    categories[product.category] = [];
-                }
-                categories[product.category].push(product);
-            });
+<script>
+// ── PRODUCTS DATA ──
+const products = [
+  {id:1,name:"Avocado Hass",cat:"fruit",emoji:"🥑",img:"images/avocado.jpg",price:150,desc:"Premium grafted Hass avocado. High yield, disease resistant. Ideal for export.",stock:"in"},
+  {id:2,name:"Mango Apple",cat:"fruit",emoji:"🥭",img:"images/mango.jpg",price:120,desc:"Sweet large-fruited mango. Fast maturing, excellent for local & export markets.",stock:"in"},
+  {id:3,name:"Passion Fruit Purple",cat:"fruit",emoji:"💜",img:"images/passion.jpg",price:80,desc:"Virus-free tissue culture variety. High-yielding purple passion fruit.",stock:"low"},
+  {id:4,name:"Macadamia Nut",cat:"fruit",emoji:"🌰",img:"images/macadamia.jpg",price:200,desc:"KEPHIS certified macadamia seedlings. Long-term investment with great returns.",stock:"in"},
+  {id:5,name:"Citrus Orange",cat:"fruit",emoji:"🍊",img:"images/orange.jpg",price:130,desc:"Washington Navel & Valencia varieties grafted for early fruiting.",stock:"in"},
+  {id:6,name:"Guava Red",cat:"fruit",emoji:"🍈",img:"images/guava.jpg",price:90,desc:"Red-fleshed guava rich in Vitamin C. Heavy bearer, excellent market demand.",stock:"in"},
+  {id:7,name:"Tomato F1 Hybrid",cat:"vegetable",emoji:"🍅",img:"images/tomato.jpg",price:15,desc:"High-yielding F1 hybrid. Disease resistant, suitable for all ecological zones.",stock:"in"},
+  {id:8,name:"Capsicum Bell Pepper",cat:"vegetable",emoji:"🫑",img:"images/capsicum.jpg",price:18,desc:"Colorful bell peppers for fresh market & processing. High returns per acre.",stock:"in"},
+  {id:9,name:"Kale (Sukuma Wiki)",cat:"vegetable",emoji:"🥬",img:"images/kale.jpg",price:8,desc:"Popular Kenyan vegetable. Fast growing, nutritious, high demand year-round.",stock:"in"},
+  {id:10,name:"Broccoli",cat:"vegetable",emoji:"🥦",img:"images/broccoli.jpg",price:20,desc:"Export quality broccoli seedlings. Strong local & export market demand.",stock:"low"},
+  {id:11,name:"Onion Hybrid",cat:"vegetable",emoji:"🧅",img:"images/onion.jpg",price:12,desc:"High-yielding hybrid variety. Good storability and excellent bulb quality.",stock:"in"},
+  {id:12,name:"Grevillea",cat:"forestry",emoji:"🌲",img:"images/grevillea.jpg",price:50,desc:"Fast-growing multipurpose tree. Ideal for boundary planting, timber & firewood.",stock:"in"},
+  {id:13,name:"Eucalyptus",cat:"forestry",emoji:"🌳",img:"images/eucalyptus.jpg",price:40,desc:"Fast-maturing for timber and firewood. Excellent for reforestation projects.",stock:"in"},
+  {id:14,name:"Cypress",cat:"forestry",emoji:"🎄",img:"images/cypress.jpg",price:45,desc:"Ideal for windbreaks and timber. Long-lived and low maintenance.",stock:"in"},
+  {id:15,name:"Bamboo",cat:"forestry",emoji:"🪴",img:"images/bamboo.jpg",price:80,desc:"Giant bamboo for construction, soil conservation and carbon credits.",stock:"low"},
+];
+const BASE = 'https://mkulimaseedling-production.up.railway.app/';
+let cart = [];
 
-            // Build HTML with category sections
-            let html = '';
-            for (const [category, items] of Object.entries(categories)) {
-                html += `
-                    <div class="category-section">
-                        <h2 class="category-title">${getCategoryLabel(category)}</h2>
-                        <div class="products-grid">
-                `;
+function renderProducts(filter='all'){
+  const grid = document.getElementById('productsGrid');
+  const list = filter==='all' ? products : products.filter(p=>p.cat===filter);
+  grid.innerHTML = list.map(p=>`
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="${BASE}${p.img}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="product-img-fallback" style="display:none">${p.emoji}</div>
+        <span class="product-cat-tag">${p.cat==='fruit'?'Fruit':p.cat==='vegetable'?'Vegetable':'Forestry'}</span>
+      </div>
+      <div class="product-body">
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-footer">
+          <div>
+            <div class="product-price">KES ${p.price}</div>
+            <span class="${p.stock==='in'?'stock-in':'stock-low'}">${p.stock==='in'?'✅ In Stock':'⚠️ Low Stock'}</span>
+          </div>
+          <button class="add-btn" onclick="addToCart(${p.id})">+ Cart</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
 
-                items.forEach(product => {
-                    html += `
-                        <div class="product-card" data-category="${product.category}">
-                            <div class="product-image">
-                                ${product.image ? `<img src="${product.image.startsWith('http') ? product.image : '/Images/' + encodeURIComponent(product.image)}" alt="${product.name}" loading="lazy">` : `<i class="fas ${product.icon}"></i>`}
-                                <div class="stock-badge ${product.inStock ? 'in-stock' : 'out-stock'}">
-                                    <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
-                                    ${product.inStock ? 'In Stock' : 'Out of Stock'}
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-category">${getCategoryLabel(product.category)}</div>
-                                <div class="product-name">${product.name}</div>
-                                <div class="product-desc">${product.description || ''}</div>
-                                <div class="product-footer">
-                                    <div class="price">KES ${product.price}<span>/${product.unit}</span></div>
-                                     <div style="width:100%;">
-                                         <button class="add-cart-btn" onclick="addToCart(${product.id}, this)" ${!product.inStock ? 'disabled' : ''}>
-                                             <i class="fas fa-cart-plus"></i> Add to Cart
-                                         </button>
-                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                html += '</div></div>';
-            }
-            
-            container.innerHTML = html;
-        }
+function filterProducts(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
 
-        // ─── Cart Functions ───────────────────────────────────────────────────
-        function addToCart(productId, btn) {
-            const product = products.find(p => p.id === productId);
-            if (!product || !product.inStock) return;
+function addToCart(id){
+  const p = products.find(p=>p.id===id);
+  const ex = cart.find(c=>c.id===id);
+  ex ? ex.qty++ : cart.push({...p,qty:1});
+  updateCartUI();
+  openCart();
+}
+function removeFromCart(id){cart=cart.filter(c=>c.id!==id);updateCartUI()}
+function changeQty(id,d){
+  const item=cart.find(c=>c.id===id);
+  if(!item)return;
+  item.qty+=d;
+  if(item.qty<=0)removeFromCart(id);else updateCartUI();
+}
+function updateCartUI(){
+  const count=cart.reduce((s,c)=>s+c.qty,0);
+  const total=cart.reduce((s,c)=>s+c.qty*c.price,0);
+  document.getElementById('cartCount').textContent=count;
+  document.getElementById('cartTotal').textContent=`KES ${total.toLocaleString()}`;
+  const el=document.getElementById('cartItems');
+  el.innerHTML=cart.length===0?'<div class="cart-empty"><span>🌱</span>Your cart is empty.<br>Add some seedlings to get started!</div>':
+    cart.map(c=>`<div class="cart-item">
+      <div class="cart-item-icon">${c.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${c.name}</div>
+        <div class="cart-item-price">KES ${(c.price*c.qty).toLocaleString()}</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${c.id},-1)">−</button>
+          <span class="qty-num">${c.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${c.id},1)">+</button>
+          <button class="remove-item" onclick="removeFromCart(${c.id})">🗑️</button>
+        </div>
+      </div></div>`).join('');
+}
+function toggleCart(){
+  document.getElementById('cartSidebar').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+function openCart(){
+  document.getElementById('cartSidebar').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+}
+function orderWhatsApp(){
+  if(!cart.length){alert('Please add items to your cart first!');return;}
+  const total=cart.reduce((s,c)=>s+c.qty*c.price,0);
+  let msg=`Hello MKULIMA Seedlings! I'd like to place an order:\n\n`;
+  cart.forEach(c=>{msg+=`• ${c.name} x${c.qty} = KES ${(c.price*c.qty).toLocaleString()}\n`;});
+  msg+=`\n*Total: KES ${total.toLocaleString()}*\n\nPlease confirm availability and delivery. Thank you!`;
+  window.open(`https://wa.me/254711844850?text=${encodeURIComponent(msg)}`,'_blank');
+}
+function submitForm(){
+  const name=document.getElementById('fname').value.trim();
+  const phone=document.getElementById('fphone').value.trim();
+  if(!name||!phone){alert('Please fill in your name and phone number.');return;}
+  const interest=document.getElementById('finterest').value;
+  const msg=document.getElementById('fmessage').value.trim();
+  const waMsg=`Hello MKULIMA Seedlings!\n\nName: ${name}\nPhone: ${phone}\nInterested in: ${interest||'General Enquiry'}\n\n${msg}`;
+  document.getElementById('successMsg').style.display='block';
+  setTimeout(()=>{window.open(`https://wa.me/254711844850?text=${encodeURIComponent(waMsg)}`,'_blank');document.getElementById('successMsg').style.display='none';},800);
+}
 
-            const existing = cart.find(item => item.id === productId);
-            if (existing) {
-                existing.qty += 1;
-            } else {
-                cart.push({ id: product.id, name: product.name, price: product.price, icon: product.icon, qty: 1 });
-            }
+// ── HERO SLIDER ──
+let cur=0,timer;
+function goToSlide(n){
+  cur=n;
+  document.getElementById('slides').style.transform=`translateX(-${cur*33.333}%)`;
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+}
+function changeSlide(d){goToSlide((cur+d+3)%3);resetTimer()}
+function resetTimer(){clearInterval(timer);timer=setInterval(()=>changeSlide(1),5000)}
+resetTimer();
 
-            // Visual feedback on button
-            btn.classList.add('added');
-            btn.innerHTML = '<i class="fas fa-check"></i> Added';
-            setTimeout(() => {
-                btn.classList.remove('added');
-                btn.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
-            }, 1500);
+// ── NAV ──
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open')}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});document.getElementById('navLinks').classList.remove('open')}
+  });
+});
+window.addEventListener('scroll',()=>{
+  document.getElementById('scrollTop').classList.toggle('show',scrollY>400);
+  const sects=['home','services','about','products','contact'];
+  let c='';sects.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<100)c=id;});
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c));
+});
 
-            updateCartUI();
-            showToast(`${product.name} added to cart!`);
-        }
-
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const count = cart.reduce((sum, item) => sum + item.qty, 0);
-            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-
-            // Update badge
-            const badge = document.getElementById('cart-count');
-            badge.textContent = count;
-            badge.classList.remove('bump');
-            void badge.offsetWidth; // force reflow
-            badge.classList.add('bump');
-
-            // Update total
-            document.getElementById('cart-total').textContent = `KES ${total.toLocaleString()}`;
-
-            // Render cart items
-            const body = document.getElementById('cart-body');
-            if (cart.length === 0) {
-                body.innerHTML = `
-                    <div class="cart-empty">
-                        <i class="fas fa-shopping-basket"></i>
-                        <p>Your cart is empty.</p>
-                        <p style="font-size:0.85rem;margin-top:8px;">Add some products to get started!</p>
-                    </div>`;
-                return;
-            }
-
-            body.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div class="cart-item-icon">
-                        <i class="fas ${item.icon}"></i>
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-price">KES ${item.price} × ${item.qty} = KES ${(item.price * item.qty).toLocaleString()}</div>
-                    </div>
-                    <button class="cart-item-remove" onclick="removeFromCart(${item.id})" title="Remove">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function toggleCart() {
-            const overlay = document.getElementById('cart-drawer-overlay');
-            overlay.classList.toggle('active');
-            if (overlay.classList.contains('active')) {
-                updateCartUI();
-            }
-        }
-
-        function checkoutCart() {
-            if (cart.length === 0) {
-                showToast('Your cart is empty!');
-                return;
-            }
-            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            const items = cart.map(item => `${item.name} (x${item.qty})`).join(', ');
-            const message = encodeURIComponent(`Hello MKULIMA Seedlings! I would like to order: ${items}. Total: KES ${total.toLocaleString()}. Please confirm availability and delivery.`);
-            window.open(`https://wa.me/254746424437?text=${message}`, '_blank');
-        }
-
-        // Filter Products
-        function filterProducts(category, e) {
-            currentFilter = category;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            if (e && e.target) {
-                e.target.classList.add('active');
-            } else {
-                // Called without event — match by data-category attribute instead of fragile onclick string
-                const clickedBtn = document.querySelector(`.filter-btn[data-category="${category}"]`);
-                if (clickedBtn) clickedBtn.classList.add('active');
-            }
-            renderProducts();
-        }
-
-        // Login Modal
-        function openLoginModal() {
-            document.getElementById('login-modal').classList.add('active');
-            document.getElementById('admin-password').value = '';
-            document.getElementById('login-error').style.display = 'none';
-            setTimeout(() => document.getElementById('admin-password').focus(), 100);
-        }
-
-        function closeLoginModal() {
-            document.getElementById('login-modal').classList.remove('active');
-        }
-
-        function handleLogin() {
-            const password = document.getElementById('admin-password').value;
-            if (password === ADMIN_PASSWORD) {
-                isAdmin = true;
-                closeLoginModal();
-                openAdminModal();
-            } else {
-                document.getElementById('login-error').style.display = 'block';
-                document.getElementById('admin-password').value = '';
-            }
-        }
-
-        // Admin Modal
-        function openAdminModal() {
-            renderAdminProducts();
-            document.getElementById('admin-modal').classList.add('active');
-        }
-
-        function closeAdminModal() {
-            document.getElementById('admin-modal').classList.remove('active');
-        }
-
-        function renderAdminProducts() {
-            const list = document.getElementById('admin-product-list');
-            list.innerHTML = products.map(product => `
-                <div class="admin-product-item">
-                    <div class="admin-product-info">
-                        <div class="admin-product-icon">
-                            <i class="fas ${product.icon}"></i>
-                        </div>
-                        <div>
-                            <div class="admin-product-name">${product.name}</div>
-                            <div class="admin-product-category">${product.category} • KES ${product.price}</div>
-                        </div>
-                    </div>
-                    <div class="status-toggle">
-                        <span class="toggle-label ${product.inStock ? 'in' : 'out'}" id="label-${product.id}">
-                            ${product.inStock ? 'In Stock' : 'Out of Stock'}
-                        </span>
-                        <div class="toggle-switch ${product.inStock ? 'active' : ''}" 
-                             onclick="toggleStock(${product.id})" id="toggle-${product.id}"></div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function toggleStock(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-            
-            try {
-                const res = await fetch(`${API_BASE}/api/products/${id}/stock`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ in_stock: !product.inStock })
-                });
-                if (res.ok) {
-                    product.inStock = !product.inStock;
-                    const toggle = document.getElementById(`toggle-${id}`);
-                    const label = document.getElementById(`label-${id}`);
-                    
-                    if (product.inStock) {
-                        toggle.classList.add('active');
-                        label.textContent = 'In Stock';
-                        label.className = 'toggle-label in';
-                    } else {
-                        toggle.classList.remove('active');
-                        label.textContent = 'Out of Stock';
-                        label.className = 'toggle-label out';
-                    }
-                    renderProducts();
-                    showToast(`${product.name} is now ${product.inStock ? 'available' : 'out of stock'}`);
-                }
-            } catch (err) {
-                console.error('Failed to toggle stock:', err);
-                showToast('Failed to update stock. Please try again.');
-            }
-        }
-
-
-
-        // Contact Form
-        async function handleContactSubmit(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            
-            try {
-                const res = await fetch(`${API_BASE}/api/contacts`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: formData.get('name'),
-                        phone: formData.get('phone'),
-                        interest: formData.get('interest'),
-                        message: formData.get('message')
-                    })
-                });
-                if (res.ok) {
-                    e.target.reset();
-                    showToast('Message sent! We will get back to you soon.');
-                }
-            } catch (err) {
-                console.error('Failed to submit contact:', err);
-                showToast('Failed to send message. Please try again.');
-            }
-        }
-
-        // Toast
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // Mobile Menu
-        let mobileMenuOpen = false;
-        function toggleMobileMenu() {
-            const nav = document.querySelector('.nav-links');
-            mobileMenuOpen = !mobileMenuOpen;
-            nav.style.display = mobileMenuOpen ? 'flex' : 'none';
-            nav.style.position = 'absolute';
-            nav.style.top = '100%';
-            nav.style.left = '0';
-            nav.style.right = '0';
-            nav.style.flexDirection = 'column';
-            nav.style.background = 'var(--primary-dark)';
-            nav.style.padding = '20px';
-            nav.style.gap = '15px';
-        }
-
-        // Close modals on overlay click
-        document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.classList.remove('active');
-                }
-            });
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // ─── Prompt Enhancer ───────────────────────────────────────────────
-        let PRODUCT_CATALOG = [];
-
-        // Derive search keywords from a product name (e.g. "Maize (Hybrid)" → ["maize", "hybrid"])
-        function buildKeywords(name) {
-            return name
-                .toLowerCase()
-                .replace(/[^a-z\s]/g, '')
-                .split(/\s+/)
-                .filter(Boolean);
-        }
-
-        // Load product catalog from the server so it stays in sync with the database
-        async function loadProductCatalog() {
-            try {
-                const res = await fetch('/api/products');
-                const products = await res.json();
-                PRODUCT_CATALOG = products
-                    .filter(p => p.inStock)
-                    .map(p => ({
-                        name: p.name,
-                        category: p.category,
-                        price: p.price,
-                        unit: p.unit,
-                        keywords: buildKeywords(p.name),
-                    }));
-            } catch (err) {
-                console.warn('Could not load product catalog for prompt enhancer:', err);
-            }
-        }
-
-        // Kick off catalog load as soon as the page loads
-        loadProductCatalog();
-
-        const LOCATIONS = [
-            'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret', 'Nyeri', 'Muranga',
-            'Kiambu', 'Machakos', 'Kitui', 'Meru', 'Embu', 'Thika', 'Ruiru', 'Kikuyu'
-        ];
-
-        const ENHANCEMENT_TIPS = {
-            general:    'Tip: Add your county or town for delivery-specific advice.',
-            product:    'Tip: Mention your farm size and location for tailored spacing and yield estimates.',
-            order:      'Tip: Include your preferred delivery date and quantity for a faster response.',
-            advice:     'Tip: Describe your soil type, rainfall pattern, and farm size for the best guidance.',
-            comparison: 'Tip: Let us know your budget range and intended market (local or commercial).',
-        };
-
-        function detectPromptType(text) {
-            const lower = text.toLowerCase();
-            const hasProduct = PRODUCT_CATALOG.some(p => p.keywords.some(k => lower.includes(k)));
-            const isOrder    = /\b(order|buy|purchase|need\s+\d+|want\s+\d+|get\s+\d+|deliver|delivery|how\s+much|price|cost)\b/i.test(text);
-            const isAdvice   = /\b(how\s+to|best\s+way|recommend|advice|should\s+i|can\s+i|is\s+it|grow|plant|care|fertiliz|water|spac|yield|disease|pest)\b/i.test(text);
-            const isCompare  = /\b(better|vs|versus|compare|difference|which|what\s+is\s+best)\b/i.test(lower);
-
-            if (isCompare || (hasProduct && isAdvice)) return 'comparison';
-            if (isOrder)  return 'order';
-            if (isAdvice) return 'advice';
-            if (hasProduct) return 'product';
-            return 'general';
-        }
-
-        function findMentionedProduct(text) {
-            const lower = text.toLowerCase();
-            return PRODUCT_CATALOG.find(p => p.keywords.some(k => lower.includes(k)));
-        }
-
-        function findMentionedLocation(text) {
-            return LOCATIONS.find(l => text.toLowerCase().includes(l.toLowerCase()));
-        }
-
-        function enhancePrompt() {
-            const input  = document.getElementById('prompt-input');
-            const btn    = document.getElementById('enhance-btn');
-            const result = document.getElementById('enhance-result');
-            const raw    = input.value.trim();
-
-            if (!raw) {
-                showToast('Please type a prompt first.');
-                input.focus();
-                return;
-            }
-
-            // Show loading state
-            btn.classList.add('loading');
-            btn.disabled = true;
-            result.classList.remove('visible');
-
-            // Simulate brief processing delay for UX
-            setTimeout(() => {
-                const type       = detectPromptType(raw);
-                const product    = findMentionedProduct(raw);
-                const location   = findMentionedLocation(raw);
-                const enhanced   = buildEnhancedPrompt(raw, type, product, location);
-                const tip        = ENHANCEMENT_TIPS[type] || ENHANCEMENT_TIPS.general;
-
-                document.getElementById('original-text').textContent  = raw;
-                document.getElementById('enhanced-text').textContent  = enhanced;
-                document.getElementById('enhance-tip-text').textContent = tip;
-
-                btn.classList.remove('loading');
-                btn.disabled = false;
-                result.classList.add('visible');
-
-                // Smooth-scroll to result
-                setTimeout(() => {
-                    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 100);
-            }, 600);
-        }
-
-        function buildEnhancedPrompt(original, type, product, location) {
-            const locCtx = location
-                ? `I am based in ${location}, Kenya. `
-                : 'I am based in Kenya. ';
-
-            // Safe fallback when the catalog hasn't loaded yet
-            const fallbackProduct = PRODUCT_CATALOG[0] || { name: 'our seedlings', unit: 'unit', price: 0 };
-
-            switch (type) {
-                case 'product': {
-                    const p = product || fallbackProduct;
-                    const stockLine = p && p.price
-                        ? `I saw that MKULIMA Seedlings Ltd lists ${p.name} at KES ${p.price} per ${p.unit}. `
-                        : '';
-                    return `${original.charAt(0).toUpperCase() + original.slice(1)} ${locCtx}${stockLine}Could you please confirm the current stock availability, provide the exact price per ${p?.unit || 'unit'}, and let me know the expected delivery timeline to my location? I would also appreciate any agronomic tips specific to my region.`;
-                }
-
-                case 'order': {
-                    const p = product || fallbackProduct;
-                    return `I would like to place an order with MKULIMA Seedlings Ltd. ${locCtx}I am interested in ${p ? p.name + ' seedlings' : 'seedlings'} and would like to know: (1) the current price per ${p?.unit || 'unit'}, (2) minimum order quantity, (3) available delivery options and estimated time to my location, and (4) whether you accept M-Pesa or bank transfer for payment. Please also confirm if the seedlings are currently in stock.`;
-                }
-
-                case 'advice': {
-                    return `I am a farmer ${locCtx}and I need expert agronomic advice. ${original.charAt(0).toUpperCase() + original.slice(1)} My farm details: I am interested in working with certified seedlings from MKULIMA Seedlings Ltd, a KDB-certified nursery in Nairobi serving farmers across all 47 counties. Could you provide step-by-step guidance tailored to my specific conditions, including recommended varieties, spacing, fertiliser schedule, and expected harvest timeline?`;
-                }
-
-                case 'comparison': {
-                    return `I am comparing options for my farm ${locCtx}and would like a detailed comparison. ${original.charAt(0).toUpperCase() + original.slice(1)} Please consider factors such as: market demand in my region, drought tolerance, yield per acre, input costs, and suitability for my soil and climate. I am particularly interested in options available from MKULIMA Seedlings Ltd, a KDB-certified nursery supplying farmers across Kenya.`;
-                }
-
-                case 'general':
-                default: {
-                    return `I am reaching out to MKULIMA Seedlings Ltd, a KDB-certified seedling nursery based in Nairobi that serves farmers across all 47 counties in Kenya. ${locCtx}${original.charAt(0).toUpperCase() + original.slice(1)} Could you please provide detailed information including current stock availability, pricing per unit, delivery options to my location, and any relevant agronomic guidance? I am looking for certified, disease-free planting materials suitable for my farm.`;
-                }
-            }
-        }
-
-        // Allow Ctrl+Enter / Cmd+Enter to submit the prompt
-        document.addEventListener('DOMContentLoaded', () => {
-            const promptInput = document.getElementById('prompt-input');
-            if (promptInput) {
-                promptInput.addEventListener('keydown', (e) => {
-                    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                        e.preventDefault();
-                        enhancePrompt();
-                    }
-                });
-            }
-        });
-    </script>
+renderProducts();
+</script>
 </body>
 </html>
-
-
-
