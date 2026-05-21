@@ -866,12 +866,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
-        .about-image i {
-            font-size: 8rem;
-            color: var(--primary);
-            opacity: 0.2;
+        .about-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
         }
 
         /* Contact Section */
@@ -1629,7 +1631,7 @@
                     </ul>
                 </div>
                 <div class="about-image">
-                    <i class="fas fa-seedling"></i>
+                    <img src="workers.png" alt="MKULIMA Seedlings workers" class="about-img">
                 </div>
             </div>
         </div>
@@ -1793,66 +1795,69 @@
         // Static products data (from products.html)
         const staticProducts = [
             // Tomatoes
-            { id: 1, name: 'Tomato Zara F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'High-yield tomato variety. Disease resistant.', inStock: true, image: 'images/zara f1.png' },
-            { id: 2, name: 'Tomato Nova F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Vigorous tomato plant. Excellent fruit set.', inStock: true, image: 'images/tomato-nova.jpg' },
-            { id: 3, name: 'Tomato Ansal F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Determinate tomato. Good for processing.', inStock: true, image: 'images/tomato-ansal.jpg' },
-            { id: 4, name: 'Tomato Terminator F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Disease tolerant tomato. Heavy producer.', inStock: true, image: 'images/terminator f1.png' },
+            { id: 1, name: 'Tomato Zara F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'High-yield tomato variety. Disease resistant.', inStock: true, image: 'Images/zara f1.png' },
+            { id: 2, name: 'Tomato Nova F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Vigorous tomato plant. Excellent fruit set.', inStock: true, image: 'Images/tomato-nova.jpg' },
+            { id: 3, name: 'Tomato Ansal F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Determinate tomato. Good for processing.', inStock: true, image: 'Images/tomato-ansal.jpg' },
+            { id: 4, name: 'Tomato Terminator F1', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Disease tolerant tomato. Heavy producer.', inStock: true, image: 'Images/terminator f1.png' },
             // Cabbages
-            { id: 5, name: 'Cabbage Gloria F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Crisp cabbage. Good head formation.', inStock: true, image: 'images/gloria f1.png' },
-            { id: 6, name: 'Cabbage Pructor F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Medium maturity cabbage. Resistant to bolting.', inStock: true, image: 'images/cabbage-pructor.jpg' },
-            { id: 7, name: 'Cabbage Kilimo F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'High yielding variety. Suitable for Kenya.', inStock: true, image: 'images/cabbage-kilimo.jpg' },
-            { id: 8, name: 'Cabbage Queen F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Large head cabbage. Excellent storage.', inStock: true, image: 'images/cabbage-queen.jpg' },
-            { id: 9, name: 'Cabbage Victoria F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Uniform heads. Good market quality.', inStock: true, image: 'images/cabbage-victoria.jpg' },
-            { id: 10, name: 'Cabbage Faida', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Reliable cabbage variety. Good yield.', inStock: true, image: 'images/cabbage-faida.jpg' },
-            { id: 11, name: 'Cabbage Powerslam', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Heavy producing cabbage. Disease resistant.', inStock: true, image: 'images/cabbage-powerslam.jpg' },
-            { id: 12, name: 'Red Cabbage', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Colorful red cabbage. Nutritious and tasty.', inStock: true, image: 'images/red cabbage.png' },
+            { id: 5, name: 'Cabbage Gloria F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Crisp cabbage. Good head formation.', inStock: true, image: 'Images/gloria f1.png' },
+            { id: 6, name: 'Cabbage Pructor F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Medium maturity cabbage. Resistant to bolting.', inStock: true, image: 'Images/cabbage-pructor.jpg' },
+            { id: 7, name: 'Cabbage Kilimo F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'High yielding variety. Suitable for Kenya.', inStock: true, image: 'Images/cabbage-kilimo.jpg' },
+            { id: 8, name: 'Cabbage Queen F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Large head cabbage. Excellent storage.', inStock: true, image: 'Images/cabbage-queen.jpg' },
+            { id: 9, name: 'Cabbage Victoria F1', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Uniform heads. Good market quality.', inStock: true, image: 'Images/cabbage-victoria.jpg' },
+            { id: 10, name: 'Cabbage Faida', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Reliable cabbage variety. Good yield.', inStock: true, image: 'Images/cabbage-faida.jpg' },
+            { id: 11, name: 'Cabbage Powerslam', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Heavy producing cabbage. Disease resistant.', inStock: true, image: 'Images/cabbage-powerslam.jpg' },
+            { id: 12, name: 'Red Cabbage', category: 'vegetable', price: 6, unit: 'seedling', icon: 'fa-leaf', description: 'Colorful red cabbage. Nutritious and tasty.', inStock: true, image: 'Images/red cabbage.png' },
             // Spinach
-            { id: 13, name: 'Spinach Fordhook Giant', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Large leaf spinach. Fast growing.', inStock: true, image: 'images/spinach-fordhook.jpg' },
+            { id: 13, name: 'Spinach Fordhook Giant', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Large leaf spinach. Fast growing.', inStock: true, image: 'Images/spinach-fordhook.jpg' },
             // Sukumawiki (Kale)
-            { id: 14, name: 'Sukumawiki Ahadi F1', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'High yielding sukuma wiki. Disease resistant.', inStock: true, image: 'images/sukumawiki-ahadi.jpg' },
-            { id: 15, name: 'Sukumawiki Spinner', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Tender leaves. Good for continuous harvest.', inStock: true, image: 'images/sukumawiki-spinner.jpg' },
-            { id: 16, name: 'Sukumawiki Tausi', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'African kale variety. Heat tolerant.', inStock: true, image: 'images/sukumawiki-tausi.jpg' },
-            { id: 17, name: 'Sukumawiki Top Bunch', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Vigorous growth. Large bunch formation.', inStock: true, image: 'images/sukumawiki-topbunch.jpg' },
-            { id: 18, name: 'Sukumawiki Thousand Headed', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Multiple harvest variety. Continuous production.', inStock: true, image: 'images/sukumawiki-thousand.jpg' },
-            { id: 19, name: 'Curly Kales Malkia F1', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Curly leaf kale. Ornamental and edible.', inStock: true, image: 'images/malika f1.png' },
+            { id: 14, name: 'Sukumawiki Ahadi F1', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'High yielding sukuma wiki. Disease resistant.', inStock: true, image: 'Images/sukumawiki-ahadi.jpg' },
+            { id: 15, name: 'Sukumawiki Spinner', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Tender leaves. Good for continuous harvest.', inStock: true, image: 'Images/sukumawiki-spinner.jpg' },
+            { id: 16, name: 'Sukumawiki Tausi', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'African kale variety. Heat tolerant.', inStock: true, image: 'Images/sukumawiki-tausi.jpg' },
+            { id: 17, name: 'Sukumawiki Top Bunch', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Vigorous growth. Large bunch formation.', inStock: true, image: 'Images/sukumawiki-topbunch.jpg' },
+            { id: 18, name: 'Sukumawiki Thousand Headed', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Multiple harvest variety. Continuous production.', inStock: true, image: 'Images/sukumawiki-thousand.jpg' },
+            { id: 19, name: 'Curly Kales Malkia F1', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Curly leaf kale. Ornamental and edible.', inStock: true, image: 'Images/malika f1.png' },
             // Capsicum
-            { id: 20, name: 'Capsicum Calypso', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Bell pepper variety. Sweet flavor.', inStock: true, image: 'images/capsicum-calypso.jpg' },
-            { id: 21, name: 'Capsicum Superbell', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Large bell pepper. Thick walls.', inStock: true, image: 'images/capsicum-superbell.jpg' },
-            { id: 22, name: 'Capsicum Superwonder', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'High yielding capsicum. Disease resistant.', inStock: true, image: 'images/capsicum-superwonder.jpg' },
-            { id: 23, name: 'Capsicum Victory Red', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Red bell pepper. Sweet and crisp.', inStock: true, image: 'images/capsicum-victoryred.jpg' },
-            { id: 24, name: 'Capsicum Victory Yellow', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Yellow bell pepper. Vibrant color.', inStock: true, image: 'images/capsicum-victoryyellow.jpg' },
+            { id: 20, name: 'Capsicum Calypso', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Bell pepper variety. Sweet flavor.', inStock: true, image: 'Images/capsicum-calypso.jpg' },
+            { id: 21, name: 'Capsicum Superbell', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Large bell pepper. Thick walls.', inStock: true, image: 'Images/capsicum-superbell.jpg' },
+            { id: 22, name: 'Capsicum Superwonder', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'High yielding capsicum. Disease resistant.', inStock: true, image: 'Images/capsicum-superwonder.jpg' },
+            { id: 23, name: 'Capsicum Victory Red', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Red bell pepper. Sweet and crisp.', inStock: true, image: 'Images/capsicum-victoryred.jpg' },
+            { id: 24, name: 'Capsicum Victory Yellow', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Yellow bell pepper. Vibrant color.', inStock: true, image: 'Images/capsicum-victoryyellow.jpg' },
             // Peppers
-            { id: 25, name: 'Pepper Birdseye', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Hot birdseye pepper. Very spicy.', inStock: true, image: 'images/pepper-birdseye.jpg' },
-            { id: 26, name: 'Pepper Red Thunder', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Hot red pepper. Excellent for chili.', inStock: true, image: 'images/red thunder.png' },
+            { id: 25, name: 'Pepper Birdseye', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Hot birdseye pepper. Very spicy.', inStock: true, image: 'Images/pepper-birdseye.jpg' },
+            { id: 26, name: 'Pepper Red Thunder', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-pepper-hot', description: 'Hot red pepper. Excellent for chili.', inStock: true, image: 'Images/red thunder.png' },
             // Beetroot
-            { id: 26.5, name: 'Beetroot', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-circle', description: 'Sweet red beetroot. Nutritious root vegetable.', inStock: true, image: 'images/beetroot.png' },
+            { id: 26.5, name: 'Beetroot', category: 'vegetable', price: 10, unit: 'seedling', icon: 'fa-circle', description: 'Sweet red beetroot. Nutritious root vegetable.', inStock: true, image: 'Images/beetroot.png' },
             // Cauliflower
-            { id: 27, name: 'Cauliflower Bella', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'White cauliflower. Compact head.', inStock: true, image: 'images/cauliflower-bella.jpg' },
+            { id: 27, name: 'Cauliflower Bella', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'White cauliflower. Compact head.', inStock: true, image: 'Images/cauliflower-bella.jpg' },
             // Broccoli
-            { id: 28, name: 'Broccoli Titanic', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'Large broccoli head. Cold tolerant.', inStock: true, image: 'images/broccoli-titanic.jpg' },
-            { id: 29, name: 'Broccoli Harriet', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'Early maturing broccoli. Good flavor.', inStock: true, image: 'images/broccoli-harriet.jpg' },
+            { id: 28, name: 'Broccoli Titanic', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'Large broccoli head. Cold tolerant.', inStock: true, image: 'Images/broccoli-titanic.jpg' },
+            { id: 29, name: 'Broccoli Harriet', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-seedling', description: 'Early maturing broccoli. Good flavor.', inStock: true, image: 'Images/broccoli-harriet.jpg' },
             // Watermelon
-            { id: 30, name: 'Watermelon Sukari', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Sweet red flesh watermelon. Large fruits.', inStock: true, image: 'images/watermelon-sukari.jpg' },
+            { id: 30, name: 'Watermelon Sukari', category: 'vegetable', price: 8, unit: 'seedling', icon: 'fa-apple-whole', description: 'Sweet red flesh watermelon. Large fruits.', inStock: true, image: 'Images/watermelon-sukari.jpg' },
             // Terere (Amaranth)
-            { id: 31, name: 'Terere Amaranthus', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Traditional leafy vegetable. Nutritious.', inStock: true, image: 'images/terere-amaranthus.jpg' },
+            { id: 31, name: 'Terere Amaranthus', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Traditional leafy vegetable. Nutritious.', inStock: true, image: 'Images/terere-amaranthus.jpg' },
             // Manangu (Nightshade)
-            { id: 32, name: 'Manangu Giant Nightshade', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Traditional vegetable. Heat tolerant.', inStock: true, image: 'images/manangu-nightshade.jpg' },
+            { id: 32, name: 'Manangu Giant Nightshade', category: 'vegetable', price: 5, unit: 'seedling', icon: 'fa-leaf', description: 'Traditional vegetable. Heat tolerant.', inStock: true, image: 'Images/manangu-nightshade.jpg' },
              // Lettuce
-             { id: 33, name: 'Lettuce', category: 'vegetable', price: 200, unit: 'seedling', icon: 'fa-leaf', description: 'Common lettuce variety.', inStock: true, image: 'images/lettuce-pixie.jpg' },
+             { id: 33, name: 'Lettuce', category: 'vegetable', price: 200, unit: 'seedling', icon: 'fa-leaf', description: 'Common lettuce variety.', inStock: true, image: 'Images/lettuce-pixie.jpg' },
             // Fruits
-            { id: 36, name: 'Hass Avocado', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Premium Hass avocado. High market value.', inStock: true, image: 'images/avocado-hass.jpg' },
-            { id: 37, name: 'Strawberry', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-apple-whole', description: 'Sweet strawberry. Runner production.', inStock: true, image: 'images/strawberry.jpg' },
-            { id: 38, name: 'Mango Tommy', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Tommy Atkins mango. Red blush skin.', inStock: true, image: 'images/mango-tommy.jpg' },
-            { id: 39, name: 'Mango Apple', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Apple mango variety. Sweet and juicy.', inStock: true, image: 'images/mango-apple.jpg' },
-            { id: 40, name: 'Green Apple', category: 'fruit', price: 500, unit: 'seedling', icon: 'fa-tree', description: 'Green apple tree. Tart fruits.', inStock: true, image: 'images/green-apple.jpg' },
-            { id: 41, name: 'Red Apple', category: 'fruit', price: 500, unit: 'seedling', icon: 'fa-tree', description: 'Red apple tree. Sweet fruits.', inStock: true, image: 'images/red-apple.jpg' },
-            { id: 42, name: 'Dragon Fruit', category: 'fruit', price: 450, unit: 'seedling', icon: 'fa-seedling', description: 'Exotic dragon fruit. Vibrant color.', inStock: true, image: 'images/dragon-fruit.jpg' },
-            { id: 43, name: 'Passion Purple', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Purple passion fruit. Sweet flavor.', inStock: true, image: 'images/passion-purple.jpg' },
-            { id: 44, name: 'Passion Yellow', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Yellow passion fruit. Tangy taste.', inStock: true, image: 'images/passion-yellow.jpg' },
-            { id: 45, name: 'Sweet Granadilla', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Sweet granadilla. Delicious fruit.', inStock: true, image: 'images/granadilla.jpg' },
-            { id: 46, name: 'Tree Tomato', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-apple-whole', description: 'Tree tomato. Unique flavor.', inStock: true, image: 'images/tree-tomato.jpg' },
-            { id: 47, name: 'Pawpaw Sharp F1', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Sharp pawpaw variety. Tropical fruit.', inStock: true, image: 'images/pawpaw-sharp.jpg' },
-            { id: 48, name: 'Pawpaw Red Royale', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Red Royale pawpaw. Sweet and creamy.', inStock: true, image: 'images/pawpaw-redroyale.jpg' },
+            { id: 36, name: 'Hass Avocado', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Premium Hass avocado. High market value.', inStock: true, image: 'Images/avocado-hass.jpg' },
+            { id: 37, name: 'Strawberry', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-apple-whole', description: 'Sweet strawberry. Runner production.', inStock: true, image: 'Images/strawberry.jpg' },
+            { id: 38, name: 'Mango Tommy', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Tommy Atkins mango. Red blush skin.', inStock: true, image: 'Images/mango-tommy.jpg' },
+            { id: 39, name: 'Mango Apple', category: 'fruit', price: 150, unit: 'seedling', icon: 'fa-tree', description: 'Apple mango variety. Sweet and juicy.', inStock: true, image: 'Images/mango-apple.jpg' },
+            { id: 40, name: 'Green Apple', category: 'fruit', price: 500, unit: 'seedling', icon: 'fa-tree', description: 'Green apple tree. Tart fruits.', inStock: true, image: 'Images/green-apple.jpg' },
+            { id: 41, name: 'Red Apple', category: 'fruit', price: 500, unit: 'seedling', icon: 'fa-tree', description: 'Red apple tree. Sweet fruits.', inStock: true, image: 'Images/red-apple.jpg' },
+            { id: 42, name: 'Dragon Fruit', category: 'fruit', price: 450, unit: 'seedling', icon: 'fa-seedling', description: 'Exotic dragon fruit. Vibrant color.', inStock: true, image: 'Images/dragon-fruit.jpg' },
+            { id: 43, name: 'Passion Purple', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Purple passion fruit. Sweet flavor.', inStock: true, image: 'Images/passion-purple.jpg' },
+            { id: 44, name: 'Passion Yellow', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Yellow passion fruit. Tangy taste.', inStock: true, image: 'Images/passion-yellow.jpg' },
+            { id: 45, name: 'Sweet Granadilla', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-flower', description: 'Sweet granadilla. Delicious fruit.', inStock: true, image: 'Images/granadilla.jpg' },
+            { id: 46, name: 'Tree Tomato', category: 'fruit', price: 50, unit: 'seedling', icon: 'fa-apple-whole', description: 'Tree tomato. Unique flavor.', inStock: true, image: 'Images/tree-tomato.jpg' },
+            { id: 47, name: 'Pawpaw Sharp F1', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Sharp pawpaw variety. Tropical fruit.', inStock: true, image: 'Images/pawpaw-sharp.jpg' },
+            { id: 48, name: 'Pawpaw Red Royale', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Red Royale pawpaw. Sweet and creamy.', inStock: true, image: 'Images/pawpaw-redroyale.jpg' },
+            { id: 49, name: 'Pawpaw Sunrise', category: 'fruit', price: 100, unit: 'seedling', icon: 'fa-tree', description: 'Sunrise pawpaw. Early maturing.', inStock: true, image: 'Images/pawpaw-sunrise.jpg' },
+            { id: 50, name: 'Oranges', category: 'fruit', price: 200, unit: 'seedling', icon: 'fa-tree', description: 'Oranges. Vibrant orange flesh.', inStock: true, image: 'Images/orange.jpg' },
+            
         ];
 
         // Initialize
