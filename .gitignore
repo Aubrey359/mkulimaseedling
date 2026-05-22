@@ -3,6 +3,10 @@
 # Except these files
 !.gitignore
 !mku.html
+!favicon.png
+!logo.png
+!Images/Agronamic.png.jpeg
+!Images/workers.png
 !products.html
 !BACKEND_DEPLOYMENT_GUIDE.md
 !package.json
