@@ -15,7 +15,7 @@ let nextProductId = 1;
 let nextOrderId = 1;
 let nextContactId = 1;
 
-// Seed data for in-memory mode — 55 products matching products.html
+// Seed data for in-memory mode — 58 products matching products.html
 const SEED_PRODUCTS = [
   // Tomatoes
   ['Tomato Zara F1',              'vegetable',   4,  'seedling', 'fa-apple-whole', 'High-yield tomato variety. Disease resistant.',           true, 'Images/zara f1.png'],
@@ -33,6 +33,7 @@ const SEED_PRODUCTS = [
   ['Red Cabbage',                 'vegetable',   4,  'seedling', 'fa-leaf',        'Colorful red cabbage. Nutritious and tasty.',             true, 'Images/red cabbage.png'],
   // Spinach
   ['Spinach Fordhook Giant',      'vegetable',   2,  'seedling', 'fa-leaf',        'Large leaf spinach. Fast growing.',                        true, 'Images/spinach-fordhook.jpg'],
+  ['Spinach Giant',               'vegetable',   2,  'seedling', 'fa-leaf',        'Giant spinach variety. Large leaves.',                     true, 'Images/spinach-giant.jpg'],
   // Sukumawiki (Kale)
   ['Sukumawiki Ahadi F1',         'vegetable',   2,  'seedling', 'fa-leaf',        'High yielding sukuma wiki. Disease resistant.',           true, 'Images/sukumawiki-ahadi.jpg'],
   ['Sukumawiki Spinner',          'vegetable',   2,  'seedling', 'fa-leaf',        'Tender leaves. Good for continuous harvest.',               true, 'Images/sukumawiki-spinner.jpg'],
@@ -72,6 +73,10 @@ const SEED_PRODUCTS = [
   ['Cucumber Ashley',             'vegetable',   6,  'seedling', 'fa-leaf',        'Cucumber variety. Good yield.',                             true, 'Images/cucumber-ashley.jpg'],
   // Courgette
   ['Courgette Zucchini',          'vegetable',   6,  'seedling', 'fa-leaf',        'Zucchini squash. Productive variety.',                      true, 'Images/courgette-zucchini.jpg'],
+  // Oranges
+  ['Orange Pixie',                'fruit',       200,'seedling', 'fa-apple-whole', 'Pixie orange variety. Easy to peel.',                      true, 'Images/orange-pixie.jpg'],
+  ['Orange Tangerine',            'fruit',       200,'seedling', 'fa-apple-whole', 'Tangerine orange. Sweet and juicy.',                       true, 'Images/orange-tangerine.jpg'],
+  ['Orange Washington',           'fruit',       200,'seedling', 'fa-apple-whole', 'Washington navel orange. Classic variety.',                true, 'Images/orange-washington.jpg'],
   // Fruits
   ['Hass Avocado',                'fruit',       150,'seedling', 'fa-tree',        'Premium Hass avocado. High market value.',                  true, 'Images/avocado-hass.jpg'],
   ['Strawberry',                  'fruit',       50, 'seedling', 'fa-apple-whole', 'Sweet strawberry. Runner production.',                      true, 'Images/strawberry.jpg'],
@@ -220,6 +225,7 @@ async function initDb() {
         ['Red Cabbage',                 'vegetable',   4,  'seedling', 'fa-leaf',        'Colorful red cabbage. Nutritious and tasty.',             true, 'Images/red cabbage.png'],
         // Spinach
         ['Spinach Fordhook Giant',      'vegetable',   2,  'seedling', 'fa-leaf',        'Large leaf spinach. Fast growing.',                        true, 'Images/spinach-fordhook.jpg'],
+        ['Spinach Giant',               'vegetable',   2,  'seedling', 'fa-leaf',        'Giant spinach variety. Large leaves.',                     true, 'Images/spinach-giant.jpg'],
         // Sukumawiki (Kale)
         ['Sukumawiki Ahadi F1',         'vegetable',   2,  'seedling', 'fa-leaf',        'High yielding sukuma wiki. Disease resistant.',           true, 'Images/sukumawiki-ahadi.jpg'],
         ['Sukumawiki Spinner',          'vegetable',   2,  'seedling', 'fa-leaf',        'Tender leaves. Good for continuous harvest.',               true, 'Images/sukumawiki-spinner.jpg'],
@@ -259,6 +265,10 @@ async function initDb() {
         ['Cucumber Ashley',             'vegetable',   6,  'seedling', 'fa-leaf',        'Cucumber variety. Good yield.',                             true, 'Images/cucumber-ashley.jpg'],
         // Courgette
         ['Courgette Zucchini',          'vegetable',   6,  'seedling', 'fa-leaf',        'Zucchini squash. Productive variety.',                      true, 'Images/courgette-zucchini.jpg'],
+        // Oranges
+        ['Orange Pixie',                'fruit',       200,'seedling', 'fa-apple-whole', 'Pixie orange variety. Easy to peel.',                      true, 'Images/orange-pixie.jpg'],
+        ['Orange Tangerine',            'fruit',       200,'seedling', 'fa-apple-whole', 'Tangerine orange. Sweet and juicy.',                       true, 'Images/orange-tangerine.jpg'],
+        ['Orange Washington',           'fruit',       200,'seedling', 'fa-apple-whole', 'Washington navel orange. Classic variety.',                true, 'Images/orange-washington.jpg'],
         // Fruits
         ['Hass Avocado',                'fruit',       150,'seedling', 'fa-tree',        'Premium Hass avocado. High market value.',                  true, 'Images/avocado-hass.jpg'],
         ['Strawberry',                  'fruit',       50, 'seedling', 'fa-apple-whole', 'Sweet strawberry. Runner production.',                      true, 'Images/strawberry.jpg'],
@@ -294,7 +304,7 @@ async function initDb() {
           [name, category, price, unit, icon, image, description, in_stock]
         );
       }
-      console.log('✅ Seeded 55 products');
+      console.log('✅ Seeded 58 products');
     }
     useDb = true;
     console.log('✅ Database connected');
