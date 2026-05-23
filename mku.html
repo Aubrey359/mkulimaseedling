@@ -144,6 +144,8 @@ section{padding:72px 32px}
 .stock-low{font-size:.68rem;background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:10px;font-weight:700}
 .add-btn{background:var(--green);color:#fff;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:.78rem;font-weight:700;transition:.2s;white-space:nowrap}
 .add-btn:hover{background:var(--green-dark)}
+.qty-input{width:56px;padding:6px 4px;border:2px solid var(--green);border-radius:8px;font-size:.85rem;font-weight:700;text-align:center;color:var(--green-dark);background:#f9fdf9;outline:none;transition:border .2s}
+.qty-input:focus{border-color:var(--green-dark);background:#fff}
 
 /* FULL-WIDTH CTA BANNER */
 .cta-banner{position:relative;padding:80px 32px;text-align:center;overflow:hidden}
@@ -702,6 +704,7 @@ function renderProducts(filter='all'){
             <div class="product-price">KES ${p.price}</div>
             <span class="${p.stock==='in'?'stock-in':'stock-low'}">${p.stock==='in'?'✅ In Stock':'⚠️ Low Stock'}</span>
           </div>
+          <input type="number" class="qty-input" id="qty-${p.id}" value="1" min="1" max="999" title="Number of seedlings">
           <button class="add-btn" onclick="addToCart(${p.id})">+ Cart</button>
         </div>
       </div>
@@ -716,8 +719,11 @@ function filterProducts(cat,btn){
 
 function addToCart(id){
   const p = products.find(p=>p.id===id);
+  const input = document.getElementById('qty-'+id);
+  const qty = input ? Math.max(1, parseInt(input.value)||1) : 1;
   const ex = cart.find(c=>c.id===id);
-  ex ? ex.qty++ : cart.push({...p,qty:1});
+  ex ? ex.qty += qty : cart.push({...p, qty: qty});
+  if(input) input.value = 1;
   updateCartUI();
   openCart();
 }
