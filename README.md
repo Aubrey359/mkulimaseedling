@@ -41,7 +41,7 @@ npm run dev
 ### Access
 
 - **Website**: http://localhost:3000
-- **Admin Password**: Set in `.env` file (default: `mkulima2026`)
+- **Admin Password**: Set in `.env` file (default: `mkulima2026!`)
 
 ## API Endpoints
 

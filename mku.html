@@ -68,7 +68,7 @@ nav{background:rgba(255,255,255,.97);position:sticky;top:0;z-index:200;box-shado
 @media(max-width:600px){.badge-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.2)}}
 
 /* SECTION */
-section{padding:72px 32px}
+section{padding:72px 32px;scroll-margin-top:72px}
 .section-inner{max-width:1200px;margin:auto}
 .section-label{font-size:.78rem;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .section-label::before{content:'';width:32px;height:3px;background:var(--accent);border-radius:2px;display:inline-block}
@@ -246,12 +246,13 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
       <div class="logo-text">MKULIMA Seedlings Ltd<span>Do it right from the start</span></div>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#home" class="active">Home</a></li>
-      <li><a href="#services">Seedlings</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#products">Shop</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+       <li><a href="#home" class="active">Home</a></li>
+       <li><a href="#services">Seedlings</a></li>
+       <li><a href="#about">About</a></li>
+       <li><a href="#products">Shop</a></li>
+       <li><a href="#contact">Contact</a></li>
+       <li><a href="admin.html">Admin</a></li>
+     </ul>
     <div class="nav-right">
       <button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
       <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
@@ -268,7 +269,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 
       <!-- SLIDE 1 -->
       <div class="slide">
-        <div class="slide-bg" style="background-image:url('Images/slide%201.png'),linear-gradient(135deg,#1a4a1a,#2d6a2d)">
+        <div class="slide-bg" style="background-image:url('Images/slide 1.png'),linear-gradient(135deg,#1a4a1a,#2d6a2d)">
           <div class="slide-content">
             <span class="slide-tag">🌱 KDB & KEPHIS Certified</span>
             <h1>Do It Right<br>From The Start</h1>
@@ -298,7 +299,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 
       <!-- SLIDE 3 -->
       <div class="slide">
-        <div class="slide-bg" style="background-image:url('Images/slide%203.png'),linear-gradient(135deg,#1a3a2d,#2d6a50)">
+        <div class="slide-bg" style="background-image:url('Images/slide 3.png'),linear-gradient(135deg,#1a3a2d,#2d6a50)">
           <div class="slide-content">
             <span class="slide-tag">🌿 100% Organic & Certified</span>
             <h1>Empowering Kenyan<br>Farmers to Thrive</h1>
@@ -313,7 +314,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 
       <!-- SLIDE 4 -->
       <div class="slide">
-        <div class="slide-bg" style="background-image:url('Images/slide%204.png'),linear-gradient(135deg,#2d5a1a,#4a8a2d)">
+        <div class="slide-bg" style="background-image:url('Images/slide 4.png'),linear-gradient(135deg,#2d5a1a,#4a8a2d)">
           <div class="slide-content">
             <span class="slide-tag">🥕 Fresh Vegetable Seedlings</span>
             <h1>Premium Vegetable<br>Seedlings Available</h1>
@@ -400,7 +401,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
         <div class="about-slider" id="aboutSlider">
                            <div class="about-slide active" style="background-image:url('Images/workers.png')"></div>
                            <div class="about-slide" style="background-image:url('Images/award.png')"></div>
-                           <div class="about-slide" style="background-image:url('Images/slide%202.png')"></div>
+                           <div class="about-slide" style="background-image:url('Images/slide 2.png')"></div>
                    <div class="about-slider-dots" id="aboutSliderDots">
                      <div class="about-dot active" onclick="goToAboutSlide(0)"></div>
                      <div class="about-dot" onclick="goToAboutSlide(1)"></div>
@@ -452,7 +453,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 
 <!-- CTA BANNER -->
 <div class="cta-banner">
-  <div class="cta-bg" style="background-image:url('Images/slide%202.png'),linear-gradient(135deg,#1a4a1a,#2d6a2d)"></div>
+  <div class="cta-bg" style="background-image:url('Images/slide 2.png'),linear-gradient(135deg,#1a4a1a,#2d6a2d)"></div>
   <div class="cta-content">
     <div class="section-label" style="justify-content:center;color:#a5d6a7">Order Today</div>
     <h2>Ready to Start Growing?</h2>
@@ -579,20 +580,20 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 // ── PRODUCTS DATA ──
 const products = [
   // TOMATOES
-  {id:1,name:"Tomato Zara F1",cat:"vegetable",emoji:"🍅",img:"Images/zara%20f1.png",price:4,desc:"High-yielding F1 hybrid tomato. Disease resistant, excellent for all growing zones.",stock:"in"},
+  {id:1,name:"Tomato Zara F1",cat:"vegetable",emoji:"🍅",img:"Images/zara f1.png",price:4,desc:"High-yielding F1 hybrid tomato. Disease resistant, excellent for all growing zones.",stock:"in"},
   {id:2,name:"Tomato Nova F1",cat:"vegetable",emoji:"🍅",img:"Images/vegetable.png",price:5,desc:"F1 hybrid variety with uniform fruits. Good shelf life and transportability.",stock:"in"},
   {id:3,name:"Tomato Ansal F1",cat:"vegetable",emoji:"🍅",img:"Images/vegetable.png",price:6,desc:"Disease resistant F1 hybrid. Produces large, firm fruits with excellent flavor.",stock:"in"},
-  {id:4,name:"Tomato Terminator F1",cat:"vegetable",emoji:"🍅",img:"Images/terminator%20f1.png",price:4,desc:"High yielding F1 hybrid with good fruit setting. Suitable for greenhouse and open field.",stock:"in"},
+  {id:4,name:"Tomato Terminator F1",cat:"vegetable",emoji:"🍅",img:"Images/terminator f1.png",price:4,desc:"High yielding F1 hybrid with good fruit setting. Suitable for greenhouse and open field.",stock:"in"},
   
   // CABBAGES
-  {id:5,name:"Cabbage Gloria F1",cat:"vegetable",emoji:"🥬",img:"Images/gloria%20f1.png",price:2.5,desc:"F1 hybrid cabbage with excellent head formation. Good for fresh market and storage.",stock:"in"},
+  {id:5,name:"Cabbage Gloria F1",cat:"vegetable",emoji:"🥬",img:"Images/gloria f1.png",price:2.5,desc:"F1 hybrid cabbage with excellent head formation. Good for fresh market and storage.",stock:"in"},
   {id:6,name:"Cabbage Pructor F1",cat:"vegetable",emoji:"🥬",img:"Images/cabbage.png",price:2,desc:"Medium maturity F1 hybrid. Produces firm, round heads with good wrapper leaves.",stock:"in"},
   {id:7,name:"Cabbage Kilimo F1",cat:"vegetable",emoji:"🥬",img:"Images/cabbage.png",price:2,desc:"High yielding variety suitable for commercial production. Good disease resistance.",stock:"in"},
   {id:8,name:"Cabbage Queen F1",cat:"vegetable",emoji:"🥬",img:"Images/cabbage.png",price:2,desc:"F1 hybrid with uniform heads. Excellent for processing and fresh consumption.",stock:"in"},
   {id:9,name:"Cabbage Victoria F1",cat:"vegetable",emoji:"🥬",img:"Images/cabbage.png",price:2,desc:"Reliable F1 hybrid with good head size and excellent storage qualities.",stock:"in"},
   {id:10,name:"Cabbage Faida",cat:"vegetable",emoji:"🥬",img:"Images/cabbage.png",price:2,desc:"Open pollinated variety with good market acceptance. Medium maturity.",stock:"in"},
   {id:11,name:"Cabbage Powerslam",cat:"vegetable",emoji:"🥬",img:"Images/cabbage.png",price:2,desc:"High yielding cabbage variety. Produces large, compact heads.",stock:"in"},
-  {id:12,name:"Red Cabbage",cat:"vegetable",emoji:"🥬",img:"Images/red%20cabbage.png",price:4,desc:"Red/purple cabbage variety. Rich in antioxidants, good for fresh and processing.",stock:"in"},
+  {id:12,name:"Red Cabbage",cat:"vegetable",emoji:"🥬",img:"Images/red cabbage.png",price:4,desc:"Red/purple cabbage variety. Rich in antioxidants, good for fresh and processing.",stock:"in"},
   
   // SPINACH
   {id:13,name:"Spinach Fordhook",cat:"vegetable",emoji:"🥬",img:"Images/lettuce.png",price:2,desc:"Large leaf spinach variety. Tender leaves, excellent for cooking and salads.",stock:"in"},
@@ -610,14 +611,14 @@ const products = [
   {id:21,name:"Capsicum Calypso",cat:"vegetable",emoji:"🫑",img:"Images/vegetable.png",price:4,desc:"Blocky bell pepper variety. Produces uniform fruits with thick walls.",stock:"in"},
   {id:22,name:"Capsicum Superbell",cat:"vegetable",emoji:"🫑",img:"Images/vegetable.png",price:4,desc:"High yielding bell pepper. Good for greenhouse and open field production.",stock:"in"},
   {id:23,name:"Capsicum Superwonder",cat:"vegetable",emoji:"🫑",img:"Images/vegetable.png",price:4,desc:"F1 hybrid with excellent fruit set. Produces large, uniform fruits.",stock:"in"},
-  {id:24,name:"Capsicum Victory Red",cat:"vegetable",emoji:"🫑",img:"Images/red%20thunder.png",price:15,desc:"Red blocky pepper variety. Excellent color and taste. High market value.",stock:"in"},
+  {id:24,name:"Capsicum Victory Red",cat:"vegetable",emoji:"🫑",img:"Images/red thunder.png",price:15,desc:"Red blocky pepper variety. Excellent color and taste. High market value.",stock:"in"},
   {id:25,name:"Capsicum Victory Yellow",cat:"vegetable",emoji:"🫑",img:"Images/vegetable.png",price:15,desc:"Yellow bell pepper with attractive fruits. Good for fresh market and processing.",stock:"in"},
   {id:26,name:"Capsicum Nyuki Yellow",cat:"vegetable",emoji:"🫑",img:"Images/vegetable.png",price:15,desc:"Yellow hot pepper variety. High yielding with good pungency.",stock:"in"},
   {id:27,name:"Capsicum Nyuki Red",cat:"vegetable",emoji:"🫑",img:"Images/vegetable.png",price:15,desc:"Red hot pepper with excellent color. Good for processing and fresh use.",stock:"in"},
   
   // PEPPERS
   {id:28,name:"Pepper Birdseye",cat:"vegetable",emoji:"🌶️",img:"Images/vegetable.png",price:5,desc:"Hot birdseye pepper. Small fruits with intense heat. Good for drying and processing.",stock:"in"},
-  {id:29,name:"Pepper Red Thunder",cat:"vegetable",emoji:"🌶️",img:"Images/red%20thunder.png",price:5,desc:"Red hot pepper variety. High yielding with good fruit size.",stock:"in"},
+  {id:29,name:"Pepper Red Thunder",cat:"vegetable",emoji:"🌶️",img:"Images/red thunder.png",price:5,desc:"Red hot pepper variety. High yielding with good fruit size.",stock:"in"},
   
   // CAULIFLOWER
   {id:30,name:"Cauliflower Bella",cat:"vegetable",emoji:"🥦",img:"Images/vegetable.png",price:3,desc:"White cauliflower with good head formation. Suitable for fresh market.",stock:"in"},
@@ -642,13 +643,13 @@ const products = [
   {id:37,name:"Beetroot",cat:"vegetable",emoji:"🫘",img:"Images/beetroot.png",price:4,desc:"Root vegetable with excellent color and taste. Good for fresh and processing.",stock:"in"},
   
   // CUCUMBER
-  {id:38,name:"Cucumber Ashley",cat:"vegetable",emoji:"🥒",img:"Images/cucumber%20ashley.png",price:6,desc:"F1 hybrid cucumber with excellent fruit quality. Good for greenhouse production.",stock:"in"},
+  {id:38,name:"Cucumber Ashley",cat:"vegetable",emoji:"🥒",img:"Images/cucumber ashley.png",price:6,desc:"F1 hybrid cucumber with excellent fruit quality. Good for greenhouse production.",stock:"in"},
   
   // COURGETTE
-  {id:39,name:"Courgette Zucchini",cat:"vegetable",emoji:"🥒",img:"Images/courgette%20zucchini.png",price:6,desc:"Summer squash variety. High yielding with tender fruits. Good for fresh market.",stock:"in"},
+  {id:39,name:"Courgette Zucchini",cat:"vegetable",emoji:"🥒",img:"Images/courgette zucchini.png",price:6,desc:"Summer squash variety. High yielding with tender fruits. Good for fresh market.",stock:"in"},
   
   // ORANGES
-  {id:40,name:"Orange Pixie",cat:"fruit",emoji:"🍊",img:"Images/orange%20pixie.png",price:200,desc:"Easy peelers variety. Sweet and juicy fruits. Early maturing.",stock:"in"},
+  {id:40,name:"Orange Pixie",cat:"fruit",emoji:"🍊",img:"Images/orange pixie.png",price:200,desc:"Easy peelers variety. Sweet and juicy fruits. Early maturing.",stock:"in"},
   {id:41,name:"Tangarine",cat:"fruit",emoji:"🍊",img:"Images/tangarine.png",price:200,desc:"Mandarin variety with easy peel skin. Sweet flavor, good for fresh consumption.",stock:"in"},
   {id:42,name:"Orange Washington",cat:"fruit",emoji:"🍊",img:"Images/fruit.png",price:200,desc:"Navel orange variety. Seedless with excellent taste. Good storage qualities.",stock:"in"},
   
@@ -675,7 +676,7 @@ const products = [
   {id:52,name:"Passion Sweet Granadilla",cat:"fruit",emoji:"💛",img:"Images/fruit.png",price:50,desc:"Sweet granadilla variety. Delicious flavor with high market value.",stock:"in"},
   
   // TREE TOMATOES
-  {id:53,name:"Tree Tomatoes",cat:"fruit",emoji:"🍅",img:"Images/tree%20tomato.png",price:50,desc:"Tree tomato (tamarillo) seedlings. High yielding with excellent taste.",stock:"in"},
+  {id:53,name:"Tree Tomatoes",cat:"fruit",emoji:"🍅",img:"Images/tree tomato.png",price:50,desc:"Tree tomato (tamarillo) seedlings. High yielding with excellent taste.",stock:"in"},
   
   // PAWPAW (PAPAYA)
   {id:54,name:"Pawpaw Sharp F1",cat:"fruit",emoji:"🥭",img:"Images/fruit.png",price:100,desc:"F1 hybrid papaya with good fruit quality. Disease resistant and high yielding.",stock:"in"},
@@ -806,10 +807,17 @@ resetAboutTimer();
 // ── NAV ──
 function toggleMenu(){document.getElementById('navLinks').classList.toggle('open')}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});document.getElementById('navLinks').classList.remove('open')}
-  });
+   a.addEventListener('click',e=>{
+     const t=document.querySelector(a.getAttribute('href'));
+     if(t){
+       e.preventDefault();
+       t.scrollIntoView({behavior:'smooth'});
+       const navLinks = document.getElementById('navLinks');
+       if (navLinks) {
+         navLinks.classList.remove('open');
+       }
+     }
+   });
 });
 window.addEventListener('scroll',()=>{
   document.getElementById('scrollTop').classList.toggle('show',scrollY>400);

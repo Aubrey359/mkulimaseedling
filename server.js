@@ -3,8 +3,22 @@ const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const app = express();
+
+// ── Admin password hashing ───────────────────────────────────────────────────
+const SALT_ROUNDS = 10;
+let hashedAdminPassword = null;
+const validTokens = new Set(); // Store valid tokens in memory
+
+// Hash the admin password on startup
+async function hashAdminPassword() {
+  if (process.env.ADMIN_PASSWORD) {
+    hashedAdminPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, SALT_ROUNDS);
+    console.log('✅ Admin password hashed and ready');
+  }
+}
 
 // ── In-memory fallback store (used when PostgreSQL is unavailable) ──────────
 let useDb = false;
@@ -137,12 +151,20 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // Admin authentication middleware
-const authenticateAdmin = (req, res, next) => {
+const authenticateAdmin = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader || authHeader !== `Bearer ${process.env.ADMIN_PASSWORD}`) {
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  next();
+  
+  const token = authHeader.substring(7);
+  
+  // Check if token is in the valid tokens set
+  if (validTokens.has(token)) {
+    return next();
+  }
+  
+  return res.status(401).json({ error: 'Unauthorized' });
 };
 
 // ── Database helpers ─────────────────────────────────────────────────────────
@@ -164,6 +186,7 @@ function seedInMemory() {
     inMemoryProducts.push({
       id: nextProductId++,
       name, category, price, unit, icon, description, in_stock, image,
+      inStock: in_stock
     });
   }
   console.log('✅ Seeded', inMemoryProducts.length, 'products (in-memory mode)');
@@ -320,6 +343,9 @@ app.get('/', (_, res) => res.sendFile(path.join(__dirname, 'mku.html')));
 // Products page
 app.get('/products.html', (_, res) => res.sendFile(path.join(__dirname, 'products.html')));
 
+// Admin page
+app.get('/admin.html', (_, res) => res.sendFile(path.join(__dirname, 'admin.html')));
+
 // Serve sitemap.xml with correct content type
 app.get('/sitemap.xml', (_, res) => {
   res.type('application/xml');
@@ -391,11 +417,18 @@ app.post('/api/contacts', async (req, res) => {
 app.post('/api/admin/login', async (req, res) => {
   const { password } = req.body;
 
-  if (password === process.env.ADMIN_PASSWORD) {
-    res.json({
-      success: true,
-      token: 'admin-' + Date.now()
-    });
+  if (hashedAdminPassword && password) {
+    const isValid = await bcrypt.compare(password, hashedAdminPassword);
+    if (isValid) {
+      const token = 'admin-' + Date.now();
+      validTokens.add(token);
+      res.json({
+        success: true,
+        token
+      });
+    } else {
+      res.status(401).json({ error: 'Invalid password' });
+    }
   } else {
     res.status(401).json({ error: 'Invalid password' });
   }
@@ -444,8 +477,133 @@ app.get('/api/admin/contacts', authenticateAdmin, async (_, res) => {
   }
 });
 
+// GET all products (admin)
+app.get('/api/admin/products', authenticateAdmin, async (_, res) => {
+  if (useDb) {
+    const { rows } = await pool.query('SELECT * FROM products ORDER BY id');
+    res.json(rows.map(r => ({ ...r, inStock: r.in_stock })));
+  } else {
+    res.json(inMemoryProducts.map(p => ({ ...p, inStock: p.in_stock })));
+  }
+});
+
+// POST new product (admin)
+app.post('/api/admin/products', authenticateAdmin, async (req, res) => {
+  const { name, category, price, unit, icon, image, description, in_stock } = req.body;
+  
+  // Basic validation
+  if (!name || !category || !price || !image) {
+    return res.status(400).json({ error: 'Name, category, price, and image are required' });
+  }
+  
+  try {
+    if (useDb) {
+      const { rows } = await pool.query(
+        'INSERT INTO products (name, category, price, unit, icon, image, description, in_stock) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
+        [name, category, price, unit || 'seedling', icon || 'fa-seedling', image, description, !!in_stock]
+      );
+      res.json({ success: true, product: { ...rows[0], inStock: rows[0].in_stock } });
+    } else {
+      const product = {
+        id: nextProductId++,
+        name,
+        category,
+        price,
+        unit: unit || 'seedling',
+        icon: icon || 'fa-seedling',
+        image,
+        description: description || '',
+        in_stock: !!in_stock,
+        inStock: !!in_stock
+      };
+      inMemoryProducts.push(product);
+      res.json({ success: true, product });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create product', details: err.message });
+  }
+});
+
+// PUT update product (admin)
+app.put('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
+  const { name, category, price, unit, icon, image, description, in_stock } = req.body;
+  
+  // Basic validation
+  if (!name || !category || !price || !image) {
+    return res.status(400).json({ error: 'Name, category, price, and image are required' });
+  }
+  
+  try {
+    if (useDb) {
+      const { rows } = await pool.query(
+        'UPDATE products SET name=$1, category=$2, price=$3, unit=$4, icon=$5, image=$6, description=$7, in_stock=$8 WHERE id=$9 RETURNING *',
+        [name, category, price, unit || 'seedling', icon || 'fa-seedling', image, description, !!in_stock, req.params.id]
+      );
+      
+      if (rows.length === 0) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      
+      res.json({ success: true, product: { ...rows[0], inStock: rows[0].in_stock } });
+    } else {
+      const productIndex = inMemoryProducts.findIndex(p => p.id === Number(req.params.id));
+      if (productIndex === -1) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      
+      inMemoryProducts[productIndex] = {
+        ...inMemoryProducts[productIndex],
+        name,
+        category,
+        price,
+        unit: unit || 'seedling',
+        icon: icon || 'fa-seedling',
+        image,
+        description: description || '',
+        in_stock: !!in_stock,
+        inStock: !!in_stock
+      };
+      
+      res.json({ success: true, product: inMemoryProducts[productIndex] });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update product', details: err.message });
+  }
+});
+
+// DELETE product (admin)
+app.delete('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
+  try {
+    if (useDb) {
+      const { rows } = await pool.query('DELETE FROM products WHERE id = $1 RETURNING *', [req.params.id]);
+      
+      if (rows.length === 0) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      
+      res.json({ success: true, message: 'Product deleted successfully' });
+    } else {
+      const productIndex = inMemoryProducts.findIndex(p => p.id === Number(req.params.id));
+      if (productIndex === -1) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      
+      inMemoryProducts.splice(productIndex, 1);
+      res.json({ success: true, message: 'Product deleted successfully' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete product', details: err.message });
+  }
+});
+
 // Start
 const PORT = process.env.PORT || 3000;
-initDb()
-  .then(() => app.listen(PORT, () => console.log(`🌱 MKULIMA server running on port ${PORT}`)))
-  .catch(err => { console.error('DB init error:', err); app.listen(PORT, () => console.log(`🌱 MKULIMA server running on port ${PORT} (in-memory mode)`)); });
+async function startServer() {
+  await hashAdminPassword();
+  await initDb().catch(err => {
+    console.error('DB init error:', err);
+    seedInMemory();
+  });
+  app.listen(PORT, () => console.log(`🌱 MKULIMA server running on port ${PORT}`));
+}
+startServer();
