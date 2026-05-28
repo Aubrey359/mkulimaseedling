@@ -345,6 +345,7 @@ app.get('/', (_, res) => res.sendFile(path.join(__dirname, 'mku.html')));
 app.get('/products.html', (_, res) => res.sendFile(path.join(__dirname, 'products.html')));
 
 // Admin page
+app.get('/admin', (_, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 app.get('/admin.html', (_, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
 // Serve sitemap.xml with correct content type
@@ -634,15 +635,3 @@ async function startServer() {
   app.listen(PORT, () => console.log(`🌱 MKULIMA server running on port ${PORT}`));
 }
 startServer();
-""  
-"// POST admin logout"  
-"app.post('/api/admin/logout', authenticateAdmin, async (req, res) => {"  
-"  const authHeader = req.headers.authorization;"  
-"  if (!authHeader || !authHeader.startsWith('Bearer ')) {"  
-"    return res.status(401).json({ error: 'Unauthorized' });"  
-"  }"  
-""  
-"  const token = authHeader.substring(7);"  
-"  validTokens.delete(token);"  
-"  res.json({ success: true, message: 'Logged out successfully' });"  
-"});" 
