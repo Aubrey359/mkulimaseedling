@@ -11,6 +11,7 @@
 !server.js
 !Procfile
 !.env.example
+!admin.html
 !README.md
 # Allow all files in Images folder
 !Images/
@@ -19,5 +20,5 @@
 # Dependencies
 node_modules/
 
-# Database (auto-created, not tracked)
-mkulima.db
+# Environment file (not tracked)
+.env
