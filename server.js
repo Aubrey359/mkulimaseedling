@@ -111,6 +111,12 @@ const SEED_PRODUCTS = [
   ['Pawpaw Red Royale',           'fruit',       150,'seedling', 'fa-tree',        'Red fleshed papaya variety. Sweet taste with excellent market appeal.',                      true, 'Images/redroyal f1.png'],
   ['Pawpaw Vega F1',              'fruit',       200,'seedling', 'fa-tree',        'Premium F1 hybrid papaya. Large fruits with excellent flavor.',                          true, 'Images/pawpaw.png'],
   ['Pawpaw Glory F1',             'fruit',       100,'seedling', 'fa-tree',        'F1 hybrid papaya with good yield potential. Suitable for commercial production.',                 true, 'Images/glory f1.png'],
+  ['Grape', 'forestry', 350, 'seedling', 'fa-tree', 'Grape vine seedlings for planting.', true, 'Images/grape red.png'],
+  ['Gravellia', 'forestry', 30, 'seedling', 'fa-tree', 'Gravellia tree seedlings, fast-growing timber species.', true, 'Images/vegetable.png'],
+  ['Cypress', 'forestry', 50, 'seedling', 'fa-tree', 'Cypress tree seedlings for ornamental and timber use.', true, 'Images/cypress.jpg'],
+  ['Pine', 'forestry', 80, 'seedling', 'fa-tree', 'Pine tree seedlings for reforestation and timber.', true, 'Images/vegetable.png'],
+  ['Whistling Pine', 'forestry', 60, 'seedling', 'fa-tree', 'Whistling pine (Casuarina) seedlings for windbreaks and timber.', true, 'Images/vegetable.png'],
+  ['Eucalyptus', 'forestry', 40, 'seedling', 'fa-tree', 'Eucalyptus tree seedlings for timber and oil production.', true, 'Images/eucalyptus.png'],
 ];
 
 // ── MongoDB connection ───────────────────────────────────────────────────────
