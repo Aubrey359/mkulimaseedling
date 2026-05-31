@@ -480,6 +480,7 @@
                         <option value="forestry">Forestry</option>
                     </select>
                     <button class="btn btn-primary" onclick="loadProducts()"><i class="fas fa-sync-alt"></i> Refresh</button>
+                    <button class="btn btn-primary" onclick="showAddProductModal()"><i class="fas fa-plus"></i> Add Product</button>
                 </div>
                 <div id="products-list" class="table-responsive">
                     <div class="empty-state">
@@ -1095,6 +1096,82 @@
             }
         });
     </script>
+    <script>
+        // Add product functionality
+        let addProductModal = document.getElementById('addProductModal');
+        const closeAddModalBtn = addProductModal.querySelector('.close-btn');
+        const closeAddModalFooterBtn = document.getElementById('closeAddModal');
+        const addProductForm = document.getElementById('addProductForm');
+
+        // Open add product modal
+        window.showAddProductModal = function () {
+            // Reset form
+            addProductForm.reset();
+            // Set default values
+            document.getElementById('addUnit').value = 'seedling';
+            document.getElementById('addIcon').value = 'fa-seedling';
+            document.getElementById('addInStock').checked = true;
+            addProductModal.style.display = 'block';
+        };
+
+        // Close modal
+        function closeAddModal() {
+            addProductModal.style.display = 'none';
+            addProductForm.reset();
+        }
+
+        closeAddModalBtn.addEventListener('click', closeAddModal);
+        closeAddModalFooterBtn.addEventListener('click', closeAddModal);
+        window.addEventListener('click', (e) => {
+            if (e.target === addProductModal) {
+                closeAddModal();
+            }
+        });
+
+        // Handle form submit
+        addProductForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = {
+                name: document.getElementById('addName').value,
+                category: document.getElementById('addCategory').value,
+                price: parseFloat(document.getElementById('addPrice').value),
+                unit: document.getElementById('addUnit').value,
+                icon: document.getElementById('addIcon').value,
+                image: document.getElementById('addImage').value,
+                description: document.getElementById('addDescription').value,
+                in_stock: document.getElementById('addInStock').checked
+            };
+
+            // Validate required fields
+            if (!formData.name || !formData.category || !formData.price || !formData.image) {
+                showToast('Name, category, price, and image are required', true);
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    showToast('Product added successfully');
+                    closeAddModal();
+                    loadProducts(); // Refresh products list
+                    loadDashboardData(); // Refresh stats
+                } else {
+                    const error = await response.json();
+                    showToast(error.error || 'Failed to add product', true);
+                }
+            } catch (error) {
+                showToast('Network error', true);
+            }
+        });
+    </script>
 <!-- Edit Product Modal -->
 <div id="editProductModal" class="modal">
   <div class="modal-content">
@@ -1148,6 +1225,61 @@
       <button type="button" class="btn btn-outline" id="closeEditModal">Cancel</button>
     </form>
   </div>
+</div>
+</div>
+
+<!-- Add Product Modal -->
+<div id="addProductModal" class="modal">
+ <div class="modal-content">
+   <span class="close-btn">&times;</span>
+   <h2>Add New Product</h2>
+   <form id="addProductForm">
+     <div class="form-group">
+       <label for="addName">Name</label>
+       <input type="text" id="addName" class="form-control" required>
+     </div>
+     <div class="form-group">
+       <label for="addCategory">Category</label>
+       <select id="addCategory" class="form-control" required>
+         <option value="">Select Category</option>
+         <option value="fruit">Fruit Trees</option>
+         <option value="vegetable">Vegetables</option>
+         <option value="forestry">Forestry</option>
+         <option value="grain">Grains</option>
+         <option value="cash_crop">Cash Crops</option>
+         <option value="fodder">Fodder</option>
+         <option value="ornamental">Ornamental</option>
+         <option value="tree">Trees</option>
+       </select>
+     </div>
+     <div class="form-group">
+       <label for="addPrice">Price (KES)</label>
+       <input type="number" id="addPrice" class="form-control" required>
+     </div>
+     <div class="form-group">
+       <label for="addUnit">Unit</label>
+       <input type="text" id="addUnit" class="form-control" value="seedling">
+     </div>
+     <div class="form-group">
+       <label for="addIcon">Icon (Font Awesome class)</label>
+       <input type="text" id="addIcon" class="form-control" value="fa-seedling">
+     </div>
+     <div class="form-group">
+       <label for="addImage">Image URL</label>
+       <input type="text" id="addImage" class="form-control" required>
+     </div>
+     <div class="form-group">
+       <label for="addDescription">Description</label>
+       <textarea id="addDescription" class="form-control" rows="3"></textarea>
+     </div>
+     <div class="form-group">
+       <label for="addInStock">In Stock</label>
+       <input type="checkbox" id="addInStock" checked>
+     </div>
+     <button type="submit" class="btn btn-primary">Add Product</button>
+     <button type="button" class="btn btn-outline" id="closeAddModal">Cancel</button>
+   </form>
+ </div>
 </div>
 </body>
 </html>
