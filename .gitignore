@@ -11,7 +11,10 @@
 !server.js
 !Procfile
 !.env.example
+!models/
+!models/*.js
 !admin.html
+!test_mongodb.js
 !README.md
 # Allow all files in Images folder
 !Images/
