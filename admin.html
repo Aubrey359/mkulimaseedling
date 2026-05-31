@@ -354,6 +354,39 @@
                 font-size:0.85rem;
             }
         }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      border-radius: var(--radius);
+    }
+    .close-btn {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close-btn:hover,
+    .close-btn:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
     </style>
 </head>
 <body>
@@ -735,6 +768,9 @@
                                     <button class="btn btn-outline btn-sm" onclick="toggleStock(${product.id}, ${!product.inStock})">
                                         ${product.inStock ? 'Mark Out' : 'Mark In'}
                                     </button>
+                                    <button class="btn btn-outline btn-sm" onclick="editProduct(${product.id})" style="margin-left: 8px;">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
                                 </td>
                             </tr>
                         `).join('')}
@@ -980,6 +1016,138 @@
                 timeoutId = setTimeout(() => func.apply(this, args), delay);
             };
         }
+
+        // Edit product functionality
+        let editProductId = null;
+        const editProductModal = document.getElementById('editProductModal');
+        const closeEditModalBtn = editProductModal.querySelector('.close-btn');
+        const closeEditModalFooterBtn = document.getElementById('closeEditModal');
+        const editProductForm = document.getElementById('editProductForm');
+
+        // Open edit product modal
+        window.editProduct = function (id) {
+            editProductId = id;
+            const product = products.find(p => p.id === id);
+            if (product) {
+                document.getElementById('editProductId').value = product.id;
+                document.getElementById('editName').value = product.name;
+                document.getElementById('editCategory').value = product.category;
+                document.getElementById('editPrice').value = product.price;
+                document.getElementById('editUnit').value = product.unit || 'seedling';
+                document.getElementById('editIcon').value = product.icon || 'fa-seedling';
+                document.getElementById('editImage').value = product.image || '';
+                document.getElementById('editDescription').value = product.description || '';
+                document.getElementById('editInStock').checked = !!product.in_stock;
+                editProductModal.style.display = 'block';
+            }
+        };
+
+        // Close modal
+        function closeEditModal() {
+            editProductModal.style.display = 'none';
+            editProductForm.reset();
+            editProductId = null;
+        }
+
+        closeEditModalBtn.addEventListener('click', closeEditModal);
+        closeEditModalFooterBtn.addEventListener('click', closeEditModal);
+        window.addEventListener('click', (e) => {
+            if (e.target === editProductModal) {
+                closeEditModal();
+            }
+        });
+
+        // Handle form submit
+        editProductForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = {
+                name: document.getElementById('editName').value,
+                category: document.getElementById('editCategory').value,
+                price: parseFloat(document.getElementById('editPrice').value),
+                unit: document.getElementById('editUnit').value,
+                icon: document.getElementById('editIcon').value,
+                image: document.getElementById('editImage').value,
+                description: document.getElementById('editDescription').value,
+                in_stock: document.getElementById('editInStock').checked
+            };
+
+            try {
+                const response = await fetch(`/api/products/${editProductId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    showToast('Product updated successfully');
+                    closeEditModal();
+                    loadProducts(); // Refresh products list
+                    loadDashboardData(); // Refresh stats
+                } else {
+                    const error = await response.json();
+                    showToast(error.error || 'Failed to update product', true);
+                }
+            } catch (error) {
+                showToast('Network error', true);
+            }
+        });
     </script>
+<!-- Edit Product Modal -->
+<div id="editProductModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Edit Product</h2>
+    <form id="editProductForm">
+      <input type="hidden" id="editProductId">
+      <div class="form-group">
+        <label for="editName">Name</label>
+        <input type="text" id="editName" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="editCategory">Category</label>
+        <select id="editCategory" class="form-control" required>
+          <option value="">Select Category</option>
+          <option value="fruit">Fruit Trees</option>
+          <option value="vegetable">Vegetables</option>
+          <option value="forestry">Forestry</option>
+          <option value="grain">Grains</option>
+          <option value="cash_crop">Cash Crops</option>
+          <option value="fodder">Fodder</option>
+          <option value="ornamental">Ornamental</option>
+          <option value="tree">Trees</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="editPrice">Price (KES)</label>
+        <input type="number" id="editPrice" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="editUnit">Unit</label>
+        <input type="text" id="editUnit" class="form-control" value="seedling">
+      </div>
+      <div class="form-group">
+        <label for="editIcon">Icon (Font Awesome class)</label>
+        <input type="text" id="editIcon" class="form-control" value="fa-seedling">
+      </div>
+      <div class="form-group">
+        <label for="editImage">Image URL</label>
+        <input type="text" id="editImage" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="editDescription">Description</label>
+        <textarea id="editDescription" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="editInStock">In Stock</label>
+        <input type="checkbox" id="editInStock">
+      </div>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <button type="button" class="btn btn-outline" id="closeEditModal">Cancel</button>
+    </form>
+  </div>
+</div>
 </body>
 </html>
