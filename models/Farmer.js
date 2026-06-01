@@ -1,48 +1,40 @@
-const { DataTypes } = require('sequelize');
+const { Schema, model } = require('mongoose');
 
-module.exports = (sequelize) => {
-  const Farmer = sequelize.define('Farmer', {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    phone: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
-      validate: {
-        isEmail: true
-      }
-    },
-    location: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    county: {
-      type: DataTypes.STRING
-    },
-    farmSize: {
-      type: DataTypes.STRING
-    },
-    registrationDate: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
-    },
-    status: {
-      type: DataTypes.ENUM('active', 'inactive'),
-      defaultValue: 'active'
+const farmerSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        return !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v);
+      },
+      message: props => `${props.value} is not a valid email`
     }
-  }, {
-    tableName: 'farmers',
-    timestamps: true
-  });
+  },
+  location: {
+    type: String,
+    required: true
+  },
+  county: {
+    type: String
+  },
+  farmSize: {
+    type: String
+  },
+  status: {
+    type: String,
+    enum: ['active', 'inactive'],
+    default: 'active'
+  }
+}, {
+  timestamps: true
+});
 
-  return Farmer;
-};
+module.exports = model('Farmer', farmerSchema);

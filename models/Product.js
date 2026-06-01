@@ -1,47 +1,39 @@
-const { DataTypes } = require('sequelize');
+const { Schema, model } = require('mongoose');
 
-module.exports = (sequelize) => {
-  const Product = sequelize.define('Product', {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    category: {
-      type: DataTypes.ENUM('fruit', 'vegetable', 'forestry', 'ornamental', 'cash_crop', 'fodder'),
-      allowNull: false
-    },
-    price: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
-    },
-    unit: {
-      type: DataTypes.STRING,
-      defaultValue: 'seedling'
-    },
-    icon: {
-      type: DataTypes.STRING,
-      defaultValue: 'fa-seedling'
-    },
-    image: {
-      type: DataTypes.STRING
-    },
-    description: {
-      type: DataTypes.TEXT
-    },
-    inStock: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
-      field: 'in_stock'
-    }
-  }, {
-    tableName: 'products',
-    timestamps: true
-  });
+const productSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    enum: ['fruit', 'vegetable', 'forestry', 'ornamental', 'cash_crop', 'fodder'],
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  unit: {
+    type: String,
+    default: 'seedling'
+  },
+  icon: {
+    type: String,
+    default: 'fa-seedling'
+  },
+  image: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  inStock: {
+    type: Boolean,
+    default: true
+  }
+}, {
+  timestamps: true
+});
 
-  return Product;
-};
+module.exports = model('Product', productSchema);

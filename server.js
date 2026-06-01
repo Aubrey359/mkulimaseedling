@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-const { sequelize, Farmer, Seedling, Distribution, Product, Order, Contact } = require('./models');
+const { connectDB, Farmer, Seedling, Distribution, Product, Order, Contact } = require('./models');
 
 const app = express();
 
@@ -137,26 +137,11 @@ const SEED_PRODUCTS = [
   ['Eucalyptus', 'forestry', 40, 'seedling', 'fa-tree', 'Eucalyptus tree seedlings for timber and oil production.', true, 'Images/eucalyptus.png']
 ];
 
-// ── PostgreSQL connection ─────────────────────────────────────────────────────
-async function connectPostgreSQL() {
-  try {
-    await sequelize.authenticate();
-    console.log('✅ PostgreSQL connected successfully');
-    return true;
-  } catch (err) {
-    console.log('⚠️ PostgreSQL unavailable:', err.message);
-    return false;
-  }
-}
-
-// ── Initialize database ───────────────────────────────────────────────────────
+// ── MongoDB connection ────────────────────────────────────────────────────────
 async function initDb() {
   try {
-    await sequelize.sync({ force: false });
-    console.log('✅ Database tables synchronized');
-    
-    // Seed products only if table is empty
-    const count = await Product.count();
+    // Seed products only if collection is empty
+    const count = await Product.countDocuments();
     if (count === 0) {
       for (const [name, category, price, unit, icon, description, inStock, image] of SEED_PRODUCTS) {
         await Product.create({
@@ -230,8 +215,8 @@ app.get('/robots.txt', (_, res) => {
 // GET all products
 app.get('/api/products', async (_, res) => {
   try {
-    const products = await Product.findAll({ order: [['createdAt', 'ASC']] });
-    res.json(products.map(p => p.toJSON()));
+    const products = await Product.find({}).sort({ createdAt: 1 });
+    res.json(products);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch products' });
   }
@@ -241,7 +226,7 @@ app.get('/api/products', async (_, res) => {
 app.put('/api/products/:id/stock', authenticateAdmin, async (req, res) => {
   const { inStock } = req.body;
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
@@ -263,7 +248,7 @@ app.put('/api/products/:id', authenticateAdmin, async (req, res) => {
   }
 
   try {
-    const product = await Product.findByPk(id);
+    const product = await Product.findById(id);
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
@@ -278,7 +263,7 @@ app.put('/api/products/:id', authenticateAdmin, async (req, res) => {
     product.inStock = !!inStock;
     await product.save();
     
-    res.json({ success: true, product: product.toJSON() });
+    res.json({ success: true, product });
   } catch (err) {
     res.status(500).json({ error: 'Database error' });
   }
@@ -289,9 +274,9 @@ app.post('/api/orders', async (req, res) => {
   const { productId, productName, customerName, phone, quantity, price, delivery } = req.body;
   try {
     const order = await Order.create({
-      productId, productName, customerName, phone, quantity, price, delivery
+      product: productId, productName, customerName, phone, quantity, price, delivery
     });
-    res.json({ success: true, id: order.id });
+    res.json({ success: true, id: order._id });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create order' });
   }
@@ -332,7 +317,7 @@ app.post('/api/admin/login', async (req, res) => {
 // POST reset database (admin only) - clears and re-seeds products
 app.post('/api/admin/reset', authenticateAdmin, async (req, res) => {
   try {
-    await Product.destroy({ where: {} });
+    await Product.deleteMany({});
     
     for (const [name, category, price, unit, icon, description, inStock, image] of SEED_PRODUCTS) {
       await Product.create({
@@ -348,8 +333,8 @@ app.post('/api/admin/reset', authenticateAdmin, async (req, res) => {
 // GET all orders (admin)
 app.get('/api/admin/orders', authenticateAdmin, async (_, res) => {
   try {
-    const orders = await Order.findAll({ order: [['createdAt', 'DESC']] });
-    res.json(orders.map(o => o.toJSON()));
+    const orders = await Order.find({}).sort({ createdAt: -1 });
+    res.json(orders);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch orders' });
   }
@@ -359,13 +344,13 @@ app.get('/api/admin/orders', authenticateAdmin, async (_, res) => {
 app.put('/api/admin/orders/:id', authenticateAdmin, async (req, res) => {
   const { status } = req.body;
   try {
-    const order = await Order.findByPk(req.params.id);
+    const order = await Order.findById(req.params.id);
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
     order.status = status;
     await order.save();
-    res.json({ success: true, order: order.toJSON() });
+    res.json({ success: true, order });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update order', details: err.message });
   }
@@ -374,8 +359,8 @@ app.put('/api/admin/orders/:id', authenticateAdmin, async (req, res) => {
 // GET all contacts (admin)
 app.get('/api/admin/contacts', authenticateAdmin, async (_, res) => {
   try {
-    const contacts = await Contact.findAll({ order: [['createdAt', 'DESC']] });
-    res.json(contacts.map(c => c.toJSON()));
+    const contacts = await Contact.find({}).sort({ createdAt: -1 });
+    res.json(contacts);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch contacts' });
   }
@@ -384,8 +369,8 @@ app.get('/api/admin/contacts', authenticateAdmin, async (_, res) => {
 // GET all products (admin)
 app.get('/api/admin/products', authenticateAdmin, async (_, res) => {
   try {
-    const products = await Product.findAll({ order: [['createdAt', 'ASC']] });
-    res.json(products.map(p => p.toJSON()));
+    const products = await Product.find({}).sort({ createdAt: 1 });
+    res.json(products);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch products' });
   }
@@ -403,7 +388,7 @@ app.post('/api/admin/products', authenticateAdmin, async (req, res) => {
     const product = await Product.create({
       name, category, price, unit: unit || 'seedling', icon: icon || 'fa-seedling', image, description, inStock: !!inStock
     });
-    res.json({ success: true, product: product.toJSON() });
+    res.json({ success: true, product });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create product', details: err.message });
   }
@@ -418,7 +403,7 @@ app.put('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
   }
   
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
@@ -433,7 +418,7 @@ app.put('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
     product.inStock = !!inStock;
     await product.save();
     
-    res.json({ success: true, product: product.toJSON() });
+    res.json({ success: true, product });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update product', details: err.message });
   }
@@ -442,11 +427,10 @@ app.put('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
 // DELETE product (admin)
 app.delete('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
-    await product.destroy();
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete product', details: err.message });
@@ -456,14 +440,14 @@ app.delete('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
 // GET product tracking statistics (admin)
 app.get('/api/admin/products/tracking', authenticateAdmin, async (_, res) => {
   try {
-    const orders = await Order.findAll({ order: [['createdAt', 'DESC']] });
-    const products = await Product.findAll({ order: [['createdAt', 'ASC']] });
+    const orders = await Order.find({}).sort({ createdAt: -1 });
+    const products = await Product.find({}).sort({ createdAt: 1 });
 
     // Build tracking stats per product
     const trackingMap = new Map();
 
     for (const order of orders) {
-      const pid = order.productId;
+      const pid = order.product ? order.product.toString() : order.productId;
       if (!trackingMap.has(pid)) {
         trackingMap.set(pid, {
           productId: pid,
@@ -480,7 +464,7 @@ app.get('/api/admin/products/tracking', authenticateAdmin, async (_, res) => {
       stats.totalQuantity += order.quantity;
       stats.totalRevenue += parseFloat(order.price || 0) * order.quantity;
       stats.statusBreakdown[order.status] = (stats.statusBreakdown[order.status] || 0) + 1;
-      const orderDate = new Date(order.created_at || order.createdAt);
+      const orderDate = new Date(order.createdAt);
       if (!stats.lastOrdered || orderDate > new Date(stats.lastOrdered)) {
         stats.lastOrdered = orderDate.toISOString();
       }
@@ -488,8 +472,8 @@ app.get('/api/admin/products/tracking', authenticateAdmin, async (_, res) => {
 
     // Merge with product details
     const trackingData = products.map(p => {
-      const stats = trackingMap.get(p.id) || {
-        productId: p.id,
+      const stats = trackingMap.get(p._id.toString()) || {
+        productId: p._id,
         productName: p.name,
         totalOrders: 0,
         totalQuantity: 0,
@@ -518,11 +502,8 @@ app.get('/api/admin/products/tracking', authenticateAdmin, async (_, res) => {
 // GET all farmers (admin)
 app.get('/api/admin/farmers', authenticateAdmin, async (req, res) => {
   try {
-    const farmers = await Farmer.findAll({ 
-      order: [['createdAt', 'DESC']],
-      include: [{ model: Seedling, as: 'seedlings' }]
-    });
-    res.json(farmers.map(f => f.toJSON()));
+    const farmers = await Farmer.find({}).sort({ createdAt: -1 }).populate('seedlings');
+    res.json(farmers);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch farmers' });
   }
@@ -540,7 +521,7 @@ app.post('/api/admin/farmers', authenticateAdmin, async (req, res) => {
     const farmer = await Farmer.create({
       name, phone, email, location, county, farmSize
     });
-    res.json({ success: true, farmer: farmer.toJSON() });
+    res.json({ success: true, farmer });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create farmer', details: err.message });
   }
@@ -551,7 +532,7 @@ app.put('/api/admin/farmers/:id', authenticateAdmin, async (req, res) => {
   const { name, phone, email, location, county, farmSize, status } = req.body;
   
   try {
-    const farmer = await Farmer.findByPk(req.params.id);
+    const farmer = await Farmer.findById(req.params.id);
     if (!farmer) {
       return res.status(404).json({ error: 'Farmer not found' });
     }
@@ -565,7 +546,7 @@ app.put('/api/admin/farmers/:id', authenticateAdmin, async (req, res) => {
     farmer.status = status || farmer.status;
     await farmer.save();
     
-    res.json({ success: true, farmer: farmer.toJSON() });
+    res.json({ success: true, farmer });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update farmer', details: err.message });
   }
@@ -574,11 +555,10 @@ app.put('/api/admin/farmers/:id', authenticateAdmin, async (req, res) => {
 // DELETE farmer (admin)
 app.delete('/api/admin/farmers/:id', authenticateAdmin, async (req, res) => {
   try {
-    const farmer = await Farmer.findByPk(req.params.id);
+    const farmer = await Farmer.findByIdAndDelete(req.params.id);
     if (!farmer) {
       return res.status(404).json({ error: 'Farmer not found' });
     }
-    await farmer.destroy();
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete farmer', details: err.message });
@@ -590,11 +570,8 @@ app.delete('/api/admin/farmers/:id', authenticateAdmin, async (req, res) => {
 // GET all seedlings (admin)
 app.get('/api/admin/seedlings', authenticateAdmin, async (req, res) => {
   try {
-    const seedlings = await Seedling.findAll({ 
-      order: [['createdAt', 'DESC']],
-      include: [{ model: Farmer, as: 'farmer' }]
-    });
-    res.json(seedlings.map(s => s.toJSON()));
+    const seedlings = await Seedling.find({}).sort({ createdAt: -1 }).populate('farmer');
+    res.json(seedlings);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch seedlings' });
   }
@@ -602,7 +579,7 @@ app.get('/api/admin/seedlings', authenticateAdmin, async (req, res) => {
 
 // POST new seedling (admin)
 app.post('/api/admin/seedlings', authenticateAdmin, upload.single('image'), async (req, res) => {
-  const { farmerId, name, category, variety, price, quantity, description, datePlanted, expectedHarvest } = req.body;
+  const { farmer, name, category, variety, price, quantity, description, datePlanted, expectedHarvest } = req.body;
   
   if (!name || !category || !price) {
     return res.status(400).json({ error: 'Name, category, and price are required' });
@@ -611,9 +588,9 @@ app.post('/api/admin/seedlings', authenticateAdmin, upload.single('image'), asyn
   try {
     const image = req.file ? '/uploads/' + req.file.filename : null;
     const seedling = await Seedling.create({
-      farmerId, name, category, variety, price, quantity, description, image, datePlanted, expectedHarvest
+      farmer, name, category, variety, price, quantity, description, image, datePlanted, expectedHarvest
     });
-    res.json({ success: true, seedling: seedling.toJSON() });
+    res.json({ success: true, seedling });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create seedling', details: err.message });
   }
@@ -621,15 +598,15 @@ app.post('/api/admin/seedlings', authenticateAdmin, upload.single('image'), asyn
 
 // PUT update seedling (admin)
 app.put('/api/admin/seedlings/:id', authenticateAdmin, upload.single('image'), async (req, res) => {
-  const { farmerId, name, category, variety, price, quantity, description, datePlanted, expectedHarvest, status } = req.body;
+  const { farmer, name, category, variety, price, quantity, description, datePlanted, expectedHarvest, status } = req.body;
   
   try {
-    const seedling = await Seedling.findByPk(req.params.id);
+    const seedling = await Seedling.findById(req.params.id);
     if (!seedling) {
       return res.status(404).json({ error: 'Seedling not found' });
     }
     
-    seedling.farmerId = farmerId || seedling.farmerId;
+    seedling.farmer = farmer || seedling.farmer;
     seedling.name = name || seedling.name;
     seedling.category = category || seedling.category;
     seedling.variety = variety;
@@ -645,7 +622,7 @@ app.put('/api/admin/seedlings/:id', authenticateAdmin, upload.single('image'), a
     }
     
     await seedling.save();
-    res.json({ success: true, seedling: seedling.toJSON() });
+    res.json({ success: true, seedling });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update seedling', details: err.message });
   }
@@ -654,11 +631,10 @@ app.put('/api/admin/seedlings/:id', authenticateAdmin, upload.single('image'), a
 // DELETE seedling (admin)
 app.delete('/api/admin/seedlings/:id', authenticateAdmin, async (req, res) => {
   try {
-    const seedling = await Seedling.findByPk(req.params.id);
+    const seedling = await Seedling.findByIdAndDelete(req.params.id);
     if (!seedling) {
       return res.status(404).json({ error: 'Seedling not found' });
     }
-    await seedling.destroy();
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete seedling', details: err.message });
@@ -670,14 +646,8 @@ app.delete('/api/admin/seedlings/:id', authenticateAdmin, async (req, res) => {
 // GET all distributions (admin)
 app.get('/api/admin/distributions', authenticateAdmin, async (req, res) => {
   try {
-    const distributions = await Distribution.findAll({ 
-      order: [['distributionDate', 'DESC']],
-      include: [
-        { model: Seedling, as: 'seedling' },
-        { model: Farmer, as: 'farmer' }
-      ]
-    });
-    res.json(distributions.map(d => d.toJSON()));
+    const distributions = await Distribution.find({}).sort({ distributionDate: -1 }).populate('seedling farmer');
+    res.json(distributions);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch distributions' });
   }
@@ -685,17 +655,17 @@ app.get('/api/admin/distributions', authenticateAdmin, async (req, res) => {
 
 // POST new distribution (admin)
 app.post('/api/admin/distributions', authenticateAdmin, async (req, res) => {
-  const { seedlingId, farmerId, quantity, destination, county, distributedBy, notes } = req.body;
+  const { seedling, farmer, quantity, destination, county, distributedBy, notes } = req.body;
   
-  if (!seedlingId || !quantity || !destination) {
+  if (!seedling || !quantity || !destination) {
     return res.status(400).json({ error: 'Seedling ID, quantity, and destination are required' });
   }
   
   try {
     const distribution = await Distribution.create({
-      seedlingId, farmerId, quantity, destination, county, distributedBy, notes
+      seedling, farmer, quantity, destination, county, distributedBy, notes
     });
-    res.json({ success: true, distribution: distribution.toJSON() });
+    res.json({ success: true, distribution });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create distribution', details: err.message });
   }
@@ -706,7 +676,7 @@ app.put('/api/admin/distributions/:id', authenticateAdmin, async (req, res) => {
   const { status, notes } = req.body;
   
   try {
-    const distribution = await Distribution.findByPk(req.params.id);
+    const distribution = await Distribution.findById(req.params.id);
     if (!distribution) {
       return res.status(404).json({ error: 'Distribution not found' });
     }
@@ -715,7 +685,7 @@ app.put('/api/admin/distributions/:id', authenticateAdmin, async (req, res) => {
     distribution.notes = notes !== undefined ? notes : distribution.notes;
     await distribution.save();
     
-    res.json({ success: true, distribution: distribution.toJSON() });
+    res.json({ success: true, distribution });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update distribution', details: err.message });
   }
@@ -724,11 +694,10 @@ app.put('/api/admin/distributions/:id', authenticateAdmin, async (req, res) => {
 // DELETE distribution (admin)
 app.delete('/api/admin/distributions/:id', authenticateAdmin, async (req, res) => {
   try {
-    const distribution = await Distribution.findByPk(req.params.id);
+    const distribution = await Distribution.findByIdAndDelete(req.params.id);
     if (!distribution) {
       return res.status(404).json({ error: 'Distribution not found' });
     }
-    await distribution.destroy();
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete distribution', details: err.message });
@@ -740,7 +709,7 @@ const PORT = process.env.PORT || 3000;
 
 async function start() {
   await hashAdminPassword();
-  await connectPostgreSQL();
+  await connectDB();
   await initDb();
   
   app.listen(PORT, () => {

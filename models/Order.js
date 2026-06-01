@@ -1,55 +1,40 @@
-const { DataTypes } = require('sequelize');
+const { Schema, model } = require('mongoose');
 
-module.exports = (sequelize) => {
-  const Order = sequelize.define('Order', {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
-    },
-    productId: {
-      type: DataTypes.UUID,
-      references: {
-        model: 'products',
-        key: 'id'
-      },
-      field: 'product_id'
-    },
-    productName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      field: 'product_name'
-    },
-    customerName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      field: 'customer_name'
-    },
-    phone: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    price: {
-      type: DataTypes.DECIMAL(10, 2)
-    },
-    delivery: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    status: {
-      type: DataTypes.ENUM('pending', 'confirmed', 'shipped', 'delivered', 'cancelled'),
-      defaultValue: 'pending'
-    }
-  }, {
-    tableName: 'orders',
-    timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at'
-  });
+const orderSchema = new Schema({
+  product: {
+    type: Schema.Types.ObjectId,
+    ref: 'Product'
+  },
+  productName: {
+    type: String,
+    required: true
+  },
+  customerName: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: String,
+    required: true
+  },
+  quantity: {
+    type: Number,
+    required: true
+  },
+  price: {
+    type: Number
+  },
+  delivery: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'],
+    default: 'pending'
+  }
+}, {
+  timestamps: true
+});
 
-  return Order;
-};
+module.exports = model('Order', orderSchema);

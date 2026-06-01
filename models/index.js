@@ -1,41 +1,31 @@
-const { Sequelize } = require('sequelize');
-const config = require('../config/database.js');
-
-const env = process.env.NODE_ENV || 'development';
-const dbConfig = config[env];
-
-const sequelize = new Sequelize(dbConfig.url, {
-  dialect: 'postgres',
-  dialectModule: require('pg'),
-  logging: false,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-});
+const { connectDB, mongoose } = require('../config/database');
 
 // Import models
-const Farmer = require('./Farmer')(sequelize);
-const Seedling = require('./Seedling')(sequelize);
-const Distribution = require('./Distribution')(sequelize);
-const Product = require('./Product')(sequelize);
-const Order = require('./Order')(sequelize);
-const Contact = require('./Contact')(sequelize);
+const Farmer = require('./Farmer');
+const Seedling = require('./Seedling');
+const Distribution = require('./Distribution');
+const Product = require('./Product');
+const Order = require('./Order');
+const Contact = require('./Contact');
 
-// Define associations
-Farmer.hasMany(Seedling, { foreignKey: 'farmerId', as: 'seedlings' });
-Seedling.belongsTo(Farmer, { foreignKey: 'farmerId', as: 'farmer' });
+// Define associations (for virtual populate)
+Seedling.schema.virtual('distributions', {
+  ref: 'Distribution',
+  localField: '_id',
+  foreignField: 'seedling',
+  justOne: false
+});
 
-Seedling.hasMany(Distribution, { foreignKey: 'seedlingId', as: 'distributions' });
-Distribution.belongsTo(Seedling, { foreignKey: 'seedlingId', as: 'seedling' });
-
-Product.hasMany(Order, { foreignKey: 'productId', as: 'orders' });
-Order.belongsTo(Product, { foreignKey: 'productId', as: 'product' });
+Product.schema.virtual('orders', {
+  ref: 'Order',
+  localField: '_id',
+  foreignField: 'product',
+  justOne: false
+});
 
 module.exports = {
-  sequelize,
+  connectDB,
+  mongoose,
   Farmer,
   Seedling,
   Distribution,

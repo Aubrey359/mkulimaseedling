@@ -1,70 +1,58 @@
-const { DataTypes } = require('sequelize');
+const { Schema, model } = require('mongoose');
 
-module.exports = (sequelize) => {
-  const Seedling = sequelize.define('Seedling', {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
-    },
-    farmerId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'farmers',
-        key: 'id'
-      }
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    category: {
-      type: DataTypes.ENUM('fruit', 'vegetable', 'forestry', 'ornamental', 'cash_crop', 'fodder'),
-      allowNull: false
-    },
-    variety: {
-      type: DataTypes.STRING
-    },
-    price: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
-    },
-    unit: {
-      type: DataTypes.STRING,
-      defaultValue: 'seedling'
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0
-    },
-    description: {
-      type: DataTypes.TEXT
-    },
-    image: {
-      type: DataTypes.STRING
-    },
-    inStock: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
-      field: 'in_stock'
-    },
-    datePlanted: {
-      type: DataTypes.DATE,
-      field: 'date_planted'
-    },
-    expectedHarvest: {
-      type: DataTypes.DATE,
-      field: 'expected_harvest'
-    },
-    status: {
-      type: DataTypes.ENUM('growing', 'ready', 'distributed', 'sold'),
-      defaultValue: 'growing'
-    }
-  }, {
-    tableName: 'seedlings',
-    timestamps: true
-  });
+const seedlingSchema = new Schema({
+  farmer: {
+    type: Schema.Types.ObjectId,
+    ref: 'Farmer',
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    enum: ['fruit', 'vegetable', 'forestry', 'ornamental', 'cash_crop', 'fodder'],
+    required: true
+  },
+  variety: {
+    type: String
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  unit: {
+    type: String,
+    default: 'seedling'
+  },
+  quantity: {
+    type: Number,
+    default: 0
+  },
+  description: {
+    type: String
+  },
+  image: {
+    type: String
+  },
+  inStock: {
+    type: Boolean,
+    default: true
+  },
+  datePlanted: {
+    type: Date
+  },
+  expectedHarvest: {
+    type: Date
+  },
+  status: {
+    type: String,
+    enum: ['growing', 'ready', 'distributed', 'sold'],
+    default: 'growing'
+  }
+}, {
+  timestamps: true
+});
 
-  return Seedling;
-};
+module.exports = model('Seedling', seedlingSchema);

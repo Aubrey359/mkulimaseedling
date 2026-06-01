@@ -1,19 +1,19 @@
 {
   "name": "mkulima-seedlings-backend",
   "version": "1.0.0",
-  "description": "Seedling tracking app with PostgreSQL - Store farmers, seedlings, distribution",
+  "description": "Seedling tracking app with MongoDB - Store farmers, seedlings, distribution",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
-    "migrate": "node scripts/migrate.js"
+    "dev": "nodemon server.js"
   },
   "keywords": [
     "seedlings",
     "kenya",
     "agriculture",
     "api",
-    "postgresql",
+    "mongodb",
+    "mongoose",
     "farmers",
     "distribution"
   ],
@@ -24,9 +24,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "multer": "^1.4.5-lts.1",
-    "pg": "^8.12.0",
-    "sequelize": "^6.37.3"
+    "mongoose": "^8.5.0",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
