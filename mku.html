@@ -149,7 +149,7 @@ section{padding:72px 32px;scroll-margin-top:72px}
 
 /* FULL-WIDTH CTA BANNER */
 .cta-banner{position:relative;padding:80px 32px;text-align:center;overflow:hidden}
-.cta-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.cta-bg{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:center}
 .cta-bg::after{content:'';position:absolute;inset:0;background:rgba(20,60,20,.75)}
 .cta-content{position:relative;z-index:2;max-width:620px;margin:auto}
 .cta-content h2{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:#fff;margin-bottom:14px}
@@ -453,7 +453,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 
 <!-- CTA BANNER -->
 <div class="cta-banner">
-  <div class="cta-bg" style="background-image:url('Images/slide 2.png'),linear-gradient(135deg,#1a4a1a,#2d6a2d)"></div>
+  <div class="cta-bg" style="background-image:url('Images/IMG-20260601-WA0034.jpg'),linear-gradient(135deg,#1a4a1a,#2d6a2d)"></div>
   <div class="cta-content">
     <div class="section-label" style="justify-content:center;color:#a5d6a7">Order Today</div>
     <h2>Ready to Start Growing?</h2>
@@ -576,7 +576,20 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 <a class="wa-float" href="https://wa.me/254711844850" target="_blank" title="Chat on WhatsApp">💬</a>
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+<!-- Toast Notification -->
+<div class="toast" id="toast">✅ <span id="toast-message"></span></div>
+
 <script>
+// Toast notification helper
+function showToast(message, isError = false) {
+  const toast = document.getElementById('toast');
+  const msg = document.getElementById('toast-message');
+  msg.textContent = message;
+  toast.classList.toggle('error', isError);
+  toast.style.display = 'flex';
+  setTimeout(() => { toast.style.display = 'none'; }, 3000);
+}
+// ── PRODUCTS DATA ──
 // ── PRODUCTS DATA ──
 let products = [];
 let cart = [];
@@ -616,57 +629,59 @@ const FALLBACK_PRODUCTS = [
   {id:26, name:'Capsicum Nyuki Yellow',   cat:'vegetable', emoji:'🫑', img:'Images/vegetable.png',         price:15,  desc:'Yellow hot pepper variety. High yielding with good pungency.', stock:'in'},
   {id:27, name:'Capsicum Nyuki Red',      cat:'vegetable', emoji:'🫑', img:'Images/tracy f1.png',          price:15,  desc:'Red hot pepper with excellent color. Good for processing and fresh use.', stock:'in'},
   // PEPPERS
-  {id:28, name:'Pepper Birdseye',         cat:'vegetable', emoji:'🌶️', img:'Images/vegetable.png',         price:5,   desc:'Hot birdseye pepper. Small fruits with intense heat. Good for drying and processing.', stock:'in'},
+  {id:28, name:'Pepper Birdseye',         cat:'vegetable', emoji:'🌶️', img:'Images/IMG-20260601-WA0026.jpg',         price:5,   desc:'Hot birdseye pepper. Small fruits with intense heat. Good for drying and processing.', stock:'in'},
   {id:29, name:'Pepper Red Thunder',      cat:'vegetable', emoji:'🌶️', img:'Images/red thunder.png',       price:5,   desc:'Red hot pepper variety. High yielding with good fruit size.', stock:'in'},
   // CAULIFLOWER
   {id:30, name:'Cauliflower Bella',       cat:'vegetable', emoji:'🥦', img:'Images/vegetable.png',         price:3,   desc:'White cauliflower with good head formation. Suitable for fresh market.', stock:'in'},
   // BROCCOLI
   {id:31, name:'Broccoli Titanic',        cat:'vegetable', emoji:'🥦', img:'Images/vegetable.png',         price:3,   desc:'Large head broccoli variety. Good for commercial production and fresh market.', stock:'in'},
-  {id:32, name:'Broccoli Harriet',        cat:'vegetable', emoji:'🥦', img:'Images/vegetable.png',         price:3,   desc:'F1 hybrid broccoli with excellent head quality. Good disease resistance.', stock:'in'},
+  {id:32, name:'Broccoli Harriet',        cat:'vegetable', emoji:'🥦', img:'Images/IMG-20260601-WA0021.jpg',         price:3,   desc:'F1 hybrid broccoli with excellent head quality. Good disease resistance.', stock:'in'},
+  // BANANA
+  {id:33, name:'Banana',                  cat:'fruit',     emoji:'🍌', img:'Images/banana.jpg',             price:700, desc:'Fresh banana seedlings for planting.', stock:'in'},
   // WATERMELON
-  {id:33, name:'Watermelon Sukari',       cat:'fruit',     emoji:'🍉', img:'Images/eggplantblackbeauty.png', price:6, desc:'Sweet red fleshed watermelon. High sugar content, excellent for fresh consumption.', stock:'in'},
+  {id:34, name:'Watermelon Sukari',       cat:'fruit',     emoji:'🍉', img:'Images/eggplantblackbeauty.png', price:6, desc:'Sweet red fleshed watermelon. High sugar content, excellent for fresh consumption.', stock:'in'},
   // TERERE & MANAGU
-  {id:34, name:'Terere Amaranthus',       cat:'vegetable', emoji:'🌿', img:'Images/amaranthus.png',        price:2,   desc:'Traditional leafy vegetable. Fast growing with excellent nutritional value.', stock:'in'},
-  {id:35, name:'Managu Giant Nightshade', cat:'vegetable', emoji:'🌿', img:'Images/hybridmanagu.png',      price:2,   desc:'Leafy nightshade variety. Popular traditional vegetable with good market demand.', stock:'in'},
+  {id:35, name:'Terere Amaranthus',       cat:'vegetable', emoji:'🌿', img:'Images/amaranthus.png',        price:2,   desc:'Traditional leafy vegetable. Fast growing with excellent nutritional value.', stock:'in'},
+  {id:36, name:'Managu Giant Nightshade', cat:'vegetable', emoji:'🌿', img:'Images/hybridmanagu.png',      price:2,   desc:'Leafy nightshade variety. Popular traditional vegetable with good market demand.', stock:'in'},
   // LETTUCE, BEETROOT, CUCUMBER, COURGETTE
-  {id:36, name:'Lettuce',                 cat:'vegetable', emoji:'🥗', img:'Images/tracy f1.png',          price:3,   desc:'Leafy lettuce variety. Good for salads and fresh consumption.', stock:'in'},
-  {id:37, name:'Beetroot',                cat:'vegetable', emoji:'🫚', img:'Images/beetroot.png',          price:4,   desc:'Root vegetable with excellent color and taste. Good for fresh and processing.', stock:'in'},
-  {id:38, name:'Cucumber Ashley',         cat:'vegetable', emoji:'🥒', img:'Images/ashley f1.png',         price:6,   desc:'F1 hybrid cucumber with excellent fruit quality. Good for greenhouse production.', stock:'in'},
-  {id:39, name:'Courgette Zucchini',      cat:'vegetable', emoji:'🥒', img:'Images/courgette.png',         price:6,   desc:'Summer squash variety. High yielding with tender fruits. Good for fresh market.', stock:'in'},
+  {id:37, name:'Lettuce',                 cat:'vegetable', emoji:'🥗', img:'Images/tracy f1.png',          price:3,   desc:'Leafy lettuce variety. Good for salads and fresh consumption.', stock:'in'},
+  {id:38, name:'Beetroot',                cat:'vegetable', emoji:'🫚', img:'Images/beetroot.png',          price:4,   desc:'Root vegetable with excellent color and taste. Good for fresh and processing.', stock:'in'},
+  {id:39, name:'Cucumber Ashley',         cat:'vegetable', emoji:'🥒', img:'Images/ashley f1.png',         price:6,   desc:'F1 hybrid cucumber with excellent fruit quality. Good for greenhouse production.', stock:'in'},
+  {id:40, name:'Courgette Zucchini',      cat:'vegetable', emoji:'🥒', img:'Images/courgette.png',         price:6,   desc:'Summer squash variety. High yielding with tender fruits. Good for fresh market.', stock:'in'},
   // ORANGES
-  {id:40, name:'Orange Pixie',            cat:'fruit',     emoji:'🍊', img:'Images/pixie.jpg',      price:200, desc:'Easy peelers variety. Sweet and juicy fruits. Early maturing.', stock:'in'},
-  {id:41, name:'Tangarine',              cat:'fruit',     emoji:'🍊', img:'Images/Tangarine orange.png',  price:200, desc:'Mandarin variety with easy peel skin. Sweet flavor, good for fresh consumption.', stock:'in'},
-  {id:42, name:'Orange Washington',      cat:'fruit',     emoji:'🍊', img:'Images/washington.png',        price:200, desc:'Navel orange variety. Seedless with excellent taste. Good storage qualities.', stock:'in'},
+  {id:41, name:'Orange Pixie',            cat:'fruit',     emoji:'🍊', img:'Images/pixie.jpg',      price:200, desc:'Easy peelers variety. Sweet and juicy fruits. Early maturing.', stock:'in'},
+  {id:42, name:'Tangarine',              cat:'fruit',     emoji:'🍊', img:'Images/Tangarine orange.png',  price:200, desc:'Mandarin variety with easy peel skin. Sweet flavor, good for fresh consumption.', stock:'in'},
+  {id:43, name:'Orange Washington',      cat:'fruit',     emoji:'🍊', img:'Images/washington.png',        price:200, desc:'Navel orange variety. Seedless with excellent taste. Good storage qualities.', stock:'in'},
   // AVOCADO
-  {id:43, name:'Hass Avocado',           cat:'fruit',     emoji:'🥑', img:'Images/Grafted hass ovacado.png', price:150, desc:'Premium grafted Hass avocado. High yield, disease resistant. Ideal for export.', stock:'in'},
+  {id:44, name:'Hass Avocado',           cat:'fruit',     emoji:'🥑', img:'Images/Grafted hass ovacado.png', price:150, desc:'Premium grafted Hass avocado. High yield, disease resistant. Ideal for export.', stock:'in'},
   // STRAWBERRY
-  {id:44, name:'Strawberry',             cat:'fruit',     emoji:'🍓', img:'Images/straw.png',             price:50,  desc:'Sweet strawberry variety. High yielding with excellent fruit quality.', stock:'in'},
+  {id:45, name:'Strawberry',             cat:'fruit',     emoji:'🍓', img:'Images/straw.png',             price:50,  desc:'Sweet strawberry variety. High yielding with excellent fruit quality.', stock:'in'},
   // MANGOES
-  {id:45, name:'Mango Tommy',            cat:'fruit',     emoji:'🥭', img:'Images/mangoes.png',           price:150, desc:'Local mango variety with excellent flavor. Good for fresh consumption.', stock:'in'},
-  {id:46, name:'Apple Mangoes',          cat:'fruit',     emoji:'🥭', img:'Images/applemangos.png',       price:150, desc:'Apple mango variety with fiberless flesh. Sweet taste and aromatic.', stock:'in'},
+  {id:46, name:'Mango Tommy',            cat:'fruit',     emoji:'🥭', img:'Images/mangoes.png',           price:150, desc:'Local mango variety with excellent flavor. Good for fresh consumption.', stock:'in'},
+  {id:47, name:'Apple Mangoes',          cat:'fruit',     emoji:'🥭', img:'Images/applemangos.png',       price:150, desc:'Apple mango variety with fiberless flesh. Sweet taste and aromatic.', stock:'in'},
   // APPLES
-  {id:47, name:'Green Apple',            cat:'fruit',     emoji:'🍏', img:'Images/greenapple.png',        price:500, desc:'Green apple variety with tart flavor. Good for processing and fresh market.', stock:'in'},
-  {id:48, name:'Red Apple',              cat:'fruit',     emoji:'🍎', img:'Images/redapple.png',          price:500, desc:'Red apple tree. Sweet fruits.', stock:'in'},
+  {id:48, name:'Green Apple',            cat:'fruit',     emoji:'🍏', img:'Images/greenapple.png',        price:500, desc:'Green apple variety with tart flavor. Good for processing and fresh market.', stock:'in'},
+  {id:49, name:'Red Apple',              cat:'fruit',     emoji:'🍎', img:'Images/redapple.png',          price:500, desc:'Red apple tree. Sweet fruits.', stock:'in'},
   // DRAGON FRUIT
-  {id:49, name:'Dragon Fruit',           cat:'fruit',     emoji:'🐉', img:'Images/dragonf.png',           price:450, desc:'Exotic dragon fruit plant. High value crop with growing market demand.', stock:'in'},
+  {id:50, name:'Dragon Fruit',           cat:'fruit',     emoji:'🐉', img:'Images/dragonf.png',           price:450, desc:'Exotic dragon fruit plant. High value crop with growing market demand.', stock:'in'},
   // PASSION FRUIT
-  {id:50, name:'Purple Passion',         cat:'fruit',     emoji:'🌺', img:'Images/grafted passion p.png', price:50,  desc:'Purple passion fruit variety. High yielding with excellent flavor.', stock:'in'},
-  {id:51, name:'Yellow Passion',         cat:'fruit',     emoji:'🌺', img:'Images/yellowpassion.png',     price:50,  desc:'Yellow passion fruit variety. Good for juice production and fresh market.', stock:'in'},
-  {id:52, name:'Sweet Granadilla',       cat:'fruit',     emoji:'🌺', img:'Images/purple passion.png',    price:50,  desc:'Sweet granadilla variety. Delicious flavor with high market value.', stock:'in'},
+  {id:51, name:'Purple Passion',         cat:'fruit',     emoji:'🌺', img:'Images/grafted passion p.png', price:50,  desc:'Purple passion fruit variety. High yielding with excellent flavor.', stock:'in'},
+  {id:52, name:'Yellow Passion',         cat:'fruit',     emoji:'🌺', img:'Images/yellowpassion.png',     price:50,  desc:'Yellow passion fruit variety. Good for juice production and fresh market.', stock:'in'},
+  {id:53, name:'Sweet Granadilla',       cat:'fruit',     emoji:'🌺', img:'Images/purple passion.png',    price:50,  desc:'Sweet granadilla variety. Delicious flavor with high market value.', stock:'in'},
   // TREE TOMATOES
-  {id:53, name:'Tree Tomatoes',          cat:'fruit',     emoji:'🍅', img:'Images/tree tomatoes.png',     price:50,  desc:'Tree tomato (tamarillo) seedlings. High yielding with excellent taste.', stock:'in'},
+  {id:54, name:'Tree Tomatoes',          cat:'fruit',     emoji:'🍅', img:'Images/tree tomatoes.png',     price:50,  desc:'Tree tomato (tamarillo) seedlings. High yielding with excellent taste.', stock:'in'},
   // PAWPAW
-  {id:54, name:'Pawpaw Sharp F1',        cat:'fruit',     emoji:'🍈', img:'Images/sharp f1.png',          price:100, desc:'F1 hybrid papaya with good fruit quality. Disease resistant and high yielding.', stock:'in'},
-  {id:55, name:'Pawpaw Red Royale',      cat:'fruit',     emoji:'🍈', img:'Images/redroyal f1.png',       price:150, desc:'Red fleshed papaya variety. Sweet taste with excellent market appeal.', stock:'in'},
-  {id:56, name:'Pawpaw Vega F1',         cat:'fruit',     emoji:'🍈', img:'Images/pawpaw.png',            price:200, desc:'Premium F1 hybrid papaya. Large fruits with excellent flavor.', stock:'in'},
-  {id:57, name:'Pawpaw Glory F1',        cat:'fruit',     emoji:'🍈', img:'Images/glory f1.png',          price:100, desc:'F1 hybrid papaya with good yield potential. Suitable for commercial production.', stock:'in'},
+  {id:55, name:'Pawpaw Sharp F1',        cat:'fruit',     emoji:'🍈', img:'Images/sharp f1.png',          price:100, desc:'F1 hybrid papaya with good fruit quality. Disease resistant and high yielding.', stock:'in'},
+  {id:56, name:'Pawpaw Red Royale',      cat:'fruit',     emoji:'🍈', img:'Images/redroyal f1.png',       price:150, desc:'Red fleshed papaya variety. Sweet taste with excellent market appeal.', stock:'in'},
+  {id:57, name:'Pawpaw Vega F1',         cat:'fruit',     emoji:'🍈', img:'Images/pawpaw.png',            price:200, desc:'Premium F1 hybrid papaya. Large fruits with excellent flavor.', stock:'in'},
+  {id:58, name:'Pawpaw Glory F1',        cat:'fruit',     emoji:'🍈', img:'Images/glory f1.png',          price:100, desc:'F1 hybrid papaya with good yield potential. Suitable for commercial production.', stock:'in'},
   // FORESTRY
-  {id:58, name:'Grape',                  cat:'forestry',  emoji:'🍇', img:'Images/grape red.png',         price:350, desc:'Grape vine seedlings for planting.', stock:'in'},
-  {id:59, name:'Gravellia',              cat:'forestry',  emoji:'🌳', img:'Images/vegetable.png',         price:30,  desc:'Gravellia tree seedlings, fast-growing timber species.', stock:'in'},
-  {id:60, name:'Cypress',               cat:'forestry',  emoji:'🌲', img:'Images/cypress.jpg',           price:50,  desc:'Cypress tree seedlings for ornamental and timber use.', stock:'in'},
-  {id:61, name:'Pine',                   cat:'forestry',  emoji:'🌲', img:'Images/vegetable.png',         price:80,  desc:'Pine tree seedlings for reforestation and timber.', stock:'in'},
-  {id:62, name:'Whistling Pine',         cat:'forestry',  emoji:'🌲', img:'Images/vegetable.png',         price:60,  desc:'Whistling pine (Casuarina) seedlings for windbreaks and timber.', stock:'in'},
-  {id:63, name:'Eucalyptus',             cat:'forestry',  emoji:'🌳', img:'Images/eucalyptus.png',        price:40,  desc:'Eucalyptus tree seedlings for timber and oil production.', stock:'in'},
+  {id:59, name:'Grape',                  cat:'forestry',  emoji:'🍇', img:'Images/grape red.png',         price:350, desc:'Grape vine seedlings for planting.', stock:'in'},
+  {id:60, name:'Gravellia',              cat:'forestry',  emoji:'🌳', img:'Images/vegetable.png',         price:30,  desc:'Gravellia tree seedlings, fast-growing timber species.', stock:'in'},
+  {id:61, name:'Cypress',               cat:'forestry',  emoji:'🌲', img:'Images/cypress.jpg',           price:50,  desc:'Cypress tree seedlings for ornamental and timber use.', stock:'in'},
+  {id:62, name:'Pine',                   cat:'forestry',  emoji:'🌲', img:'Images/IMG-20260601-WA0010.jpg',         price:80,  desc:'Pine tree seedlings for reforestation and timber.', stock:'in'},
+  {id:63, name:'Whistling Pine',         cat:'forestry',  emoji:'🌲', img:'Images/IMG-20260601-WA0029.jpg',         price:60,  desc:'Whistling pine (Casuarina) seedlings for windbreaks and timber.', stock:'in'},
+  {id:64, name:'Eucalyptus',             cat:'forestry',  emoji:'🌳', img:'Images/eucalyptus.png',        price:40,  desc:'Eucalyptus tree seedlings for timber and oil production.', stock:'in'},
 ];
 
 // Fetch products from API — fall back to hardcoded list if server is unavailable
@@ -677,7 +692,7 @@ async function fetchProducts() {
     const data = await response.json();
     if (!data || data.length === 0) throw new Error('Empty response');
     products = data.map(p => ({
-      id: p.id,
+      id: p._id,
       name: p.name,
       cat: p.category,
       emoji: '🌱',
@@ -781,6 +796,12 @@ function orderWhatsApp(){
   cart.forEach(c=>{msg+=`• ${c.name} x${c.qty} = KES ${(c.price*c.qty).toLocaleString()}\n`;});
   msg+=`\n*Total: KES ${total.toLocaleString()}*\n\nPlease confirm availability and delivery. Thank you!`;
 
+  // Show loading state
+  const waBtn = document.querySelector('.wa-order-btn');
+  const originalText = waBtn.innerHTML;
+  waBtn.innerHTML = '<span class="loading">⏳</span> Processing...';
+  waBtn.disabled = true;
+
   // Send each item to the backend
   const orderPromises = cart.map(item => {
     return fetch('/api/orders', {
@@ -803,14 +824,23 @@ function orderWhatsApp(){
       // Check if all responses are ok
       const allOk = responses.every(res => res.ok);
       if (!allOk) {
-        alert('Some orders failed to save. Please try again.');
+        showToast('Some orders failed to save. Please try again.', true);
+      } else {
+        showToast('Order saved successfully!');
+        // Clear cart on successful order
+        cart = [];
+        updateCartUI();
+        toggleCart();
       }
     })
     .catch(error => {
       console.error('Error saving orders:', error);
-      alert('Failed to save orders. Please try again.');
+      showToast('Failed to save orders. Please try again.', true);
     })
     .finally(() => {
+      // Restore button state
+      waBtn.innerHTML = originalText;
+      waBtn.disabled = false;
       // Open WhatsApp regardless of success
       window.open(`https://wa.me/254711844850?text=${encodeURIComponent(msg)}`,'_blank');
     });

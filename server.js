@@ -117,10 +117,12 @@ const SEED_PRODUCTS = [
   ['Red Apple', 'fruit', 500, 'seedling', 'fa-tree', 'Red apple tree. Sweet fruits.', true, 'Images/redapple.png'],
   // DRAGON FRUIT
   ['Dragon Fruit', 'fruit', 450, 'seedling', 'fa-seedling', 'Exotic dragon fruit plant. High value crop with growing market demand.', true, 'Images/dragonf.png'],
-  // PASSION FRUIT
-  ['Passion Purple Passion', 'fruit', 50, 'seedling', 'fa-flower', 'Purple passion fruit variety. High yielding with excellent flavor.', true, 'Images/grafted passion p.png'],
-  ['Passion Yellow Passion', 'fruit', 50, 'seedling', 'fa-flower', 'Yellow passion fruit variety. Good for juice production and fresh market.', true, 'Images/yellowpassion.png'],
-  ['Passion Sweet Granadilla', 'fruit', 50, 'seedling', 'fa-flower', 'Sweet granadilla variety. Delicious flavor with high market value.', true, 'Images/purple passion.png'],
+   // PASSION FRUIT
+   ['Passion Purple Passion', 'fruit', 50, 'seedling', 'fa-flower', 'Purple passion fruit variety. High yielding with excellent flavor.', true, 'Images/grafted passion p.png'],
+   ['Passion Yellow Passion', 'fruit', 50, 'seedling', 'fa-flower', 'Yellow passion fruit variety. Good for juice production and fresh market.', true, 'Images/yellowpassion.png'],
+   ['Passion Sweet Granadilla', 'fruit', 50, 'seedling', 'fa-flower', 'Sweet granadilla variety. Delicious flavor with high market value.', true, 'Images/purple passion.png'],
+   // BANANAS
+   ['Banana', 'fruit', 700, 'seedling', 'fa-apple-whole', 'Fresh banana seedlings for planting.', true, 'Images/banana.jpg'],
   // TREE TOMATOES
   ['Tree Tomatoes', 'fruit', 50, 'seedling', 'fa-apple-whole', 'Tree tomato (tamarillo) seedlings. High yielding with excellent taste.', true, 'Images/tree tomatoes.png'],
   // PAWPAW (PAPAYA)
@@ -219,22 +221,6 @@ app.get('/api/products', async (_, res) => {
     res.json(products);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch products' });
-  }
-});
-
-// PUT toggle stock
-app.put('/api/products/:id/stock', authenticateAdmin, async (req, res) => {
-  const { inStock } = req.body;
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
-    product.inStock = inStock;
-    await product.save();
-    res.json({ success: true });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to update stock' });
   }
 });
 
@@ -421,6 +407,22 @@ app.put('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
     res.json({ success: true, product });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update product', details: err.message });
+  }
+});
+
+// PUT toggle stock (admin)
+app.put('/api/admin/products/:id/stock', authenticateAdmin, async (req, res) => {
+  const { inStock } = req.body;
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+    product.inStock = inStock;
+    await product.save();
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update stock', details: err.message });
   }
 });
 

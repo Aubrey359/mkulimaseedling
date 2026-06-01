@@ -985,12 +985,12 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-outline btn-sm" onclick="toggleStock(${product.id}, ${!product.inStock})">
-                                        ${product.inStock ? 'Mark Out' : 'Mark In'}
-                                    </button>
-                                    <button class="btn btn-outline btn-sm" onclick="editProduct(${product.id})" style="margin-left: 8px;">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
+                                    <button class="btn btn-outline btn-sm" onclick="toggleStock('${product._id}', ${!product.inStock})">
+                                         ${product.inStock ? 'Mark Out' : 'Mark In'}
+                                     </button>
+                                     <button class="btn btn-outline btn-sm" onclick="editProduct('${product._id}')" style="margin-left: 8px;">
+                                         <i class="fas fa-edit"></i> Edit
+                                     </button>
                                 </td>
                             </tr>
                         `).join('')}
@@ -1054,33 +1054,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        ${orders.map((order, index) => `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${order.product_name}</td>
-                                <td>${order.customer_name}</td>
-                                <td>${order.phone}</td>
-                                <td>${order.quantity}</td>
-                                <td>
-                                    <span class="status-badge status-${order.status.toLowerCase()}">
-                                        ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                                    </span>
-                                </td>
-                                <td>${new Date(order.created_at).toLocaleDateString()}</td>
-                                <td>
-                                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                                        <select onchange="updateOrderStatus(${order.id}, this.value)" class="form-control" style="width:auto;padding:4px 8px;font-size:0.85rem;">
-                                             <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
-                                             <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
-                                             <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
-                                             <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
-                                             <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
-                                         </select>
-                                    </div>
-                                </td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
+                         ${orders.map((order, index) => `
+                             <tr>
+                                 <td>${index + 1}</td>
+                                 <td>${order.productName}</td>
+                                 <td>${order.customerName}</td>
+                                 <td>${order.phone}</td>
+                                 <td>${order.quantity}</td>
+                                 <td>
+                                     <span class="status-badge status-${order.status.toLowerCase()}">
+                                         ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                                     </span>
+                                 </td>
+                                 <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                                 <td>
+                                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                         <select onchange="updateOrderStatus('${order._id}', this.value)" class="form-control" style="width:auto;padding:4px 8px;font-size:0.85rem;">
+                                              <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                              <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                                              <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                                              <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                                              <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                                          </select>
+                                     </div>
+                                 </td>
+                             </tr>
+                         `).join('')}
+                     </tbody>
                 </table>
             `;
         }
@@ -1146,7 +1146,7 @@
                                 <td>${contact.phone}</td>
                                 <td>${contact.interest || '-'}</td>
                                 <td>${contact.message ? contact.message.substring(0, 50) + (contact.message.length > 50 ? '...' : '') : '-'}</td>
-                                <td>${new Date(contact.created_at).toLocaleDateString()}</td>
+                                 <td>${new Date(contact.createdAt).toLocaleDateString()}</td>
                             </tr>
                         `).join('')}
                     </tbody>
@@ -1155,29 +1155,29 @@
         }
 
         // Toggle product stock
-        async function toggleStock(productId, inStock) {
-            try {
-                const response = await fetch(`/api/products/${productId}/stock`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ inStock: inStock })
-                });
+         async function toggleStock(productId, inStock) {
+             try {
+                 const response = await fetch(`/api/admin/products/${productId}/stock`, {
+                     method: 'PUT',
+                     headers: {
+                         'Content-Type': 'application/json',
+                         'Authorization': `Bearer ${token}`
+                     },
+                     body: JSON.stringify({ inStock: inStock })
+                 });
 
-                if (response.ok) {
-                    showToast(`Product marked as ${inStock ? 'in stock' : 'out of stock'}`);
-                    loadProducts(); // Refresh products list
-                    loadDashboardData(); // Refresh stats
-                } else {
-                    const error = await response.json();
-                    showToast(error.error || 'Failed to update stock', true);
-                }
-            } catch (error) {
-                showToast('Network error', true);
-            }
-        }
+                 if (response.ok) {
+                     showToast(`Product marked as ${inStock ? 'in stock' : 'out of stock'}`);
+                     loadProducts(); // Refresh products list
+                     loadDashboardData(); // Refresh stats
+                 } else {
+                     const error = await response.json();
+                     showToast(error.error || 'Failed to update stock', true);
+                 }
+             } catch (error) {
+                 showToast('Network error', true);
+             }
+         }
 
         // Update order status
         async function updateOrderStatus(orderId, status) {
@@ -1247,22 +1247,22 @@
         const editProductForm = document.getElementById('editProductForm');
 
         // Open edit product modal
-        window.editProduct = function (id) {
-            editProductId = id;
-            const product = products.find(p => p.id === id);
-            if (product) {
-                document.getElementById('editProductId').value = product.id;
-                document.getElementById('editName').value = product.name;
-                document.getElementById('editCategory').value = product.category;
-                document.getElementById('editPrice').value = product.price;
-                document.getElementById('editUnit').value = product.unit || 'seedling';
-                document.getElementById('editIcon').value = product.icon || 'fa-seedling';
-                document.getElementById('editImage').value = product.image || '';
-                document.getElementById('editDescription').value = product.description || '';
-                document.getElementById('editInStock').checked = !!product.inStock;
-                editProductModal.style.display = 'block';
-            }
-        };
+         window.editProduct = function (id) {
+             editProductId = id;
+             const product = products.find(p => p._id === id);
+             if (product) {
+                 document.getElementById('editProductId').value = product._id;
+                 document.getElementById('editName').value = product.name;
+                 document.getElementById('editCategory').value = product.category;
+                 document.getElementById('editPrice').value = product.price;
+                 document.getElementById('editUnit').value = product.unit || 'seedling';
+                 document.getElementById('editIcon').value = product.icon || 'fa-seedling';
+                 document.getElementById('editImage').value = product.image || '';
+                 document.getElementById('editDescription').value = product.description || '';
+                 document.getElementById('editInStock').checked = !!product.inStock;
+                 editProductModal.style.display = 'block';
+             }
+         };
 
         // Close modal
         function closeEditModal() {

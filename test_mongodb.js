@@ -1,23 +1,19 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
-
-const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URL || 'mongodb://localhost:27017/mkulima';
+const { connectDB, mongoose } = require('./config/database');
 
 async function testMongoDBConnection() {
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log('✅ MongoDB connected successfully');
-    
-    // Test by accessing the connection
-    const db = mongoose.connection;
-    console.log('Database name:', db.name);
-    console.log('Host:', db.host);
-    console.log('Port:', db.port);
-    
-    // Close the connection
-    await mongoose.disconnect();
-    console.log('✅ MongoDB connection closed');
-    return true;
+    const success = await connectDB();
+    if (success) {
+      console.log('Database name:', mongoose.connection.name);
+      console.log('Host:', mongoose.connection.host);
+      console.log('Port:', mongoose.connection.port);
+      
+      // Close the connection
+      await mongoose.disconnect();
+      console.log('✅ MongoDB connection closed');
+      return true;
+    }
+    return false;
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error.message);
     return false;

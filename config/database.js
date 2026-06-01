@@ -6,8 +6,6 @@ const MONGODB_URI = process.env.MONGODB_URL || process.env.MONGODB_URI || proces
 async function connectDB() {
   try {
     await mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
       retryWrites: true,
       retryReads: true
