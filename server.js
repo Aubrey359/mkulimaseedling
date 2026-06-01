@@ -453,6 +453,66 @@ app.delete('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
   }
 });
 
+// GET product tracking statistics (admin)
+app.get('/api/admin/products/tracking', authenticateAdmin, async (_, res) => {
+  try {
+    const orders = await Order.findAll({ order: [['createdAt', 'DESC']] });
+    const products = await Product.findAll({ order: [['createdAt', 'ASC']] });
+
+    // Build tracking stats per product
+    const trackingMap = new Map();
+
+    for (const order of orders) {
+      const pid = order.productId;
+      if (!trackingMap.has(pid)) {
+        trackingMap.set(pid, {
+          productId: pid,
+          productName: order.productName,
+          totalOrders: 0,
+          totalQuantity: 0,
+          totalRevenue: 0,
+          lastOrdered: null,
+          statusBreakdown: { pending: 0, confirmed: 0, shipped: 0, delivered: 0, cancelled: 0 }
+        });
+      }
+      const stats = trackingMap.get(pid);
+      stats.totalOrders += 1;
+      stats.totalQuantity += order.quantity;
+      stats.totalRevenue += parseFloat(order.price || 0) * order.quantity;
+      stats.statusBreakdown[order.status] = (stats.statusBreakdown[order.status] || 0) + 1;
+      const orderDate = new Date(order.created_at || order.createdAt);
+      if (!stats.lastOrdered || orderDate > new Date(stats.lastOrdered)) {
+        stats.lastOrdered = orderDate.toISOString();
+      }
+    }
+
+    // Merge with product details
+    const trackingData = products.map(p => {
+      const stats = trackingMap.get(p.id) || {
+        productId: p.id,
+        productName: p.name,
+        totalOrders: 0,
+        totalQuantity: 0,
+        totalRevenue: 0,
+        lastOrdered: null,
+        statusBreakdown: { pending: 0, confirmed: 0, shipped: 0, delivered: 0, cancelled: 0 }
+      };
+      return {
+        ...stats,
+        category: p.category,
+        price: p.price,
+        inStock: p.inStock,
+        image: p.image,
+        unit: p.unit
+      };
+    });
+
+    res.json(trackingData);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch product tracking', details: err.message });
+  }
+});
+
 // ── Farmer Routes ─────────────────────────────────────────────────────────────
 
 // GET all farmers (admin)

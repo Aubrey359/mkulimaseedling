@@ -435,6 +435,7 @@
         <div class="nav-tabs">
             <div class="nav-tab active" data-tab="overview">Overview</div>
             <div class="nav-tab" data-tab="stock">Stock Manager</div>
+            <div class="nav-tab" data-tab="tracking">Product Tracking</div>
             <div class="nav-tab" data-tab="orders">Orders</div>
             <div class="nav-tab" data-tab="contacts">Contacts</div>
         </div>
@@ -463,6 +464,7 @@
                 <div class="section-title"><i class="fas fa-chart-bar"></i> Quick Actions</div>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px;">
                     <button class="btn btn-outline" onclick="showTab('stock')"><i class="fas fa-boxes"></i> Manage Stock</button>
+                    <button class="btn btn-outline" onclick="showTab('tracking')"><i class="fas fa-chart-line"></i> Product Tracking</button>
                     <button class="btn btn-outline" onclick="showTab('orders')"><i class="fas fa-list"></i> View Orders</button>
                     <button class="btn btn-outline" onclick="showTab('contacts')"><i class="fas fa-address-book"></i> View Contacts</button>
                     <button class="btn btn-primary" onclick="refreshData()"><i class="fas fa-sync-alt"></i> Refresh Data</button>
@@ -487,6 +489,21 @@
                     <div class="empty-state">
                         <i class="fas fa-spinner fa-spin"></i>
                         <p>Loading products...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Tracking Tab -->
+            <div class="tab-pane" id="tracking-tab">
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Product Order Tracking</h2>
+                <p style="color:#666;margin-bottom:20px;">Track how many times each product has been ordered, total quantities sold, and revenue generated.</p>
+                <div style="margin-bottom:20px;">
+                    <input type="text" id="tracking-search" class="form-control" placeholder="Search products by name...">
+                </div>
+                <div id="tracking-list" class="table-responsive">
+                    <div class="empty-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading tracking data...</p>
                     </div>
                 </div>
             </div>
@@ -644,6 +661,7 @@
         let products = [];
         let orders = [];
         let contacts = [];
+        let trackingData = [];
 
         // DOM Elements
         const loginScreen = document.getElementById('login-screen');
@@ -724,6 +742,7 @@
             // Search functionality
             document.getElementById('stock-search').addEventListener('input', debounce(loadProducts, 300));
             document.getElementById('stock-category').addEventListener('change', loadProducts);
+            document.getElementById('tracking-search').addEventListener('input', debounce(loadTracking, 300));
             document.getElementById('orders-search').addEventListener('input', debounce(loadOrders, 300));
             document.getElementById('contacts-search').addEventListener('input', debounce(loadContacts, 300));
         });
@@ -765,6 +784,8 @@
                 loadDashboardData();
             } else if (tabName === 'stock') {
                 loadProducts();
+            } else if (tabName === 'tracking') {
+                loadTracking();
             } else if (tabName === 'orders') {
                 loadOrders();
             } else if (tabName === 'contacts') {
@@ -798,6 +819,94 @@
                 console.error('Error loading dashboard data:', error);
                 showToast('Error loading data', true);
             }
+        }
+
+        // Load product tracking
+        async function loadTracking() {
+            const search = document.getElementById('tracking-search').value.toLowerCase();
+
+            try {
+                const response = await fetch('/api/admin/products/tracking');
+                const data = await response.json();
+
+                // Filter tracking data
+                let filtered = data;
+                if (search) {
+                    filtered = filtered.filter(p =>
+                        p.productName.toLowerCase().includes(search)
+                    );
+                }
+
+                trackingData = filtered;
+                renderTracking();
+            } catch (error) {
+                console.error('Error loading tracking data:', error);
+                showToast('Error loading tracking data', true);
+            }
+        }
+
+        // Render tracking table
+        function renderTracking() {
+            const container = document.getElementById('tracking-list');
+
+            if (trackingData.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-chart-bar"></i>
+                        <p>No tracking data found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Price (KES)</th>
+                            <th>Total Orders</th>
+                            <th>Total Qty Sold</th>
+                            <th>Revenue (KES)</th>
+                            <th>Last Ordered</th>
+                            <th>Status Breakdown</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${trackingData.map(p => `
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <div style="width:40px;height:40px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                                            <i class="fas fa-seedling"></i>
+                                        </div>
+                                        <div>
+                                            <strong>${p.productName}</strong>
+                                            <br><small style="color:#666;">${p.inStock ? 'In Stock' : 'Out of Stock'}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>${p.category}</td>
+                                <td>KES ${p.price}</td>
+                                <td><strong>${p.totalOrders}</strong></td>
+                                <td><strong>${p.totalQuantity}</strong></td>
+                                <td><strong style="color:var(--green-dark);">KES ${p.totalRevenue.toLocaleString()}</strong></td>
+                                <td>${p.lastOrdered ? new Date(p.lastOrdered).toLocaleDateString() : 'Never'}</td>
+                                <td>
+                                    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                                        ${p.statusBreakdown.pending > 0 ? `<span class="status-badge status pending" style="font-size:0.75rem;">${p.statusBreakdown.pending} Pending</span>` : ''}
+                                        ${p.statusBreakdown.confirmed > 0 ? `<span class="status-badge status confirmed" style="font-size:0.75rem;">${p.statusBreakdown.confirmed} Confirmed</span>` : ''}
+                                        ${p.statusBreakdown.shipped > 0 ? `<span class="status-badge status shipped" style="font-size:0.75rem;">${p.statusBreakdown.shipped} Shipped</span>` : ''}
+                                        ${p.statusBreakdown.delivered > 0 ? `<span class="status-badge status delivered" style="font-size:0.75rem;">${p.statusBreakdown.delivered} Delivered</span>` : ''}
+                                        ${p.statusBreakdown.cancelled > 0 ? `<span class="status-badge status cancelled" style="font-size:0.75rem;">${p.statusBreakdown.cancelled} Cancelled</span>` : ''}
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
         }
 
         // Load products
@@ -1101,6 +1210,7 @@
             await Promise.all([
                 loadDashboardData(),
                 loadProducts(),
+                loadTracking(),
                 loadOrders(),
                 loadContacts()
             ]);
