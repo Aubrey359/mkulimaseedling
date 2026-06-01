@@ -16,6 +16,8 @@
 !admin.html
 !test_mongodb.js
 !README.md
+!config/
+!config/*.js
 # Allow all files in Images folder
 !Images/
 !Images/**/*
@@ -25,3 +27,9 @@ node_modules/
 
 # Environment file (not tracked)
 .env
+
+# Uploads folder (not tracked)
+uploads/
+
+# Database files
+*.db

@@ -1,16 +1,17 @@
-﻿require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const { sequelize, Farmer, Seedling, Distribution, Product, Order, Contact } = require('./models');
 
 const app = express();
 
 // ── Admin password hashing ───────────────────────────────────────────────────
 const SALT_ROUNDS = 10;
 let hashedAdminPassword = null;
-const validTokens = new Set(); // Store valid tokens in memory
+const validTokens = new Set();
 
 // Hash the admin password on startup
 async function hashAdminPassword() {
@@ -19,128 +20,157 @@ async function hashAdminPassword() {
   console.log('✅ Admin password hashed and ready (password: ' + pwd + ')');
 }
 
-// ── In-memory fallback store (used when MongoDB is unavailable) ──────────
-let useDb = false;
-let inMemoryProducts = [];
-let inMemoryOrders = [];
-let inMemoryContacts = [];
-let nextProductId = 1;
-let nextOrderId = 1;
-let nextContactId = 1;
+// ── File Upload Configuration ───────────────────────────────────────────────
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, process.env.UPLOAD_DIR || './uploads');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'seedling-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
 
-// Seed data for in-memory mode — 57 products matching mku.html
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: parseInt(process.env.MAX_FILE_SIZE) || 5242880 },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb(new Error('Only image files are allowed!'));
+  }
+});
+
+// ── Seed data for products ───────────────────────────────────────────────────
 const SEED_PRODUCTS = [
   // TOMATOES
-  ['Tomato Zara F1',              'vegetable',   4,  'seedling', 'fa-apple-whole', 'High-yielding F1 hybrid tomato. Disease resistant, excellent for all growing zones.',           true, 'Images/zara f1.png'],
-  ['Tomato Nova F1',              'vegetable',   5,  'seedling', 'fa-apple-whole', 'F1 hybrid variety with uniform fruits. Good shelf life and transportability.',             true, 'Images/nova f1.png'],
-  ['Tomato Ansal F1',             'vegetable',   6,  'seedling', 'fa-apple-whole', 'Disease resistant F1 hybrid. Produces large, firm fruits with excellent flavor.',                true, 'Images/ansali f1.png'],
-  ['Tomato Terminator F1',        'vegetable',   4,  'seedling', 'fa-apple-whole', 'High yielding F1 hybrid with good fruit setting. Suitable for greenhouse and open field.',                true, 'Images/terminator f1.png'],
+  ['Tomato Zara F1', 'vegetable', 4, 'seedling', 'fa-apple-whole', 'High-yielding F1 hybrid tomato. Disease resistant, excellent for all growing zones.', true, 'Images/zara f1.png'],
+  ['Tomato Nova F1', 'vegetable', 5, 'seedling', 'fa-apple-whole', 'F1 hybrid variety with uniform fruits. Good shelf life and transportability.', true, 'Images/nova f1.png'],
+  ['Tomato Ansal F1', 'vegetable', 6, 'seedling', 'fa-apple-whole', 'Disease resistant F1 hybrid. Produces large, firm fruits with excellent flavor.', true, 'Images/ansali f1.png'],
+  ['Tomato Terminator F1', 'vegetable', 4, 'seedling', 'fa-apple-whole', 'High yielding F1 hybrid with good fruit setting. Suitable for greenhouse and open field.', true, 'Images/terminator f1.png'],
   // CABBAGES
-  ['Cabbage Gloria F1',           'vegetable',   2.5,'seedling', 'fa-leaf',        'F1 hybrid cabbage with excellent head formation. Good for fresh market and storage.',                     true, 'Images/gloria f1.png'],
-  ['Cabbage Pructor F1',          'vegetable',   2,  'seedling', 'fa-leaf',        'Medium maturity F1 hybrid. Produces firm, round heads with good wrapper leaves.',          true, 'Images/pruktor f1.png'],
-  ['Cabbage Kilimo F1',           'vegetable',   2,  'seedling', 'fa-leaf',        'High yielding variety suitable for commercial production. Good disease resistance.',              true, 'Images/kilimo f1.png'],
-  ['Cabbage Queen F1',            'vegetable',   2,  'seedling', 'fa-leaf',        'F1 hybrid with uniform heads. Excellent for processing and fresh consumption.',                  true, 'Images/queen f1.png'],
-  ['Cabbage Victoria F1',         'vegetable',   2,  'seedling', 'fa-leaf',        'Reliable F1 hybrid with good head size and excellent storage qualities.',                     true, 'Images/victoria f1.png'],
-  ['Cabbage Faida',               'vegetable',   2,  'seedling', 'fa-leaf',        'Open pollinated variety with good market acceptance. Medium maturity.',                   true, 'Images/faida.png'],
-  ['Cabbage Powerslam',           'vegetable',   2,  'seedling', 'fa-leaf',        'High yielding cabbage variety. Produces large, compact heads.',             true, 'Images/powerslam.png'],
-  ['Red Cabbage',                 'vegetable',   4,  'seedling', 'fa-leaf',        'Red/purple cabbage variety. Rich in antioxidants, good for fresh and processing.',             true, 'Images/red cabbage.png'],
+  ['Cabbage Gloria F1', 'vegetable', 2.5, 'seedling', 'fa-leaf', 'F1 hybrid cabbage with excellent head formation. Good for fresh market and storage.', true, 'Images/gloria f1.png'],
+  ['Cabbage Pructor F1', 'vegetable', 2, 'seedling', 'fa-leaf', 'Medium maturity F1 hybrid. Produces firm, round heads with good wrapper leaves.', true, 'Images/pruktor f1.png'],
+  ['Cabbage Kilimo F1', 'vegetable', 2, 'seedling', 'fa-leaf', 'High yielding variety suitable for commercial production. Good disease resistance.', true, 'Images/kilimo f1.png'],
+  ['Cabbage Queen F1', 'vegetable', 2, 'seedling', 'fa-leaf', 'F1 hybrid with uniform heads. Excellent for processing and fresh consumption.', true, 'Images/queen f1.png'],
+  ['Cabbage Victoria F1', 'vegetable', 2, 'seedling', 'fa-leaf', 'Reliable F1 hybrid with good head size and excellent storage qualities.', true, 'Images/victoria f1.png'],
+  ['Cabbage Faida', 'vegetable', 2, 'seedling', 'fa-leaf', 'Open pollinated variety with good market acceptance. Medium maturity.', true, 'Images/faida.png'],
+  ['Cabbage Powerslam', 'vegetable', 2, 'seedling', 'fa-leaf', 'High yielding cabbage variety. Produces large, compact heads.', true, 'Images/powerslam.png'],
+  ['Red Cabbage', 'vegetable', 4, 'seedling', 'fa-leaf', 'Red/purple cabbage variety. Rich in antioxidants, good for fresh and processing.', true, 'Images/red cabbage.png'],
   // SPINACH
-  ['Spinach Fordhook',            'vegetable',   2,  'seedling', 'fa-leaf',        'Large leaf spinach variety. Tender leaves, excellent for cooking and salads.',                        true, 'Images/fordhook giant.png'],
-  ['Spinach Giant',               'vegetable',   2,  'seedling', 'fa-leaf',        'Giant leaf variety with excellent yield. Good for commercial production.',                     true, 'Images/giant.png'],
+  ['Spinach Fordhook', 'vegetable', 2, 'seedling', 'fa-leaf', 'Large leaf spinach variety. Tender leaves, excellent for cooking and salads.', true, 'Images/fordhook giant.png'],
+  ['Spinach Giant', 'vegetable', 2, 'seedling', 'fa-leaf', 'Giant leaf variety with excellent yield. Good for commercial production.', true, 'Images/giant.png'],
   // SUKUMAWIKI (KALE)
-  ['Sukumawiki Ahadi F1',         'vegetable',   2,  'seedling', 'fa-leaf',        'F1 hybrid kale with tender leaves. High yielding and disease resistant.',           true, 'Images/ahadi f1.png'],
-  ['Sukumawiki Spinner',          'vegetable',   2,  'seedling', 'fa-leaf',        'Leafy kale variety with excellent flavor. Good for continuous harvesting.',               true, 'Images/spinner.png'],
-  ['Sukumawiki Tausi',            'vegetable',   2,  'seedling', 'fa-leaf',        'Traditional kale variety with good market demand. Easy to grow.',                      true, 'Images/tausi.png'],
-  ['Sukumawiki Top Bunch',        'vegetable',   2,  'seedling', 'fa-leaf',        'Vigorous growing kale with dark green leaves. High yield potential.',                 true, 'Images/topbunch.png'],
-  ['Sukumawiki Thousand Headed',   'vegetable',   2,  'seedling', 'fa-leaf',        'Produces numerous side shoots. Excellent for continuous harvest.',          true, 'Images/headed thao.png'],
-  ['Curly Kales Malkia F1',       'vegetable',   3,  'seedling', 'fa-leaf',        'F1 hybrid curly kale with attractive leaves. Good for fresh market.',                 true, 'Images/malkia.png'],
+  ['Sukumawiki Ahadi F1', 'vegetable', 2, 'seedling', 'fa-leaf', 'F1 hybrid kale with tender leaves. High yielding and disease resistant.', true, 'Images/ahadi f1.png'],
+  ['Sukumawiki Spinner', 'vegetable', 2, 'seedling', 'fa-leaf', 'Leafy kale variety with excellent flavor. Good for continuous harvesting.', true, 'Images/spinner.png'],
+  ['Sukumawiki Tausi', 'vegetable', 2, 'seedling', 'fa-leaf', 'Traditional kale variety with good market demand. Easy to grow.', true, 'Images/tausi.png'],
+  ['Sukumawiki Top Bunch', 'vegetable', 2, 'seedling', 'fa-leaf', 'Vigorous growing kale with dark green leaves. High yield potential.', true, 'Images/topbunch.png'],
+  ['Sukumawiki Thousand Headed', 'vegetable', 2, 'seedling', 'fa-leaf', 'Produces numerous side shoots. Excellent for continuous harvest.', true, 'Images/headed thao.png'],
+  ['Curly Kales Malkia F1', 'vegetable', 3, 'seedling', 'fa-leaf', 'F1 hybrid curly kale with attractive leaves. Good for fresh market.', true, 'Images/malkia.png'],
   // CAPSICUM
-  ['Capsicum Calypso',            'vegetable',   4,  'seedling', 'fa-pepper-hot',  'Blocky bell pepper variety. Produces uniform fruits with thick walls.',                        true, 'Images/calypso f1.png'],
-  ['Capsicum Superbell',          'vegetable',   4,  'seedling', 'fa-pepper-hot',  'High yielding bell pepper. Good for greenhouse and open field production.',                         true, 'Images/superbell f1.png'],
-  ['Capsicum Superwonder',        'vegetable',   4,  'seedling', 'fa-pepper-hot',  'F1 hybrid with excellent fruit set. Produces large, uniform fruits.',              true, 'Images/hybridmanagu.png'],
-  ['Capsicum Victory Red',        'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Red blocky pepper variety. Excellent color and taste. High market value.',                       true, 'Images/victory red.png'],
-  ['Capsicum Victory Yellow',     'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Yellow bell pepper with attractive fruits. Good for fresh market and processing.',                      true, 'Images/vegetable.png'],
-  ['Capsicum Nyuki Yellow',       'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Yellow hot pepper variety. High yielding with good pungency.',                       true, 'Images/vegetable.png'],
-  ['Capsicum Nyuki Red',          'vegetable',   15, 'seedling', 'fa-pepper-hot',  'Red hot pepper with excellent color. Good for processing and fresh use.',                          true, 'Images/tracy f1.png'],
+  ['Capsicum Calypso', 'vegetable', 4, 'seedling', 'fa-pepper-hot', 'Blocky bell pepper variety. Produces uniform fruits with thick walls.', true, 'Images/calypso f1.png'],
+  ['Capsicum Superbell', 'vegetable', 4, 'seedling', 'fa-pepper-hot', 'High yielding bell pepper. Good for greenhouse and open field production.', true, 'Images/superbell f1.png'],
+  ['Capsicum Superwonder', 'vegetable', 4, 'seedling', 'fa-pepper-hot', 'F1 hybrid with excellent fruit set. Produces large, uniform fruits.', true, 'Images/hybridmanagu.png'],
+  ['Capsicum Victory Red', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Red blocky pepper variety. Excellent color and taste. High market value.', true, 'Images/victory red.png'],
+  ['Capsicum Victory Yellow', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Yellow bell pepper with attractive fruits. Good for fresh market and processing.', true, 'Images/vegetable.png'],
+  ['Capsicum Nyuki Yellow', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Yellow hot pepper variety. High yielding with good pungency.', true, 'Images/vegetable.png'],
+  ['Capsicum Nyuki Red', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Red hot pepper with excellent color. Good for processing and fresh use.', true, 'Images/tracy f1.png'],
   // PEPPERS
-  ['Pepper Birdseye',             'vegetable',   5,  'seedling', 'fa-pepper-hot',  'Hot birdseye pepper. Small fruits with intense heat. Good for drying and processing.',                          true, 'Images/vegetable.png'],
-  ['Pepper Red Thunder',          'vegetable',   5,  'seedling', 'fa-pepper-hot',  'Red hot pepper variety. High yielding with good fruit size.',                      true, 'Images/red thunder.png'],
+  ['Pepper Birdseye', 'vegetable', 5, 'seedling', 'fa-pepper-hot', 'Hot birdseye pepper. Small fruits with intense heat. Good for drying and processing.', true, 'Images/vegetable.png'],
+  ['Pepper Red Thunder', 'vegetable', 5, 'seedling', 'fa-pepper-hot', 'Red hot pepper variety. High yielding with good fruit size.', true, 'Images/red thunder.png'],
   // CAULIFLOWER
-  ['Cauliflower Bella',           'vegetable',   3,  'seedling', 'fa-seedling',    'White cauliflower with good head formation. Suitable for fresh market.',                          true, 'Images/vegetable.png'],
+  ['Cauliflower Bella', 'vegetable', 3, 'seedling', 'fa-seedling', 'White cauliflower with good head formation. Suitable for fresh market.', true, 'Images/vegetable.png'],
   // BROCCOLI
-  ['Broccoli Titanic',            'vegetable',   3,  'seedling', 'fa-seedling',    'Large head broccoli variety. Good for commercial production and fresh market.',                       true, 'Images/vegetable.png'],
-  ['Broccoli Harriet',            'vegetable',   3,  'seedling', 'fa-seedling',    'F1 hybrid broccoli with excellent head quality. Good disease resistance.',                     true, 'Images/vegetable.png'],
+  ['Broccoli Titanic', 'vegetable', 3, 'seedling', 'fa-seedling', 'Large head broccoli variety. Good for commercial production and fresh market.', true, 'Images/vegetable.png'],
+  ['Broccoli Harriet', 'vegetable', 3, 'seedling', 'fa-seedling', 'F1 hybrid broccoli with excellent head quality. Good disease resistance.', true, 'Images/vegetable.png'],
   // WATERMELON
-  ['Watermelon Sukari',           'fruit',       6,  'seedling', 'fa-apple-whole', 'Sweet red fleshed watermelon. High sugar content, excellent for fresh consumption.',                 true, 'Images/eggplantblackbeauty.png'],
+  ['Watermelon Sukari', 'fruit', 6, 'seedling', 'fa-apple-whole', 'Sweet red fleshed watermelon. High sugar content, excellent for fresh consumption.', true, 'Images/eggplantblackbeauty.png'],
   // TERERE (AMARANTHUS)
-  ['Terere Amaranthus',           'vegetable',   2,  'seedling', 'fa-leaf',        'Traditional leafy vegetable. Fast growing with excellent nutritional value.',                  true, 'Images/amaranthus.png'],
+  ['Terere Amaranthus', 'vegetable', 2, 'seedling', 'fa-leaf', 'Traditional leafy vegetable. Fast growing with excellent nutritional value.', true, 'Images/amaranthus.png'],
   // MANAGU (NIGHTSHADE)
-  ['Managu Giant Nightshade',     'vegetable',   2,  'seedling', 'fa-leaf',        'Leafy nightshade variety. Popular traditional vegetable with good market demand.',                     true, 'Images/hybridmanagu.png'],
+  ['Managu Giant Nightshade', 'vegetable', 2, 'seedling', 'fa-leaf', 'Leafy nightshade variety. Popular traditional vegetable with good market demand.', true, 'Images/hybridmanagu.png'],
   // LETTUCE
-  ['Lettuce',                     'vegetable',   3,  'seedling', 'fa-leaf',        'Leafy lettuce variety. Good for salads and fresh consumption.',                     true, 'Images/tracy f1.png'],
+  ['Lettuce', 'vegetable', 3, 'seedling', 'fa-leaf', 'Leafy lettuce variety. Good for salads and fresh consumption.', true, 'Images/tracy f1.png'],
   // BEETROOT
-  ['Beetroot',                    'vegetable',   4,  'seedling', 'fa-circle',      'Root vegetable with excellent color and taste. Good for fresh and processing.',           true, 'Images/beetroot.png'],
+  ['Beetroot', 'vegetable', 4, 'seedling', 'fa-circle', 'Root vegetable with excellent color and taste. Good for fresh and processing.', true, 'Images/beetroot.png'],
   // CUCUMBER
-  ['Cucumber Ashley',             'vegetable',   6,  'seedling', 'fa-leaf',        'F1 hybrid cucumber with excellent fruit quality. Good for greenhouse production.',                             true, 'Images/ashley f1.png'],
+  ['Cucumber Ashley', 'vegetable', 6, 'seedling', 'fa-leaf', 'F1 hybrid cucumber with excellent fruit quality. Good for greenhouse production.', true, 'Images/ashley f1.png'],
   // COURGETTE
-  ['Courgette Zucchini',          'vegetable',   6,  'seedling', 'fa-leaf',        'Summer squash variety. High yielding with tender fruits. Good for fresh market.',                      true, 'Images/courgette.png'],
+  ['Courgette Zucchini', 'vegetable', 6, 'seedling', 'fa-leaf', 'Summer squash variety. High yielding with tender fruits. Good for fresh market.', true, 'Images/courgette.png'],
   // ORANGES
-  ['Orange Pixie',                'fruit',       200,'seedling', 'fa-apple-whole', 'Easy peelers variety. Sweet and juicy fruits. Early maturing.',                      true, 'Images/orange pixie.png'],
-  ['Tangarine',                   'fruit',       200,'seedling', 'fa-apple-whole', 'Mandarin variety with easy peel skin. Sweet flavor, good for fresh consumption.',                       true, 'Images/Tangarine orange.png'],
-  ['Orange Washington',           'fruit',       200,'seedling', 'fa-apple-whole', 'Navel orange variety. Seedless with excellent taste. Good storage qualities.',                true, 'Images/washington.png'],
+  ['Orange Pixie', 'fruit', 200, 'seedling', 'fa-apple-whole', 'Easy peelers variety. Sweet and juicy fruits. Early maturing.', true, 'Images/orange pixie.png'],
+  ['Tangarine', 'fruit', 200, 'seedling', 'fa-apple-whole', 'Mandarin variety with easy peel skin. Sweet flavor, good for fresh consumption.', true, 'Images/Tangarine orange.png'],
+  ['Orange Washington', 'fruit', 200, 'seedling', 'fa-apple-whole', 'Navel orange variety. Seedless with excellent taste. Good storage qualities.', true, 'Images/washington.png'],
   // AVOCADO
-  ['Hass Avocado',                'fruit',       150,'seedling', 'fa-tree',        'Premium grafted Hass avocado. High yield, disease resistant. Ideal for export.',                  true, 'Images/Grafted hass ovacado.png'],
+  ['Hass Avocado', 'fruit', 150, 'seedling', 'fa-tree', 'Premium grafted Hass avocado. High yield, disease resistant. Ideal for export.', true, 'Images/Grafted hass ovacado.png'],
   // STRAWBERRY
-  ['Strawberry',                  'fruit',       50, 'seedling', 'fa-apple-whole', 'Sweet strawberry variety. High yielding with excellent fruit quality.',                      true, 'Images/straw.png'],
+  ['Strawberry', 'fruit', 50, 'seedling', 'fa-apple-whole', 'Sweet strawberry variety. High yielding with excellent fruit quality.', true, 'Images/straw.png'],
   // MANGOES
-  ['Mango Tommy',                 'fruit',       150,'seedling', 'fa-tree',        'Local mango variety with excellent flavor. Good for fresh consumption.',                       true, 'Images/mangoes.png'],
-  ['Apple Mangoes',               'fruit',       150,'seedling', 'fa-tree',        'Apple mango variety with fiberless flesh. Sweet taste and aromatic.',                     true, 'Images/applemangos.png'],
+  ['Mango Tommy', 'fruit', 150, 'seedling', 'fa-tree', 'Local mango variety with excellent flavor. Good for fresh consumption.', true, 'Images/mangoes.png'],
+  ['Apple Mangoes', 'fruit', 150, 'seedling', 'fa-tree', 'Apple mango variety with fiberless flesh. Sweet taste and aromatic.', true, 'Images/applemangos.png'],
   // APPLES
-  ['Green Apple',                 'fruit',       500,'seedling', 'fa-tree',        'Green apple variety with tart flavor. Good for processing and fresh market.',                            true, 'Images/greenapple.png'],
-  ['Red Apple',                   'fruit',       500,'seedling', 'fa-tree',        'Red apple tree. Sweet fruits.',                             true, 'Images/redapple.png'],
+  ['Green Apple', 'fruit', 500, 'seedling', 'fa-tree', 'Green apple variety with tart flavor. Good for processing and fresh market.', true, 'Images/greenapple.png'],
+  ['Red Apple', 'fruit', 500, 'seedling', 'fa-tree', 'Red apple tree. Sweet fruits.', true, 'Images/redapple.png'],
   // DRAGON FRUIT
-  ['Dragon Fruit',                'fruit',       450,'seedling', 'fa-seedling',    'Exotic dragon fruit plant. High value crop with growing market demand.',                       true, 'Images/dragonf.png'],
+  ['Dragon Fruit', 'fruit', 450, 'seedling', 'fa-seedling', 'Exotic dragon fruit plant. High value crop with growing market demand.', true, 'Images/dragonf.png'],
   // PASSION FRUIT
-  ['Passion Purple Passion',      'fruit',       50, 'seedling', 'fa-flower',      'Purple passion fruit variety. High yielding with excellent flavor.',                       true, 'Images/grafted passion p.png'],
-  ['Passion Yellow Passion',      'fruit',       50, 'seedling', 'fa-flower',      'Yellow passion fruit variety. Good for juice production and fresh market.',                      true, 'Images/yellowpassion.png'],
-  ['Passion Sweet Granadilla',    'fruit',       50, 'seedling', 'fa-flower',      'Sweet granadilla variety. Delicious flavor with high market value.',                        true, 'Images/purple passion.png'],
+  ['Passion Purple Passion', 'fruit', 50, 'seedling', 'fa-flower', 'Purple passion fruit variety. High yielding with excellent flavor.', true, 'Images/grafted passion p.png'],
+  ['Passion Yellow Passion', 'fruit', 50, 'seedling', 'fa-flower', 'Yellow passion fruit variety. Good for juice production and fresh market.', true, 'Images/yellowpassion.png'],
+  ['Passion Sweet Granadilla', 'fruit', 50, 'seedling', 'fa-flower', 'Sweet granadilla variety. Delicious flavor with high market value.', true, 'Images/purple passion.png'],
   // TREE TOMATOES
-  ['Tree Tomatoes',               'fruit',       50, 'seedling', 'fa-apple-whole', 'Tree tomato (tamarillo) seedlings. High yielding with excellent taste.',                               true, 'Images/tree tomatoes.png'],
+  ['Tree Tomatoes', 'fruit', 50, 'seedling', 'fa-apple-whole', 'Tree tomato (tamarillo) seedlings. High yielding with excellent taste.', true, 'Images/tree tomatoes.png'],
   // PAWPAW (PAPAYA)
-  ['Pawpaw Sharp F1',             'fruit',       100,'seedling', 'fa-tree',        'F1 hybrid papaya with good fruit quality. Disease resistant and high yielding.',                       true, 'Images/sharp f1.png'],
-  ['Pawpaw Red Royale',           'fruit',       150,'seedling', 'fa-tree',        'Red fleshed papaya variety. Sweet taste with excellent market appeal.',                      true, 'Images/redroyal f1.png'],
-  ['Pawpaw Vega F1',              'fruit',       200,'seedling', 'fa-tree',        'Premium F1 hybrid papaya. Large fruits with excellent flavor.',                          true, 'Images/pawpaw.png'],
-  ['Pawpaw Glory F1',             'fruit',       100,'seedling', 'fa-tree',        'F1 hybrid papaya with good yield potential. Suitable for commercial production.',                 true, 'Images/glory f1.png'],
+  ['Pawpaw Sharp F1', 'fruit', 100, 'seedling', 'fa-tree', 'F1 hybrid papaya with good fruit quality. Disease resistant and high yielding.', true, 'Images/sharp f1.png'],
+  ['Pawpaw Red Royale', 'fruit', 150, 'seedling', 'fa-tree', 'Red fleshed papaya variety. Sweet taste with excellent market appeal.', true, 'Images/redroyal f1.png'],
+  ['Pawpaw Vega F1', 'fruit', 200, 'seedling', 'fa-tree', 'Premium F1 hybrid papaya. Large fruits with excellent flavor.', true, 'Images/pawpaw.png'],
+  ['Pawpaw Glory F1', 'fruit', 100, 'seedling', 'fa-tree', 'F1 hybrid papaya with good yield potential. Suitable for commercial production.', true, 'Images/glory f1.png'],
+  // FORESTRY
   ['Grape', 'forestry', 350, 'seedling', 'fa-tree', 'Grape vine seedlings for planting.', true, 'Images/grape red.png'],
   ['Gravellia', 'forestry', 30, 'seedling', 'fa-tree', 'Gravellia tree seedlings, fast-growing timber species.', true, 'Images/vegetable.png'],
   ['Cypress', 'forestry', 50, 'seedling', 'fa-tree', 'Cypress tree seedlings for ornamental and timber use.', true, 'Images/cypress.jpg'],
   ['Pine', 'forestry', 80, 'seedling', 'fa-tree', 'Pine tree seedlings for reforestation and timber.', true, 'Images/vegetable.png'],
   ['Whistling Pine', 'forestry', 60, 'seedling', 'fa-tree', 'Whistling pine (Casuarina) seedlings for windbreaks and timber.', true, 'Images/vegetable.png'],
-  ['Eucalyptus', 'forestry', 40, 'seedling', 'fa-tree', 'Eucalyptus tree seedlings for timber and oil production.', true, 'Images/eucalyptus.png'],
+  ['Eucalyptus', 'forestry', 40, 'seedling', 'fa-tree', 'Eucalyptus tree seedlings for timber and oil production.', true, 'Images/eucalyptus.png']
 ];
 
-// ── MongoDB connection ───────────────────────────────────────────────────────
-const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URL || 'mongodb://localhost:27017/mkulima';
-
-async function connectMongoDB() {
+// ── PostgreSQL connection ─────────────────────────────────────────────────────
+async function connectPostgreSQL() {
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log('✅ MongoDB connected successfully');
-    useDb = true;
+    await sequelize.authenticate();
+    console.log('✅ PostgreSQL connected successfully');
     return true;
   } catch (err) {
-    console.log('⚠️ MongoDB unavailable, using in-memory store');
-    useDb = false;
+    console.log('⚠️ PostgreSQL unavailable:', err.message);
     return false;
   }
 }
 
-// Import models
-const Product = require('./models/Product');
-const Order = require('./models/Order');
-const Contact = require('./models/Contact');
+// ── Initialize database ───────────────────────────────────────────────────────
+async function initDb() {
+  try {
+    await sequelize.sync({ force: false });
+    console.log('✅ Database tables synchronized');
+    
+    // Seed products only if table is empty
+    const count = await Product.count();
+    if (count === 0) {
+      for (const [name, category, price, unit, icon, description, inStock, image] of SEED_PRODUCTS) {
+        await Product.create({
+          name, category, price, unit, icon, image, description, inStock
+        });
+      }
+      console.log('✅ Seeded ' + SEED_PRODUCTS.length + ' products');
+    }
+  } catch (err) {
+    console.error('❌ Database initialization error:', err.message);
+  }
+}
 
-// HTTPS redirect (production)
+// ── Middleware ────────────────────────────────────────────────────────────────
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
     return res.redirect(301, 'https://' + req.headers.host + req.url);
@@ -157,7 +187,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
@@ -171,7 +200,6 @@ const authenticateAdmin = async (req, res, next) => {
   
   const token = authHeader.substring(7);
   
-  // Check if token is in the valid tokens set
   if (validTokens.has(token)) {
     return next();
   }
@@ -179,48 +207,9 @@ const authenticateAdmin = async (req, res, next) => {
   return res.status(401).json({ error: 'Unauthorized' });
 };
 
-// ── Database helpers ─────────────────────────────────────────────────────────
-
-/** Seed the in-memory store (called when MongoDB is unavailable). */
-function seedInMemory() {
-  if (inMemoryProducts.length > 0) return; // already seeded
-  for (const [name, category, price, unit, icon, description, in_stock, image] of SEED_PRODUCTS) {
-    inMemoryProducts.push({
-      id: nextProductId++,
-      name, category, price, unit, icon, description, in_stock, image,
-      inStock: in_stock
-    });
-  }
-  console.log('✅ Seeded', inMemoryProducts.length, 'products (in-memory mode)');
-}
-
-// Initialize database + seed
-async function initDb() {
-  const connected = await connectMongoDB();
-  
-  if (connected) {
-    // Seed products only if collection is empty
-    const count = await Product.countDocuments();
-    if (count === 0) {
-      for (const [name, category, price, unit, icon, description, in_stock, image] of SEED_PRODUCTS) {
-        await Product.create({
-          name, category, price, unit, icon, image, description, in_stock
-        });
-      }
-      console.log('✅ Seeded 57 products');
-    }
-  } else {
-    seedInMemory();
-  }
-}
-
-// Root redirect → main HTML
+// ── Page Routes ─────────────────────────────────────────────────────────────
 app.get('/', (_, res) => res.sendFile(path.join(__dirname, 'mku.html')));
-
-// Products page
 app.get('/products.html', (_, res) => res.sendFile(path.join(__dirname, 'products.html')));
-
-// Admin page
 app.get('/admin', (_, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 app.get('/admin.html', (_, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
@@ -236,97 +225,87 @@ app.get('/robots.txt', (_, res) => {
   res.sendFile(path.join(__dirname, 'robots.txt'));
 });
 
-// --- API Routes ---
+// ── API Routes ───────────────────────────────────────────────────────────────
 
 // GET all products
 app.get('/api/products', async (_, res) => {
-  if (useDb) {
-    const products = await Product.find().sort({ _id: 1 });
-    res.json(products.map(p => ({ ...p.toObject(), inStock: p.in_stock })));
-  } else {
-    res.json(inMemoryProducts.map(p => ({ ...p, inStock: p.in_stock })));
+  try {
+    const products = await Product.findAll({ order: [['createdAt', 'ASC']] });
+    res.json(products.map(p => p.toJSON()));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch products' });
   }
 });
 
 // PUT toggle stock
 app.put('/api/products/:id/stock', authenticateAdmin, async (req, res) => {
-  const { in_stock } = req.body;
-  if (useDb) {
-    await Product.findByIdAndUpdate(req.params.id, { in_stock });
-  } else {
-    const p = inMemoryProducts.find(p => p.id === Number(req.params.id));
-    if (p) p.in_stock = in_stock;
+  const { inStock } = req.body;
+  try {
+    const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+    product.inStock = inStock;
+    await product.save();
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update stock' });
   }
-  res.json({ success: true });
 });
 
 // PUT update product
 app.put('/api/products/:id', authenticateAdmin, async (req, res) => {
   const { id } = req.params;
-  const { name, category, price, unit, icon, image, description, in_stock } = req.body;
+  const { name, category, price, unit, icon, image, description, inStock } = req.body;
 
-  // Validate required fields
   if (!name || !category || !price) {
     return res.status(400).json({ error: 'Name, category, and price are required' });
   }
 
-  if (useDb) {
-    try {
-      const product = await Product.findByIdAndUpdate(
-        id,
-        { name, category, price, unit: unit || 'seedling', icon: icon || 'fa-seedling', image, description, in_stock: !!in_stock },
-        { new: true }
-      );
-      if (!product) {
-        return res.status(404).json({ error: 'Product not found' });
-      }
-      res.json({ success: true, product: { ...product.toObject(), inStock: product.in_stock } });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Database error' });
-    }
-  } else {
-    const p = inMemoryProducts.find(p => p.id === Number(id));
-    if (!p) {
+  try {
+    const product = await Product.findByPk(id);
+    if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
-    p.name = name;
-    p.category = category;
-    p.price = price;
-    p.unit = unit || 'seedling';
-    p.icon = icon || 'fa-seedling';
-    p.image = image;
-    p.description = description;
-    p.in_stock = !!in_stock;
-    res.json({ success: true, product: { ...p, inStock: p.in_stock } });
+    
+    product.name = name;
+    product.category = category;
+    product.price = price;
+    product.unit = unit || 'seedling';
+    product.icon = icon || 'fa-seedling';
+    product.image = image;
+    product.description = description;
+    product.inStock = !!inStock;
+    await product.save();
+    
+    res.json({ success: true, product: product.toJSON() });
+  } catch (err) {
+    res.status(500).json({ error: 'Database error' });
   }
 });
 
 // POST new order
 app.post('/api/orders', async (req, res) => {
-  const { product_id, product_name, customer_name, phone, quantity, price, delivery } = req.body;
-  if (useDb) {
+  const { productId, productName, customerName, phone, quantity, price, delivery } = req.body;
+  try {
     const order = await Order.create({
-      product_id, product_name, customer_name, phone, quantity, price, delivery
+      productId, productName, customerName, phone, quantity, price, delivery
     });
-    res.json({ success: true, id: order._id });
-  } else {
-    const id = nextOrderId++;
-    inMemoryOrders.push({ id, product_id, product_name, customer_name, phone, quantity, price, delivery, status: 'pending', created_at: new Date().toISOString() });
-    res.json({ success: true, id });
+    res.json({ success: true, id: order.id });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create order' });
   }
 });
 
 // POST contact message
 app.post('/api/contacts', async (req, res) => {
   const { name, phone, interest, message } = req.body;
-  if (useDb) {
+  try {
     await Contact.create({ name, phone, interest, message });
-  } else {
-    const id = nextContactId++;
-    inMemoryContacts.push({ id, name, phone, interest, message, created_at: new Date().toISOString() });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to submit contact' });
   }
-  res.json({ success: true });
 });
 
 // POST admin login
@@ -353,18 +332,12 @@ app.post('/api/admin/login', async (req, res) => {
 // POST reset database (admin only) - clears and re-seeds products
 app.post('/api/admin/reset', authenticateAdmin, async (req, res) => {
   try {
-    if (useDb) {
-      await Product.deleteMany({});
-      
-      for (const [name, category, price, unit, icon, description, in_stock, image] of SEED_PRODUCTS) {
-        await Product.create({
-          name, category, price, unit, icon, image, description, in_stock
-        });
-      }
-    } else {
-      inMemoryProducts = [];
-      nextProductId = 1;
-      seedInMemory();
+    await Product.destroy({ where: {} });
+    
+    for (const [name, category, price, unit, icon, description, inStock, image] of SEED_PRODUCTS) {
+      await Product.create({
+        name, category, price, unit, icon, image, description, inStock
+      });
     }
     res.json({ success: true, message: 'Database reset and re-seeded' });
   } catch (err) {
@@ -374,11 +347,11 @@ app.post('/api/admin/reset', authenticateAdmin, async (req, res) => {
 
 // GET all orders (admin)
 app.get('/api/admin/orders', authenticateAdmin, async (_, res) => {
-  if (useDb) {
-    const orders = await Order.find().sort({ createdAt: -1 });
-    res.json(orders.map(o => o.toObject()));
-  } else {
-    res.json([...inMemoryOrders].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+  try {
+    const orders = await Order.findAll({ order: [['createdAt', 'DESC']] });
+    res.json(orders.map(o => o.toJSON()));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch orders' });
   }
 });
 
@@ -386,24 +359,13 @@ app.get('/api/admin/orders', authenticateAdmin, async (_, res) => {
 app.put('/api/admin/orders/:id', authenticateAdmin, async (req, res) => {
   const { status } = req.body;
   try {
-    if (useDb) {
-      const order = await Order.findByIdAndUpdate(
-        req.params.id,
-        { status },
-        { new: true }
-      );
-      if (!order) {
-        return res.status(404).json({ error: 'Order not found' });
-      }
-      res.json({ success: true, order: order.toObject() });
-    } else {
-      const orderIndex = inMemoryOrders.findIndex(o => o.id === Number(req.params.id));
-      if (orderIndex === -1) {
-        return res.status(404).json({ error: 'Order not found' });
-      }
-      inMemoryOrders[orderIndex].status = status;
-      res.json({ success: true, order: inMemoryOrders[orderIndex] });
+    const order = await Order.findByPk(req.params.id);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
     }
+    order.status = status;
+    await order.save();
+    res.json({ success: true, order: order.toJSON() });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update order', details: err.message });
   }
@@ -411,55 +373,37 @@ app.put('/api/admin/orders/:id', authenticateAdmin, async (req, res) => {
 
 // GET all contacts (admin)
 app.get('/api/admin/contacts', authenticateAdmin, async (_, res) => {
-  if (useDb) {
-    const contacts = await Contact.find().sort({ createdAt: -1 });
-    res.json(contacts.map(c => c.toObject()));
-  } else {
-    res.json([...inMemoryContacts].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+  try {
+    const contacts = await Contact.findAll({ order: [['createdAt', 'DESC']] });
+    res.json(contacts.map(c => c.toJSON()));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch contacts' });
   }
 });
 
 // GET all products (admin)
 app.get('/api/admin/products', authenticateAdmin, async (_, res) => {
-  if (useDb) {
-    const products = await Product.find().sort({ _id: 1 });
-    res.json(products.map(p => ({ ...p.toObject(), inStock: p.in_stock })));
-  } else {
-    res.json(inMemoryProducts.map(p => ({ ...p, inStock: p.in_stock })));
+  try {
+    const products = await Product.findAll({ order: [['createdAt', 'ASC']] });
+    res.json(products.map(p => p.toJSON()));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch products' });
   }
 });
 
 // POST new product (admin)
 app.post('/api/admin/products', authenticateAdmin, async (req, res) => {
-  const { name, category, price, unit, icon, image, description, in_stock } = req.body;
+  const { name, category, price, unit, icon, image, description, inStock } = req.body;
   
-  // Basic validation
   if (!name || !category || !price || !image) {
     return res.status(400).json({ error: 'Name, category, price, and image are required' });
   }
   
   try {
-    if (useDb) {
-      const product = await Product.create({
-        name, category, price, unit: unit || 'seedling', icon: icon || 'fa-seedling', image, description, in_stock: !!in_stock
-      });
-      res.json({ success: true, product: { ...product.toObject(), inStock: product.in_stock } });
-    } else {
-      const product = {
-        id: nextProductId++,
-        name,
-        category,
-        price,
-        unit: unit || 'seedling',
-        icon: icon || 'fa-seedling',
-        image,
-        description: description || '',
-        in_stock: !!in_stock,
-        inStock: !!in_stock
-      };
-      inMemoryProducts.push(product);
-      res.json({ success: true, product });
-    }
+    const product = await Product.create({
+      name, category, price, unit: unit || 'seedling', icon: icon || 'fa-seedling', image, description, inStock: !!inStock
+    });
+    res.json({ success: true, product: product.toJSON() });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create product', details: err.message });
   }
@@ -467,47 +411,29 @@ app.post('/api/admin/products', authenticateAdmin, async (req, res) => {
 
 // PUT update product (admin)
 app.put('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
-  const { name, category, price, unit, icon, image, description, in_stock } = req.body;
+  const { name, category, price, unit, icon, image, description, inStock } = req.body;
   
-  // Basic validation
   if (!name || !category || !price || !image) {
     return res.status(400).json({ error: 'Name, category, price, and image are required' });
   }
   
   try {
-    if (useDb) {
-      const product = await Product.findByIdAndUpdate(
-        req.params.id,
-        { name, category, price, unit: unit || 'seedling', icon: icon || 'fa-seedling', image, description, in_stock: !!in_stock },
-        { new: true }
-      );
-      
-      if (!product) {
-        return res.status(404).json({ error: 'Product not found' });
-      }
-      
-      res.json({ success: true, product: { ...product.toObject(), inStock: product.in_stock } });
-    } else {
-      const productIndex = inMemoryProducts.findIndex(p => p.id === Number(req.params.id));
-      if (productIndex === -1) {
-        return res.status(404).json({ error: 'Product not found' });
-      }
-      
-      inMemoryProducts[productIndex] = {
-        ...inMemoryProducts[productIndex],
-        name,
-        category,
-        price,
-        unit: unit || 'seedling',
-        icon: icon || 'fa-seedling',
-        image,
-        description: description || '',
-        in_stock: !!in_stock,
-        inStock: !!in_stock
-      };
-      
-      res.json({ success: true, product: inMemoryProducts[productIndex] });
+    const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
     }
+    
+    product.name = name;
+    product.category = category;
+    product.price = price;
+    product.unit = unit || 'seedling';
+    product.icon = icon || 'fa-seedling';
+    product.image = image;
+    product.description = description;
+    product.inStock = !!inStock;
+    await product.save();
+    
+    res.json({ success: true, product: product.toJSON() });
   } catch (err) {
     res.status(500).json({ error: 'Failed to update product', details: err.message });
   }
@@ -516,36 +442,256 @@ app.put('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
 // DELETE product (admin)
 app.delete('/api/admin/products/:id', authenticateAdmin, async (req, res) => {
   try {
-    if (useDb) {
-      const product = await Product.findByIdAndDelete(req.params.id);
-      
-      if (!product) {
-        return res.status(404).json({ error: 'Product not found' });
-      }
-      
-      res.json({ success: true, message: 'Product deleted successfully' });
-    } else {
-      const productIndex = inMemoryProducts.findIndex(p => p.id === Number(req.params.id));
-      if (productIndex === -1) {
-        return res.status(404).json({ error: 'Product not found' });
-      }
-      
-      inMemoryProducts.splice(productIndex, 1);
-      res.json({ success: true, message: 'Product deleted successfully' });
+    const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
     }
+    await product.destroy();
+    res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete product', details: err.message });
   }
 });
 
-// Start
+// ── Farmer Routes ─────────────────────────────────────────────────────────────
+
+// GET all farmers (admin)
+app.get('/api/admin/farmers', authenticateAdmin, async (req, res) => {
+  try {
+    const farmers = await Farmer.findAll({ 
+      order: [['createdAt', 'DESC']],
+      include: [{ model: Seedling, as: 'seedlings' }]
+    });
+    res.json(farmers.map(f => f.toJSON()));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch farmers' });
+  }
+});
+
+// POST new farmer (admin)
+app.post('/api/admin/farmers', authenticateAdmin, async (req, res) => {
+  const { name, phone, email, location, county, farmSize } = req.body;
+  
+  if (!name || !phone || !location) {
+    return res.status(400).json({ error: 'Name, phone, and location are required' });
+  }
+  
+  try {
+    const farmer = await Farmer.create({
+      name, phone, email, location, county, farmSize
+    });
+    res.json({ success: true, farmer: farmer.toJSON() });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create farmer', details: err.message });
+  }
+});
+
+// PUT update farmer (admin)
+app.put('/api/admin/farmers/:id', authenticateAdmin, async (req, res) => {
+  const { name, phone, email, location, county, farmSize, status } = req.body;
+  
+  try {
+    const farmer = await Farmer.findByPk(req.params.id);
+    if (!farmer) {
+      return res.status(404).json({ error: 'Farmer not found' });
+    }
+    
+    farmer.name = name || farmer.name;
+    farmer.phone = phone || farmer.phone;
+    farmer.email = email;
+    farmer.location = location || farmer.location;
+    farmer.county = county;
+    farmer.farmSize = farmSize;
+    farmer.status = status || farmer.status;
+    await farmer.save();
+    
+    res.json({ success: true, farmer: farmer.toJSON() });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update farmer', details: err.message });
+  }
+});
+
+// DELETE farmer (admin)
+app.delete('/api/admin/farmers/:id', authenticateAdmin, async (req, res) => {
+  try {
+    const farmer = await Farmer.findByPk(req.params.id);
+    if (!farmer) {
+      return res.status(404).json({ error: 'Farmer not found' });
+    }
+    await farmer.destroy();
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete farmer', details: err.message });
+  }
+});
+
+// ── Seedling Routes ───────────────────────────────────────────────────────────
+
+// GET all seedlings (admin)
+app.get('/api/admin/seedlings', authenticateAdmin, async (req, res) => {
+  try {
+    const seedlings = await Seedling.findAll({ 
+      order: [['createdAt', 'DESC']],
+      include: [{ model: Farmer, as: 'farmer' }]
+    });
+    res.json(seedlings.map(s => s.toJSON()));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch seedlings' });
+  }
+});
+
+// POST new seedling (admin)
+app.post('/api/admin/seedlings', authenticateAdmin, upload.single('image'), async (req, res) => {
+  const { farmerId, name, category, variety, price, quantity, description, datePlanted, expectedHarvest } = req.body;
+  
+  if (!name || !category || !price) {
+    return res.status(400).json({ error: 'Name, category, and price are required' });
+  }
+  
+  try {
+    const image = req.file ? '/uploads/' + req.file.filename : null;
+    const seedling = await Seedling.create({
+      farmerId, name, category, variety, price, quantity, description, image, datePlanted, expectedHarvest
+    });
+    res.json({ success: true, seedling: seedling.toJSON() });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create seedling', details: err.message });
+  }
+});
+
+// PUT update seedling (admin)
+app.put('/api/admin/seedlings/:id', authenticateAdmin, upload.single('image'), async (req, res) => {
+  const { farmerId, name, category, variety, price, quantity, description, datePlanted, expectedHarvest, status } = req.body;
+  
+  try {
+    const seedling = await Seedling.findByPk(req.params.id);
+    if (!seedling) {
+      return res.status(404).json({ error: 'Seedling not found' });
+    }
+    
+    seedling.farmerId = farmerId || seedling.farmerId;
+    seedling.name = name || seedling.name;
+    seedling.category = category || seedling.category;
+    seedling.variety = variety;
+    seedling.price = price || seedling.price;
+    seedling.quantity = quantity !== undefined ? quantity : seedling.quantity;
+    seedling.description = description;
+    seedling.datePlanted = datePlanted;
+    seedling.expectedHarvest = expectedHarvest;
+    seedling.status = status || seedling.status;
+    
+    if (req.file) {
+      seedling.image = '/uploads/' + req.file.filename;
+    }
+    
+    await seedling.save();
+    res.json({ success: true, seedling: seedling.toJSON() });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update seedling', details: err.message });
+  }
+});
+
+// DELETE seedling (admin)
+app.delete('/api/admin/seedlings/:id', authenticateAdmin, async (req, res) => {
+  try {
+    const seedling = await Seedling.findByPk(req.params.id);
+    if (!seedling) {
+      return res.status(404).json({ error: 'Seedling not found' });
+    }
+    await seedling.destroy();
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete seedling', details: err.message });
+  }
+});
+
+// ── Distribution Routes ─────────────────────────────────────────────────────
+
+// GET all distributions (admin)
+app.get('/api/admin/distributions', authenticateAdmin, async (req, res) => {
+  try {
+    const distributions = await Distribution.findAll({ 
+      order: [['distributionDate', 'DESC']],
+      include: [
+        { model: Seedling, as: 'seedling' },
+        { model: Farmer, as: 'farmer' }
+      ]
+    });
+    res.json(distributions.map(d => d.toJSON()));
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch distributions' });
+  }
+});
+
+// POST new distribution (admin)
+app.post('/api/admin/distributions', authenticateAdmin, async (req, res) => {
+  const { seedlingId, farmerId, quantity, destination, county, distributedBy, notes } = req.body;
+  
+  if (!seedlingId || !quantity || !destination) {
+    return res.status(400).json({ error: 'Seedling ID, quantity, and destination are required' });
+  }
+  
+  try {
+    const distribution = await Distribution.create({
+      seedlingId, farmerId, quantity, destination, county, distributedBy, notes
+    });
+    res.json({ success: true, distribution: distribution.toJSON() });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create distribution', details: err.message });
+  }
+});
+
+// PUT update distribution status (admin)
+app.put('/api/admin/distributions/:id', authenticateAdmin, async (req, res) => {
+  const { status, notes } = req.body;
+  
+  try {
+    const distribution = await Distribution.findByPk(req.params.id);
+    if (!distribution) {
+      return res.status(404).json({ error: 'Distribution not found' });
+    }
+    
+    distribution.status = status || distribution.status;
+    distribution.notes = notes !== undefined ? notes : distribution.notes;
+    await distribution.save();
+    
+    res.json({ success: true, distribution: distribution.toJSON() });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update distribution', details: err.message });
+  }
+});
+
+// DELETE distribution (admin)
+app.delete('/api/admin/distributions/:id', authenticateAdmin, async (req, res) => {
+  try {
+    const distribution = await Distribution.findByPk(req.params.id);
+    if (!distribution) {
+      return res.status(404).json({ error: 'Distribution not found' });
+    }
+    await distribution.destroy();
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete distribution', details: err.message });
+  }
+});
+
+// ── Start server ──────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
-async function startServer() {
+
+async function start() {
   await hashAdminPassword();
-  await initDb().catch(err => {
-    console.error('DB init error:', err);
-    seedInMemory();
+  await connectPostgreSQL();
+  await initDb();
+  
+  app.listen(PORT, () => {
+    console.log('🚀 Server running on port ' + PORT);
+    console.log('📊 Environment: ' + (process.env.NODE_ENV || 'development'));
   });
-  app.listen(PORT, () => console.log(`🌱 MKULIMA server running on port ${PORT}`));
 }
-startServer();
+
+start().catch(err => {
+  console.error('❌ Server startup error:', err);
+  process.exit(1);
+});
+
+module.exports = app;

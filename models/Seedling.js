@@ -1,11 +1,19 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  const Product = sequelize.define('Product', {
+  const Seedling = sequelize.define('Seedling', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true
+    },
+    farmerId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'farmers',
+        key: 'id'
+      }
     },
     name: {
       type: DataTypes.STRING,
@@ -15,6 +23,9 @@ module.exports = (sequelize) => {
       type: DataTypes.ENUM('fruit', 'vegetable', 'forestry', 'ornamental', 'cash_crop', 'fodder'),
       allowNull: false
     },
+    variety: {
+      type: DataTypes.STRING
+    },
     price: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
@@ -23,25 +34,37 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       defaultValue: 'seedling'
     },
-    icon: {
-      type: DataTypes.STRING,
-      defaultValue: 'fa-seedling'
-    },
-    image: {
-      type: DataTypes.STRING
+    quantity: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     description: {
       type: DataTypes.TEXT
+    },
+    image: {
+      type: DataTypes.STRING
     },
     inStock: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
       field: 'in_stock'
+    },
+    datePlanted: {
+      type: DataTypes.DATE,
+      field: 'date_planted'
+    },
+    expectedHarvest: {
+      type: DataTypes.DATE,
+      field: 'expected_harvest'
+    },
+    status: {
+      type: DataTypes.ENUM('growing', 'ready', 'distributed', 'sold'),
+      defaultValue: 'growing'
     }
   }, {
-    tableName: 'products',
+    tableName: 'seedlings',
     timestamps: true
   });
 
-  return Product;
+  return Seedling;
 };

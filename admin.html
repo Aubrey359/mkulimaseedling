@@ -282,8 +282,9 @@
             font-weight:600;
         }
         .status.pending{background:#fff8e1;color:#e65100;}
-        .status.processing{background:#e3f2fd;color:#1565c0;}
-        .status.completed{background:#e8f5e9;color:var(--green);}
+        .status.confirmed{background:#e3f2fd;color:#1565c0;}
+        .status.shipped{background:#e0f2f1;color:#00695c;}
+        .status.delivered{background:#e8f5e9;color:var(--green);}
         .status.cancelled{background:#ffebee;color:#c62828;}
         
         .btn{
@@ -518,6 +519,115 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Edit Product</h2>
+        <form id="editProductForm">
+          <input type="hidden" id="editProductId">
+          <div class="form-group">
+            <label for="editName">Name</label>
+            <input type="text" id="editName" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="editCategory">Category</label>
+            <select id="editCategory" class="form-control" required>
+              <option value="">Select Category</option>
+              <option value="fruit">Fruit Trees</option>
+              <option value="vegetable">Vegetables</option>
+              <option value="forestry">Forestry</option>
+              <option value="grain">Grains</option>
+              <option value="cash_crop">Cash Crops</option>
+              <option value="fodder">Fodder</option>
+              <option value="ornamental">Ornamental</option>
+              <option value="tree">Trees</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="editPrice">Price (KES)</label>
+            <input type="number" id="editPrice" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="editUnit">Unit</label>
+            <input type="text" id="editUnit" class="form-control" value="seedling">
+          </div>
+          <div class="form-group">
+            <label for="editIcon">Icon (Font Awesome class)</label>
+            <input type="text" id="editIcon" class="form-control" value="fa-seedling">
+          </div>
+          <div class="form-group">
+            <label for="editImage">Image URL</label>
+            <input type="text" id="editImage" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="editDescription">Description</label>
+            <textarea id="editDescription" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="editInStock">In Stock</label>
+            <input type="checkbox" id="editInStock">
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-outline" id="closeEditModal">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Add New Product</h2>
+        <form id="addProductForm">
+          <div class="form-group">
+            <label for="addName">Name</label>
+            <input type="text" id="addName" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="addCategory">Category</label>
+            <select id="addCategory" class="form-control" required>
+              <option value="">Select Category</option>
+              <option value="fruit">Fruit Trees</option>
+              <option value="vegetable">Vegetables</option>
+              <option value="forestry">Forestry</option>
+              <option value="grain">Grains</option>
+              <option value="cash_crop">Cash Crops</option>
+              <option value="fodder">Fodder</option>
+              <option value="ornamental">Ornamental</option>
+              <option value="tree">Trees</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="addPrice">Price (KES)</label>
+            <input type="number" id="addPrice" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="addUnit">Unit</label>
+            <input type="text" id="addUnit" class="form-control" value="seedling">
+          </div>
+          <div class="form-group">
+            <label for="addIcon">Icon (Font Awesome class)</label>
+            <input type="text" id="addIcon" class="form-control" value="fa-seedling">
+          </div>
+          <div class="form-group">
+            <label for="addImage">Image URL</label>
+            <input type="text" id="addImage" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="addDescription">Description</label>
+            <textarea id="addDescription" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="addInStock">In Stock</label>
+            <input type="checkbox" id="addInStock" checked>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Product</button>
+          <button type="button" class="btn btn-outline" id="closeAddModal">Cancel</button>
+        </form>
+      </div>
     </div>
 
     <!-- Toast Notification -->
@@ -851,11 +961,12 @@
                                 <td>
                                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                                         <select onchange="updateOrderStatus(${order.id}, this.value)" class="form-control" style="width:auto;padding:4px 8px;font-size:0.85rem;">
-                                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
-                                            <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
-                                            <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
-                                            <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
-                                        </select>
+                                             <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                             <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                                             <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                                             <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                                             <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                                         </select>
                                     </div>
                                 </td>
                             </tr>
@@ -943,7 +1054,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ in_stock: inStock })
+                    body: JSON.stringify({ inStock: inStock })
                 });
 
                 if (response.ok) {
@@ -1038,7 +1149,7 @@
                 document.getElementById('editIcon').value = product.icon || 'fa-seedling';
                 document.getElementById('editImage').value = product.image || '';
                 document.getElementById('editDescription').value = product.description || '';
-                document.getElementById('editInStock').checked = !!product.in_stock;
+                document.getElementById('editInStock').checked = !!product.inStock;
                 editProductModal.style.display = 'block';
             }
         };
@@ -1069,11 +1180,11 @@
                 icon: document.getElementById('editIcon').value,
                 image: document.getElementById('editImage').value,
                 description: document.getElementById('editDescription').value,
-                in_stock: document.getElementById('editInStock').checked
+                inStock: document.getElementById('editInStock').checked
             };
 
             try {
-                const response = await fetch(`/api/products/${editProductId}`, {
+                const response = await fetch(`/api/admin/products/${editProductId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1139,7 +1250,7 @@
                 icon: document.getElementById('addIcon').value,
                 image: document.getElementById('addImage').value,
                 description: document.getElementById('addDescription').value,
-                in_stock: document.getElementById('addInStock').checked
+                inStock: document.getElementById('addInStock').checked
             };
 
             // Validate required fields
@@ -1172,114 +1283,5 @@
             }
         });
     </script>
-<!-- Edit Product Modal -->
-<div id="editProductModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>Edit Product</h2>
-    <form id="editProductForm">
-      <input type="hidden" id="editProductId">
-      <div class="form-group">
-        <label for="editName">Name</label>
-        <input type="text" id="editName" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label for="editCategory">Category</label>
-        <select id="editCategory" class="form-control" required>
-          <option value="">Select Category</option>
-          <option value="fruit">Fruit Trees</option>
-          <option value="vegetable">Vegetables</option>
-          <option value="forestry">Forestry</option>
-          <option value="grain">Grains</option>
-          <option value="cash_crop">Cash Crops</option>
-          <option value="fodder">Fodder</option>
-          <option value="ornamental">Ornamental</option>
-          <option value="tree">Trees</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="editPrice">Price (KES)</label>
-        <input type="number" id="editPrice" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label for="editUnit">Unit</label>
-        <input type="text" id="editUnit" class="form-control" value="seedling">
-      </div>
-      <div class="form-group">
-        <label for="editIcon">Icon (Font Awesome class)</label>
-        <input type="text" id="editIcon" class="form-control" value="fa-seedling">
-      </div>
-      <div class="form-group">
-        <label for="editImage">Image URL</label>
-        <input type="text" id="editImage" class="form-control">
-      </div>
-      <div class="form-group">
-        <label for="editDescription">Description</label>
-        <textarea id="editDescription" class="form-control" rows="3"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="editInStock">In Stock</label>
-        <input type="checkbox" id="editInStock">
-      </div>
-      <button type="submit" class="btn btn-primary">Save Changes</button>
-      <button type="button" class="btn btn-outline" id="closeEditModal">Cancel</button>
-    </form>
-  </div>
-</div>
-</div>
-
-<!-- Add Product Modal -->
-<div id="addProductModal" class="modal">
- <div class="modal-content">
-   <span class="close-btn">&times;</span>
-   <h2>Add New Product</h2>
-   <form id="addProductForm">
-     <div class="form-group">
-       <label for="addName">Name</label>
-       <input type="text" id="addName" class="form-control" required>
-     </div>
-     <div class="form-group">
-       <label for="addCategory">Category</label>
-       <select id="addCategory" class="form-control" required>
-         <option value="">Select Category</option>
-         <option value="fruit">Fruit Trees</option>
-         <option value="vegetable">Vegetables</option>
-         <option value="forestry">Forestry</option>
-         <option value="grain">Grains</option>
-         <option value="cash_crop">Cash Crops</option>
-         <option value="fodder">Fodder</option>
-         <option value="ornamental">Ornamental</option>
-         <option value="tree">Trees</option>
-       </select>
-     </div>
-     <div class="form-group">
-       <label for="addPrice">Price (KES)</label>
-       <input type="number" id="addPrice" class="form-control" required>
-     </div>
-     <div class="form-group">
-       <label for="addUnit">Unit</label>
-       <input type="text" id="addUnit" class="form-control" value="seedling">
-     </div>
-     <div class="form-group">
-       <label for="addIcon">Icon (Font Awesome class)</label>
-       <input type="text" id="addIcon" class="form-control" value="fa-seedling">
-     </div>
-     <div class="form-group">
-       <label for="addImage">Image URL</label>
-       <input type="text" id="addImage" class="form-control" required>
-     </div>
-     <div class="form-group">
-       <label for="addDescription">Description</label>
-       <textarea id="addDescription" class="form-control" rows="3"></textarea>
-     </div>
-     <div class="form-group">
-       <label for="addInStock">In Stock</label>
-       <input type="checkbox" id="addInStock" checked>
-     </div>
-     <button type="submit" class="btn btn-primary">Add Product</button>
-     <button type="button" class="btn btn-outline" id="closeAddModal">Cancel</button>
-   </form>
- </div>
-</div>
 </body>
 </html>
