@@ -8,6 +8,10 @@ const { connectDB, Farmer, Seedling, Distribution, Product, Order, Contact } = r
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors()); // Since your package.json uses the cors package
+
 // ── Admin password hashing ───────────────────────────────────────────────────
 const SALT_ROUNDS = 10;
 let hashedAdminPassword = null;
@@ -715,14 +719,11 @@ async function start() {
   await initDb();
   
   app.listen(PORT, () => {
-    console.log('🚀 Server running on port ' + PORT);
-    console.log('📊 Environment: ' + (process.env.NODE_ENV || 'development'));
+    console.log(`🚀 Server running on port ${PORT}`);
   });
 }
 
-start().catch(err => {
-  console.error('❌ Server startup error:', err);
-  process.exit(1);
-});
+// ⚠️ ADD THIS LINE RIGHT HERE TO TRIGGER STARTUP:
+start().catch(err => console.error("❌ Critical server startup failure:", err));
 
 module.exports = app;

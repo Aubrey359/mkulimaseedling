@@ -796,10 +796,11 @@
         // Load dashboard stats
         async function loadDashboardData() {
             try {
+                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
                 const [productsRes, ordersRes, contactsRes] = await Promise.all([
                     fetch('/api/products'),
-                    fetch('/api/admin/orders'),
-                    fetch('/api/admin/contacts')
+                    fetch('/api/admin/orders', { headers }),
+                    fetch('/api/admin/contacts', { headers })
                 ]);
 
                 const [productsData, ordersData, contactsData] = await Promise.all([
@@ -1010,10 +1011,10 @@
                 // Filter orders
                 let filtered = data;
                 if (search) {
-                    filtered = filtered.filter(o => 
-                        o.product_name.toLowerCase().includes(search) ||
-                        o.customer_name.toLowerCase().includes(search) ||
-                        o.phone.includes(search)
+                    filtered = filtered.filter(o =>
+                        (o.productName || '').toLowerCase().includes(search) ||
+                        (o.customerName || '').toLowerCase().includes(search) ||
+                        (o.phone || '').includes(search)
                     );
                 }
 
