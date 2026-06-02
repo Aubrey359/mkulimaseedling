@@ -7,7 +7,7 @@ const productSchema = new Schema({
   },
   category: {
     type: String,
-    enum: ['fruit', 'vegetable', 'forestry', 'ornamental', 'cash_crop', 'fodder'],
+    enum: ['fruit', 'vegetable', 'forestry', 'ornamental', 'cash_crop', 'fodder', 'supplies'],
     required: true
   },
   price: {

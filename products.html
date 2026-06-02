@@ -1,13 +1,14 @@
 <section id="products" class="products-bg">
   <div class="section-inner">
-    <div class="section-label">Live Stock</div>
-    <h2 class="section-title">Browse & Order Our Seedlings</h2>
-    <p class="section-sub">Certified, ready-to-plant seedlings. Add to cart and order via WhatsApp instantly.</p>
+    <div class="section-label">Products</div>
+    <h2 class="section-title">Browse & Order Our Products</h2>
+    <p class="section-sub">Certified seedlings and quality growing supplies. Add to cart and order via WhatsApp instantly.</p>
     <div class="filters">
       <button class="filter-btn active" onclick="filterProducts('all',this)">🌿 All</button>
       <button class="filter-btn" onclick="filterProducts('fruit',this)">🍎 Fruit Trees</button>
       <button class="filter-btn" onclick="filterProducts('vegetable',this)">🥦 Vegetables</button>
       <button class="filter-btn" onclick="filterProducts('forestry',this)">🌳 Forestry</button>
+      <button class="filter-btn" onclick="filterProducts('other',this)">📦 Other Products</button>
     </div>
     <div class="products-grid" id="productsGrid"></div>
   </div>
@@ -31,13 +32,17 @@
 
   function renderProducts(products, filter='all') {
     const grid = document.getElementById('productsGrid');
-    const list = filter === 'all' ? products : products.filter(p => p.category === filter);
+    const list = filter === 'all' 
+      ? products 
+      : filter === 'other' 
+        ? products.filter(p => !['fruit', 'vegetable', 'forestry'].includes(p.category))
+        : products.filter(p => p.category === filter);
     grid.innerHTML = list.map(p => `
       <div class="product-card">
         <div class="product-img-wrap">
           <img src="${p.image || 'Images/vegetable.png'}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="product-img-fallback" style="display:none">🌱</div>
-          <span class="product-cat-tag">${p.category === 'fruit' ? 'Fruit' : p.category === 'vegetable' ? 'Vegetable' : 'Forestry'}</span>
+          <span class="product-cat-tag">${p.category === 'fruit' ? 'Fruit' : p.category === 'vegetable' ? 'Vegetable' : p.category === 'forestry' ? 'Forestry' : 'Other'}</span>
         </div>
         <div class="product-body">
           <h3 class="product-title">${p.name}</h3>

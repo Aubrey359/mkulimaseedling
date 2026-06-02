@@ -140,7 +140,28 @@ const SEED_PRODUCTS = [
   ['Cypress', 'forestry', 50, 'seedling', 'fa-tree', 'Cypress tree seedlings for ornamental and timber use.', true, 'Images/cypress.jpg'],
   ['Pine', 'forestry', 80, 'seedling', 'fa-tree', 'Pine tree seedlings for reforestation and timber.', true, 'Images/vegetable.png'],
   ['Whistling Pine', 'forestry', 60, 'seedling', 'fa-tree', 'Whistling pine (Casuarina) seedlings for windbreaks and timber.', true, 'Images/vegetable.png'],
-  ['Eucalyptus', 'forestry', 40, 'seedling', 'fa-tree', 'Eucalyptus tree seedlings for timber and oil production.', true, 'Images/eucalyptus.png']
+  ['Eucalyptus', 'forestry', 40, 'seedling', 'fa-tree', 'Eucalyptus tree seedlings for timber and oil production.', true, 'Images/eucalyptus.png'],
+  // ORNAMENTAL
+  ['Hibiscus', 'ornamental', 150, 'seedling', 'fa-flower', 'Colorful hibiscus ornamental plants. Beautiful flowers for landscaping.', true, 'Images/vegetable.png'],
+  ['Bougainvillea', 'ornamental', 200, 'seedling', 'fa-flower', 'Vibrant bougainvillea plants for ornamental use. Fast growing climber.', true, 'Images/vegetable.png'],
+  ['Rose', 'ornamental', 100, 'seedling', 'fa-flower', 'Fragrant rose plants for gardens and landscaping.', true, 'Images/vegetable.png'],
+  // CASH CROP
+  ['Coffee Arabica', 'cash_crop', 300, 'seedling', 'fa-mug-hot', 'Arabica coffee seedlings. Premium variety for commercial coffee production.', true, 'Images/vegetable.png'],
+  ['Tea', 'cash_crop', 250, 'seedling', 'fa-leaf', 'Tea plant seedlings for commercial tea farming.', true, 'Images/vegetable.png'],
+  ['Vanilla', 'cash_crop', 500, 'seedling', 'fa-flower', 'Vanilla orchid seedlings for high-value vanilla production.', true, 'Images/vegetable.png'],
+  // FODDER
+  ['Napier Grass', 'fodder', 50, 'seedling', 'fa-seedling', 'High-yielding Napier grass for livestock feed. Fast growing fodder.', true, 'Images/vegetable.png'],
+  ['Clover', 'fodder', 30, 'seedling', 'fa-seedling', 'Clover seedlings for animal feed and soil improvement.', true, 'Images/vegetable.png'],
+  ['Lucerne', 'fodder', 40, 'seedling', 'fa-seedling', 'Lucerne (alfalfa) seedlings for high-protein animal feed.', true, 'Images/vegetable.png'],
+  // SUPPLIES
+  ['Customized Grow Bag for Tubers', 'supplies', 150, 'bag', 'fa-box', 'Durable, eco-friendly and breathable grow bag for Irish potatoes and sweet potatoes. Available in white, black and grey.', true, 'Images/vegetable.png'],
+  ['Plastic Planting Pots', 'supplies', 50, 'pot', 'fa-seedling', 'Plastic planting pots for nursery seedlings and herbs. Decorative flower pots available in black and green.', true, 'Images/vegetable.png'],
+  ['Non-woven Grow Bags', 'supplies', 100, 'bag', 'fa-box', 'Different gallon sizes available. Eco-friendly, breathable felt bags in black and white.', true, 'Images/vegetable.png'],
+  ['Propagation Planting Trays 200 Holes', 'supplies', 200, 'tray', 'fa-th', 'Plastic deep seedling tray with 200 holes. Color: black.', true, 'Images/vegetable.png'],
+  ['Simple Planting Pots/Propagation', 'supplies', 30, 'pot', 'fa-seedling', 'Breathable holes decorative pots. Available in flower color, black and green.', true, 'Images/vegetable.png'],
+  ['White Garden Labels 5.5" (15cm)', 'supplies', 20, 'pcs', 'fa-tag', 'Waterproof, durable and easy to clean plant tags. Size: 5.5" (15cm).', true, 'Images/vegetable.png'],
+  ['White Garden Labels 10cm', 'supplies', 15, 'pcs', 'fa-tag', 'Waterproof, durable and easy to clean plant tags. Size: 10cm.', true, 'Images/vegetable.png'],
+  ['White Garden Labels 7cm', 'supplies', 10, 'pcs', 'fa-tag', 'Waterproof, durable and easy to clean plant tags. Size: 7cm.', true, 'Images/vegetable.png']
 ];
 
 // ── MongoDB connection ────────────────────────────────────────────────────────
