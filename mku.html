@@ -149,7 +149,7 @@ section{padding:72px 32px;scroll-margin-top:72px}
 
 /* FULL-WIDTH CTA BANNER */
 .cta-banner{position:relative;padding:80px 32px;text-align:center;overflow:hidden}
-.cta-bg{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:center}
+.cta-bg{position:absolute;inset:0;background-size:cover;background-repeat:no-repeat;background-position:center}
 .cta-bg::after{content:'';position:absolute;inset:0;background:rgba(20,60,20,.75)}
 .cta-content{position:relative;z-index:2;max-width:620px;margin:auto}
 .cta-content h2{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:#fff;margin-bottom:14px}
@@ -299,7 +299,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 
        <!-- SLIDE 3 -->
        <div class="slide">
-         <div class="slide-bg" style="background-image:url('Images/boss.png'),linear-gradient(135deg,#1a3a2d,#2d6a50); background-size:contain, cover; background-repeat:no-repeat; background-position:center bottom, center center;">
+         <div class="slide-bg" style="background-image:url('Images/show 1.jpg'),linear-gradient(135deg,#1a3a2d,#2d6a50); background-size:contain, cover; background-repeat:no-repeat; background-position:center bottom, center center;">
            <div class="slide-content">
              <span class="slide-tag">🌿 100% Organic & Certified</span>
              <h1>Empowering Kenyan<br>Farmers to Thrive</h1>
@@ -354,7 +354,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
     <p class="section-sub">Certified, disease-free planting materials for fruits, vegetables, and forestry — delivered across Kenya.</p>
     <div class="services-grid">
       <div class="service-card">
-        <div class="service-card-bg" style="background-image:url('Images/fruit.png'),linear-gradient(135deg,#1a4a1a,#3d7a3d);width:100%;height:100%"></div>
+        <div class="service-card-bg" style="background-image:url('Images/show 6.jpg'),linear-gradient(135deg,#1a4a1a,#3d7a3d);width:100%;height:100%"></div>
         <div class="service-card-overlay"></div>
         <div class="service-card-body">
           <div class="service-card-icon">🍎</div>
@@ -363,7 +363,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
         </div>
       </div>
       <div class="service-card">
-         <div class="service-card-bg" style="background-image:url('Images/cabbage.png'),linear-gradient(135deg,#2d5a1a,#4a8a2d);width:100%;height:100%"></div>
+         <div class="service-card-bg" style="background-image:url('Images/show 2.jpg'),linear-gradient(135deg,#2d5a1a,#4a8a2d);width:100%;height:100%"></div>
          <div class="service-card-overlay"></div>
          <div class="service-card-body">
            <div class="service-card-icon">🥦</div>
@@ -372,7 +372,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
          </div>
        </div>
       <div class="service-card">
-        <div class="service-card-bg" style="background-image:url('Images/forestry.png'),linear-gradient(135deg,#1a3a2d,#2d6a50);width:100%;height:100%"></div>
+        <div class="service-card-bg" style="background-image:url('Images/show 5.jpg'),linear-gradient(135deg,#1a3a2d,#2d6a50);width:100%;height:100%"></div>
         <div class="service-card-overlay"></div>
         <div class="service-card-body">
           <div class="service-card-icon">🌳</div>
@@ -438,14 +438,15 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 <!-- PRODUCTS SHOP -->
 <section id="products" class="products-bg">
   <div class="section-inner">
-    <div class="section-label">Live Stock</div>
-    <h2 class="section-title">Browse & Order Our Seedlings</h2>
-    <p class="section-sub">Certified, ready-to-plant seedlings. Add to cart and order via WhatsApp instantly.</p>
+    <div class="section-label">Products</div>
+    <h2 class="section-title">Browse & Order Our Products</h2>
+    <p class="section-sub">Certified seedlings and quality growing supplies. Add to cart and order via WhatsApp instantly.</p>
     <div class="filters">
       <button class="filter-btn active" onclick="filterProducts('all',this)">🌿 All</button>
       <button class="filter-btn" onclick="filterProducts('fruit',this)">🍎 Fruit Trees</button>
       <button class="filter-btn" onclick="filterProducts('vegetable',this)">🥦 Vegetables</button>
       <button class="filter-btn" onclick="filterProducts('forestry',this)">🌳 Forestry</button>
+      <button class="filter-btn" onclick="filterProducts('other',this)">📦 Other Products</button>
     </div>
     <div class="products-grid" id="productsGrid"></div>
   </div>
@@ -453,7 +454,7 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
 
 <!-- CTA BANNER -->
 <div class="cta-banner">
-  <div class="cta-bg" style="background-image:url('Images/IMG-20260601-WA0034.jpg'),linear-gradient(135deg,#1a4a1a,#2d6a2d)"></div>
+  <div class="cta-bg" style="background-image:url('Images/show 9.jpg'),linear-gradient(135deg,#1a4a1a,#2d6a2d)"></div>
   <div class="cta-content">
     <div class="section-label" style="justify-content:center;color:#a5d6a7">Order Today</div>
     <h2>Ready to Start Growing?</h2>
@@ -682,6 +683,16 @@ const FALLBACK_PRODUCTS = [
   {id:62, name:'Pine',                   cat:'forestry',  emoji:'🌲', img:'Images/IMG-20260601-WA0010.jpg',         price:80,  desc:'Pine tree seedlings for reforestation and timber.', stock:'in'},
   {id:63, name:'Whistling Pine',         cat:'forestry',  emoji:'🌲', img:'Images/IMG-20260601-WA0029.jpg',         price:60,  desc:'Whistling pine (Casuarina) seedlings for windbreaks and timber.', stock:'in'},
   {id:64, name:'Eucalyptus',             cat:'forestry',  emoji:'🌳', img:'Images/eucalyptus.png',        price:40,  desc:'Eucalyptus tree seedlings for timber and oil production.', stock:'in'},
+  
+  // SUPPLIES
+  {id:74, name:'Customized Grow Bag',    cat:'supplies',   emoji:'📦', img:'Images/vegetable.png',         price:150, desc:'Durable, eco-friendly grow bag for Irish potatoes and sweet potatoes. Available in white, black and grey.', stock:'in'},
+  {id:75, name:'Plastic Planting Pots',  cat:'supplies',   emoji:'🪴', img:'Images/vegetable.png',         price:50,  desc:'Plastic planting pots for nursery seedlings and herbs. Decorative flower pots available in black and green.', stock:'in'},
+  {id:76, name:'Non-woven Grow Bags',    cat:'supplies',   emoji:'📦', img:'Images/vegetable.png',         price:100, desc:'Different gallon sizes available. Eco-friendly, breathable felt bags in black and white.', stock:'in'},
+  {id:77, name:'Propagation Trays 200H', cat:'supplies',   emoji:'🧩', img:'Images/planting holes.jpg',         price:200, desc:'Plastic deep seedling tray with 200 holes. Color: black.', stock:'in'},
+  {id:78, name:'Simple Planting Pots',   cat:'supplies',   emoji:'🪴', img:'Images/vegetable.png',         price:30,  desc:'Breathable holes decorative pots. Available in flower color, black and green.', stock:'in'},
+  {id:79, name:'Garden Labels 15cm"',      cat:'supplies',   emoji:'🏷️', img:'Images/tag 29 cm.jpg',         price:20,  desc:'Waterproof, durable plant tags. Size: 5.5" (15cm).', stock:'in'},
+  {id:80, name:'Garden Labels 10cm',     cat:'supplies',   emoji:'🏷️', img:'Images/planttag 10 cm.jpg',         price:15,  desc:'Waterproof, durable plant tags. Size: 10cm.', stock:'in'},
+  {id:81, name:'Garden Labels 7cm',      cat:'supplies',   emoji:'🏷️', img:'Images/same 10.jpg',         price:10,  desc:'Waterproof, durable plant tags. Size: 7cm.', stock:'in'}
 ];
 
 // Fetch products from API — fall back to hardcoded list if server is unavailable
@@ -710,13 +721,17 @@ async function fetchProducts() {
 
 function renderProducts(filter='all'){
   const grid = document.getElementById('productsGrid');
-  const list = filter==='all' ? products : products.filter(p=>p.cat===filter);
+  const list = filter==='all' 
+    ? products 
+    : filter==='other' 
+      ? products.filter(p=>!['fruit','vegetable','forestry'].includes(p.cat))
+      : products.filter(p=>p.cat===filter);
   grid.innerHTML = list.map(p=>`
     <div class="product-card">
       <div class="product-img-wrap">
         <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="product-img-fallback" style="display:none">${p.emoji}</div>
-        <span class="product-cat-tag">${p.cat==='fruit'?'Fruit':p.cat==='vegetable'?'Vegetable':'Forestry'}</span>
+        <span class="product-cat-tag">${p.cat==='fruit'?'Fruit':p.cat==='vegetable'?'Vegetable':p.cat==='forestry'?'Forestry':'Other'}</span>
       </div>
       <div class="product-body">
         <div class="product-name">${p.name}</div>
