@@ -474,10 +474,10 @@ footer{background:var(--green-dark);color:#fff;padding:56px 32px 24px}
     <p class="section-sub" style="margin-bottom:36px">Ready to order or need advice on the best seedlings for your farm? We're here to help.</p>
     <div class="contact-grid">
       <div class="contact-info-cards">
-        <div class="contact-card">
-          <div class="contact-card-icon">📍</div>
-          <div><div class="contact-card-label">Location</div><div class="contact-card-value"><a href="https://maps.app.goo.gl/J4sraFjBYF82zLt76" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Along Kabati Road, Muranga County, Kenya</a></div></div>
-        </div>
+           <div class="contact-card">
+           <div class="contact-card-icon">📍</div>
+           <div><div class="contact-card-label">Location</div><div class="contact-card-value"><a href="https://maps.app.goo.gl/deJNkLe2M6B5oGwr6" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Along Kabati Road, Muranga County, Kenya</a></div></div>
+         </div>
         <div class="contact-card">
           <div class="contact-card-icon">📞</div>
           <div><div class="contact-card-label">Phone</div><div class="contact-card-value"><a href="tel:+254711844850">0711 844 850</a> / <a href="tel:+254115657187">0115 657 187</a></div></div>
@@ -868,7 +868,29 @@ function submitForm(){
   const msg=document.getElementById('fmessage').value.trim();
   const waMsg=`Hello MKULIMA Seedlings!\n\nName: ${name}\nPhone: ${phone}\nInterested in: ${interest||'General Enquiry'}\n\n${msg}`;
   document.getElementById('successMsg').style.display='block';
-  setTimeout(()=>{window.open(`https://wa.me/254711844850?text=${encodeURIComponent(waMsg)}`,'_blank');document.getElementById('successMsg').style.display='none';},800);
+
+  // Save contact to backend
+  fetch('/api/contacts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, phone, interest, message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      showToast('Message saved successfully!');
+    }
+  })
+  .catch(err => {
+    console.error('Error saving contact:', err);
+    showToast('Failed to save message. Please try again.', true);
+  });
+
+  // Open WhatsApp after a short delay
+  setTimeout(() => {
+    window.open(`https://wa.me/254711844850?text=${encodeURIComponent(waMsg)}`,'_blank');
+    document.getElementById('successMsg').style.display='none';
+  }, 1500);
 }
 
 // ── HERO SLIDER ──
