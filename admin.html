@@ -798,12 +798,19 @@
         // Load dashboard stats
         async function loadDashboardData() {
             try {
-                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+                const headers = { 'Authorization': `Bearer ${token}` };
                 const [productsRes, ordersRes, contactsRes] = await Promise.all([
                     fetch('/api/products'),
                     fetch('/api/admin/orders', { headers }),
                     fetch('/api/admin/contacts', { headers })
                 ]);
+
+                // Check for authentication errors
+                if (ordersRes.status === 401 || contactsRes.status === 401) {
+                    showLogin();
+                    showToast('Session expired. Please login again.', true);
+                    return;
+                }
 
                 const [productsData, ordersData, contactsData] = await Promise.all([
                     productsRes.json(),
@@ -829,7 +836,19 @@
             const search = document.getElementById('tracking-search').value.toLowerCase();
 
             try {
-                const response = await fetch('/api/admin/products/tracking');
+                const response = await fetch('/api/admin/products/tracking', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        showLogin();
+                        showToast('Session expired. Please login again.', true);
+                        return;
+                    }
+                    throw new Error('Failed to fetch tracking data');
+                }
+                
                 const data = await response.json();
 
                 // Filter tracking data
@@ -1007,7 +1026,19 @@
             const search = document.getElementById('orders-search').value.toLowerCase();
 
             try {
-                const response = await fetch('/api/admin/orders');
+                const response = await fetch('/api/admin/orders', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        showLogin();
+                        showToast('Session expired. Please login again.', true);
+                        return;
+                    }
+                    throw new Error('Failed to fetch orders');
+                }
+                
                 const data = await response.json();
                 
                 // Filter orders
@@ -1093,13 +1124,25 @@
             const search = document.getElementById('contacts-search').value.toLowerCase();
 
             try {
-                const response = await fetch('/api/admin/contacts');
+                const response = await fetch('/api/admin/contacts', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        showLogin();
+                        showToast('Session expired. Please login again.', true);
+                        return;
+                    }
+                    throw new Error('Failed to fetch contacts');
+                }
+                
                 const data = await response.json();
                 
                 // Filter contacts
                 let filtered = data;
                 if (search) {
-                    filtered = filtered.filter(c => 
+                    filtered = filtered.filter(c =>
                         c.name.toLowerCase().includes(search) ||
                         c.phone.includes(search) ||
                         (c.interest && c.interest.toLowerCase().includes(search)) ||
