@@ -3,7 +3,12 @@ const { Schema, model } = require('mongoose');
 const orderSchema = new Schema({
   product: {
     type: Schema.Types.ObjectId,
-    ref: 'Product'
+    ref: 'Product',
+    required: false
+  },
+  productId: {
+    type: String,
+    required: false
   },
   productName: {
     type: String,
@@ -15,18 +20,22 @@ const orderSchema = new Schema({
   },
   phone: {
     type: String,
-    required: true
+    required: false
   },
   quantity: {
     type: Number,
-    required: true
+    required: true,
+    default: 1
   },
   price: {
-    type: Number
+    type: Number,
+    required: true,
+    default: 0
   },
   delivery: {
     type: String,
-    required: true
+    required: false,
+    default: 'Not specified'
   },
   status: {
     type: String,

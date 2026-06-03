@@ -687,8 +687,8 @@ const FALLBACK_PRODUCTS = [
   
   // SUPPLIES
   {id:74, name:'Customized Grow Bag',    cat:'supplies',   emoji:'📦', img:'Images/vegetable.png',         price:150, desc:'Durable, eco-friendly grow bag for Irish potatoes and sweet potatoes. Available in white, black and grey.', stock:'in'},
-  {id:75, name:'Plastic Planting Pots',  cat:'supplies',   emoji:'🪴', img:'Images/jumbo.jpg',         price:200,  desc:'Plastic planting pots for nursery seedlings and herbs. Decorative flower pots available in black and green.', stock:'in'},
-  {id:76, name:'Non-woven Grow Bags',    cat:'supplies',   emoji:'📦', img:'Images/nonwoven bag.jpg',         price:500, desc:'Different gallon sizes available. Eco-friendly, breathable felt bags in black and white.', stock:'in'},
+  {id:75, name:'Non-woven Grow Bags-Small',  cat:'supplies',   emoji:'🪴', img:'Images/jumbo.jpg',         price:200,  desc:'Plastic planting pots for nursery seedlings and herbs. Decorative flower pots available in black.', stock:'in'},
+  {id:76, name:'Non-woven Grow Bags-XL',    cat:'supplies',   emoji:'📦', img:'Images/nonwoven bag.jpg',         price:500, desc:'Different gallon sizes available. Eco-friendly, breathable felt bags in black.', stock:'in'},
   {id:77, name:'Propagation Trays 200H', cat:'supplies',   emoji:'🧩', img:'Images/planting holes.jpg',         price:200, desc:'Plastic deep seedling tray with 200 holes. Color: black.', stock:'in'},
   {id:78, name:'Simple Planting Pots',   cat:'supplies',   emoji:'🪴', img:'Images/pot.jpg',         price:30,  desc:'Breathable holes decorative pots. Available in flower color, black and green.', stock:'in'},
   {id:79, name:'Garden Labels 15cm"',      cat:'supplies',   emoji:'🏷️', img:'Images/15cm.jpg',         price:20,  desc:'Waterproof, durable plant tags. Size: 5.5" (15cm).', stock:'in'},
@@ -818,49 +818,61 @@ function orderWhatsApp(){
   waBtn.innerHTML = '<span class="loading">⏳</span> Processing...';
   waBtn.disabled = true;
 
-  // Send each item to the backend
-  const orderPromises = cart.map(item => {
-    return fetch('/api/orders', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        productId: item.id,
-        productName: item.name,
-        customerName: customerName,
-        phone: customerPhone,
-        quantity: item.qty,
-        price: item.price,
-        delivery: 'Not specified'
-      })
-    });
-  });
+  // Send order to dashboard (backend) AND to WhatsApp
+  sendOrderToDashboard(customerName);
 
-  Promise.all(orderPromises)
-    .then(responses => {
-      // Check if all responses are ok
-      const allOk = responses.every(res => res.ok);
-      if (!allOk) {
-        showToast('Some orders failed to save. Please try again.', true);
-      } else {
-        showToast('Order saved successfully!');
-        // Clear cart on successful order
-        cart = [];
-        updateCartUI();
-        toggleCart();
-      }
+  // Restore button state after a short delay
+  setTimeout(() => {
+    waBtn.innerHTML = originalText;
+    waBtn.disabled = false;
+    // Open WhatsApp regardless of backend success
+    window.open(`https://wa.me/254711844850?text=${encodeURIComponent(msg)}`,'_blank');
+  }, 1500);
+}
+
+// ── SEND ORDER TO DASHBOARD ──────────────────────────────────────────────────
+function sendOrderToDashboard(name) {
+    if (!cart.length) {
+        showToast('Please add items to your cart first!', true);
+        return;
+    }
+
+    const orderData = {
+        farmer_name: name,
+        items: cart.map(item => ({
+            productId: item.id,
+            productName: item.name,
+            quantity: item.qty,
+            price: item.price
+        })),
+        total: cart.reduce((s, c) => s + c.qty * c.price, 0),
+        date: new Date().toISOString()
+    };
+
+    fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
     })
-    .catch(error => {
-      console.error('Error saving orders:', error);
-      showToast('Failed to save orders. Please try again.', true);
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Order submitted successfully!');
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        } else {
+            showToast(data.error || 'Failed to submit order', true);
+        }
     })
-    .finally(() => {
-      // Restore button state
-      waBtn.innerHTML = originalText;
-      waBtn.disabled = false;
-      // Open WhatsApp regardless of success
-      window.open(`https://wa.me/254711844850?text=${encodeURIComponent(msg)}`,'_blank');
+    .catch((error) => {
+        console.error('Error submitting order:', error);
+        showToast('Failed to submit order. Please try again.', true);
     });
 }
+
 function submitForm(){
   const name=document.getElementById('fname').value.trim();
   const phone=document.getElementById('fphone').value.trim();

@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
+const nodemailer = require('nodemailer');
 const { connectDB, Farmer, Seedling, Distribution, Product, Order, Contact } = require('./models');
 
 const app = express();
@@ -280,16 +281,170 @@ app.put('/api/products/:id', authenticateAdmin, async (req, res) => {
   }
 });
 
+// ── Email Notification Helper ────────────────────────────────────────────────
+async function sendOrderEmail(orderData) {
+  try {
+    // Skip if email config is not set
+    if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.log('⚠️  Email not configured — skipping notification');
+      return;
+    }
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: parseInt(process.env.EMAIL_PORT) || 587,
+      secure: process.env.EMAIL_SECURE === 'true',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+
+    const itemsList = orderData.items
+      .map(item => `• ${item.productName} x${item.quantity} = KES ${(item.price * item.quantity).toLocaleString()}`)
+      .join('\n');
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_TO || process.env.EMAIL_USER,
+      subject: `🌱 New Order from ${orderData.farmer_name} — MKULIMA Seedlings`,
+      text: `
+New order received!
+
+Customer: ${orderData.farmer_name}
+Date: ${new Date(orderData.date).toLocaleString()}
+
+Items:
+${itemsList}
+
+Total: KES ${orderData.total.toLocaleString()}
+
+Please confirm availability and arrange delivery.
+
+— MKULIMA Seedlings Order System
+      `,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+          <div style="background: #2d6a2d; color: white; padding: 20px; border-radius: 8px 8px 0 0; text-align: center;">
+            <h1 style="margin: 0; font-size: 24px;">🌱 New Order Received!</h1>
+          </div>
+          <div style="background: #f9fdf9; padding: 24px; border: 1px solid #e8e8e8; border-top: none; border-radius: 0 0 8px 8px;">
+            <p><strong>Customer:</strong> ${orderData.farmer_name}</p>
+            <p><strong>Date:</strong> ${new Date(orderData.date).toLocaleString()}</p>
+            <hr style="border: none; border-top: 1px solid #e8e8e8; margin: 16px 0;">
+            <h3 style="color: #2d6a2d;">Order Items:</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
+              <thead>
+                <tr style="background: #e8f5e9;">
+                  <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Product</th>
+                  <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Qty</th>
+                  <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Price</th>
+                  <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${orderData.items.map(item => `
+                  <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${item.productName}</td>
+                    <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">${item.quantity}</td>
+                    <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">KES ${item.price.toLocaleString()}</td>
+                    <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-weight: bold;">KES ${(item.price * item.quantity).toLocaleString()}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+            <div style="text-align: right; font-size: 18px; font-weight: bold; color: #2d6a2d; padding: 10px 0;">
+              Total: KES ${orderData.total.toLocaleString()}
+            </div>
+            <hr style="border: none; border-top: 1px solid #e8e8e8; margin: 16px 0;">
+            <p style="color: #666; font-size: 14px;">Please confirm availability and arrange delivery.</p>
+            <div style="background: #e8f5e9; padding: 12px; border-radius: 6px; margin-top: 16px; text-align: center; font-size: 14px; color: #1a4a1a;">
+              — MKULIMA Seedlings Order System
+            </div>
+          </div>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log('📧 Order notification email sent to', process.env.EMAIL_TO);
+  } catch (err) {
+    console.error('❌ Failed to send email:', err.message);
+  }
+}
+
 // POST new order
 app.post('/api/orders', async (req, res) => {
-  const { productId, productName, customerName, phone, quantity, price, delivery } = req.body;
-  try {
-    const order = await Order.create({
-      product: productId, productName, customerName, phone, quantity, price, delivery
+  const body = req.body;
+
+  // Support both old format (individual fields) and new format (items array)
+  let ordersToCreate = [];
+  let emailData = null;
+
+  if (body.items && Array.isArray(body.items)) {
+    // New format from sendOrderToDashboard
+    emailData = {
+      farmer_name: body.farmer_name || 'Unknown Customer',
+      items: body.items,
+      total: body.total || 0,
+      date: body.date || new Date().toISOString()
+    };
+
+    for (const item of body.items) {
+      ordersToCreate.push({
+        product: item.productId,
+        productName: item.productName,
+        customerName: body.farmer_name,
+        phone: '',
+        quantity: item.quantity,
+        price: item.price,
+        delivery: 'Not specified'
+      });
+    }
+  } else {
+    // Old format from orderWhatsApp
+    const { productId, productName, customerName, phone, quantity, price, delivery } = body;
+    if (!productName || !customerName) {
+      return res.status(400).json({ error: 'Product name and customer name are required' });
+    }
+    ordersToCreate.push({
+      product: productId,
+      productName,
+      customerName,
+      phone: phone || '',
+      quantity: quantity || 1,
+      price: price || 0,
+      delivery: delivery || 'Not specified'
     });
-    res.json({ success: true, id: order._id });
+
+    emailData = {
+      farmer_name: customerName,
+      items: [{
+        productName,
+        quantity: quantity || 1,
+        price: price || 0
+      }],
+      total: (price || 0) * (quantity || 1),
+      date: new Date().toISOString()
+    };
+  }
+
+  try {
+    const createdOrders = [];
+    for (const orderData of ordersToCreate) {
+      const order = await Order.create(orderData);
+      createdOrders.push(order);
+    }
+
+    // Send email notification asynchronously (don't block the response)
+    sendOrderEmail(emailData).catch(err => {
+      console.error('Email notification failed:', err);
+    });
+
+    res.json({ success: true, ids: createdOrders.map(o => o._id) });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to create order' });
+    console.error('Order creation error:', err);
+    res.status(500).json({ error: 'Failed to create order', details: err.message });
   }
 });
 
