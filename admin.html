@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard — MKULIMA Seedlings</title>
+    <link rel="icon" href="Images/mkulimalogo.jpg" type="image/jpeg">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         :root{
@@ -395,9 +396,10 @@
     <div id="login-screen" class="login-container">
         <div class="login-box">
             <div class="login-header">
-                <h2><i class="fas fa-seedling"></i> MKULIMA Admin</h2>
-                <p>Secure access to dashboard</p>
-            </div>
+                            <img src="Images/mkulimalogo.jpg" alt="MKULIMA Seedlings" style="height:48px;width:auto;margin-bottom:10px;">
+                            <h2>MKULIMA Admin</h2>
+                            <p>Secure access to dashboard</p>
+                        </div>
             <form id="login-form">
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -419,8 +421,8 @@
     <!-- Dashboard -->
     <div id="dashboard" class="dashboard">
         <header class="header">
-            <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
-            <div class="user-info">
+                    <h1><img src="Images/mkulimalogo.jpg" alt="MKULIMA" style="height:32px;width:auto;vertical-align:middle;margin-right:8px;"> Dashboard</h1>
+                    <div class="user-info">
                 <div class="user-info">
                     <div class="user-avatar">AD</div>
                     <div>
@@ -438,6 +440,9 @@
             <div class="nav-tab" data-tab="tracking">Product Tracking</div>
             <div class="nav-tab" data-tab="orders">Orders</div>
             <div class="nav-tab" data-tab="contacts">Contacts</div>
+            <div class="nav-tab" data-tab="farmers">Farmers</div>
+            <div class="nav-tab" data-tab="seedlings">Seedlings</div>
+            <div class="nav-tab" data-tab="distributions">Distributions</div>
         </div>
 
         <div class="tab-content" id="tab-content">
@@ -458,6 +463,21 @@
                         <div class="stat-icon contacts"><i class="fas fa-envelope"></i></div>
                         <div class="stat-value" id="total-contacts">—</div>
                         <div class="stat-label">Total Contacts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon products"><i class="fas fa-users"></i></div>
+                        <div class="stat-value" id="total-farmers">—</div>
+                        <div class="stat-label">Total Farmers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orders"><i class="fas fa-leaf"></i></div>
+                        <div class="stat-value" id="total-seedlings">—</div>
+                        <div class="stat-label">Total Seedlings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon contacts"><i class="fas fa-truck"></i></div>
+                        <div class="stat-value" id="total-distributions">—</div>
+                        <div class="stat-label">Total Distributions</div>
                     </div>
                 </div>
                 
@@ -536,6 +556,48 @@
                     <div class="empty-state">
                         <i class="fas fa-spinner fa-spin"></i>
                         <p>Loading contacts...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Farmers Tab -->
+            <div class="tab-pane" id="farmers-tab">
+                <h2 class="section-title"><i class="fas fa-users"></i> Registered Farmers</h2>
+                <div style="margin-bottom:20px;">
+                    <input type="text" id="farmers-search" class="form-control" placeholder="Search farmers...">
+                </div>
+                <div id="farmers-list" class="table-responsive">
+                    <div class="empty-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading farmers...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seedlings Tab -->
+            <div class="tab-pane" id="seedlings-tab">
+                <h2 class="section-title"><i class="fas fa-seedling"></i> Seedling Inventory</h2>
+                <div style="margin-bottom:20px;">
+                    <input type="text" id="seedlings-search" class="form-control" placeholder="Search seedlings...">
+                </div>
+                <div id="seedlings-list" class="table-responsive">
+                    <div class="empty-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading seedlings...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distributions Tab -->
+            <div class="tab-pane" id="distributions-tab">
+                <h2 class="section-title"><i class="fas fa-truck"></i> Seedling Distributions</h2>
+                <div style="margin-bottom:20px;">
+                    <input type="text" id="distributions-search" class="form-control" placeholder="Search distributions...">
+                </div>
+                <div id="distributions-list" class="table-responsive">
+                    <div class="empty-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading distributions...</p>
                     </div>
                 </div>
             </div>
@@ -663,6 +725,9 @@
         let products = [];
         let orders = [];
         let contacts = [];
+        let farmers = [];
+        let seedlings = [];
+        let distributions = [];
         let trackingData = [];
 
         // DOM Elements
@@ -682,6 +747,9 @@
         const totalProductsEl = document.getElementById('total-products');
         const totalOrdersEl = document.getElementById('total-orders');
         const totalContactsEl = document.getElementById('total-contacts');
+        const totalFarmersEl = document.getElementById('total-farmers');
+        const totalSeedlingsEl = document.getElementById('total-seedlings');
+        const totalDistributionsEl = document.getElementById('total-distributions');
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
@@ -747,6 +815,9 @@
             document.getElementById('tracking-search').addEventListener('input', debounce(loadTracking, 300));
             document.getElementById('orders-search').addEventListener('input', debounce(loadOrders, 300));
             document.getElementById('contacts-search').addEventListener('input', debounce(loadContacts, 300));
+            document.getElementById('farmers-search').addEventListener('input', debounce(loadFarmers, 300));
+            document.getElementById('seedlings-search').addEventListener('input', debounce(loadSeedlings, 300));
+            document.getElementById('distributions-search').addEventListener('input', debounce(loadDistributions, 300));
         });
 
         // Show dashboard
@@ -792,6 +863,12 @@
                 loadOrders();
             } else if (tabName === 'contacts') {
                 loadContacts();
+            } else if (tabName === 'farmers') {
+                loadFarmers();
+            } else if (tabName === 'seedlings') {
+                loadSeedlings();
+            } else if (tabName === 'distributions') {
+                loadDistributions();
             }
         }
 
@@ -799,32 +876,44 @@
         async function loadDashboardData() {
             try {
                 const headers = { 'Authorization': `Bearer ${token}` };
-                const [productsRes, ordersRes, contactsRes] = await Promise.all([
+                const [productsRes, ordersRes, contactsRes, farmersRes, seedlingsRes, distributionsRes] = await Promise.all([
                     fetch('/api/products'),
                     fetch('/api/admin/orders', { headers }),
-                    fetch('/api/admin/contacts', { headers })
+                    fetch('/api/admin/contacts', { headers }),
+                    fetch('/api/admin/farmers', { headers }),
+                    fetch('/api/admin/seedlings', { headers }),
+                    fetch('/api/admin/distributions', { headers })
                 ]);
 
                 // Check for authentication errors
-                if (ordersRes.status === 401 || contactsRes.status === 401) {
+                if ([ordersRes, contactsRes, farmersRes, seedlingsRes, distributionsRes].some(r => r.status === 401)) {
                     showLogin();
                     showToast('Session expired. Please login again.', true);
                     return;
                 }
 
-                const [productsData, ordersData, contactsData] = await Promise.all([
+                const [productsData, ordersData, contactsData, farmersData, seedlingsData, distributionsData] = await Promise.all([
                     productsRes.json(),
                     ordersRes.json(),
-                    contactsRes.json()
+                    contactsRes.json(),
+                    farmersRes.json(),
+                    seedlingsRes.json(),
+                    distributionsRes.json()
                 ]);
 
                 products = productsData;
                 orders = ordersData;
                 contacts = contactsData;
+                farmers = farmersData;
+                seedlings = seedlingsData;
+                distributions = distributionsData;
 
                 totalProductsEl.textContent = products.length;
                 totalOrdersEl.textContent = orders.length;
                 totalContactsEl.textContent = contacts.length;
+                totalFarmersEl.textContent = farmers.length;
+                totalSeedlingsEl.textContent = seedlings.length;
+                totalDistributionsEl.textContent = distributions.length;
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
                 showToast('Error loading data', true);
@@ -1200,6 +1289,266 @@
             `;
         }
 
+        // Load farmers
+        async function loadFarmers() {
+            const search = document.getElementById('farmers-search').value.toLowerCase();
+
+            try {
+                const response = await fetch('/api/admin/farmers', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        showLogin();
+                        showToast('Session expired. Please login again.', true);
+                        return;
+                    }
+                    throw new Error('Failed to fetch farmers');
+                }
+
+                const data = await response.json();
+
+                let filtered = data;
+                if (search) {
+                    filtered = filtered.filter(f =>
+                        (f.name || '').toLowerCase().includes(search) ||
+                        (f.phone || '').includes(search) ||
+                        (f.location || '').toLowerCase().includes(search) ||
+                        (f.county || '').toLowerCase().includes(search)
+                    );
+                }
+
+                farmers = filtered;
+                renderFarmers();
+            } catch (error) {
+                console.error('Error loading farmers:', error);
+                showToast('Error loading farmers', true);
+            }
+        }
+
+        // Render farmers table
+        function renderFarmers() {
+            const container = document.getElementById('farmers-list');
+
+            if (farmers.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>No farmers found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Location</th>
+                            <th>County</th>
+                            <th>Farm Size</th>
+                            <th>Status</th>
+                            <th>Date Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${farmers.map((farmer, index) => `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${farmer.name}</td>
+                                <td>${farmer.phone}</td>
+                                <td>${farmer.email || '-'}</td>
+                                <td>${farmer.location}</td>
+                                <td>${farmer.county || '-'}</td>
+                                <td>${farmer.farmSize || '-'}</td>
+                                <td>
+                                    <span class="status-badge status-${farmer.status === 'active' ? 'completed' : 'cancelled'}">
+                                        ${farmer.status === 'active' ? 'Active' : 'Inactive'}
+                                    </span>
+                                </td>
+                                <td>${new Date(farmer.createdAt).toLocaleDateString()}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Load seedlings
+        async function loadSeedlings() {
+            const search = document.getElementById('seedlings-search').value.toLowerCase();
+
+            try {
+                const response = await fetch('/api/admin/seedlings', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        showLogin();
+                        showToast('Session expired. Please login again.', true);
+                        return;
+                    }
+                    throw new Error('Failed to fetch seedlings');
+                }
+
+                const data = await response.json();
+
+                let filtered = data;
+                if (search) {
+                    filtered = filtered.filter(s =>
+                        (s.name || '').toLowerCase().includes(search) ||
+                        (s.category || '').toLowerCase().includes(search) ||
+                        (s.variety || '').toLowerCase().includes(search)
+                    );
+                }
+
+                seedlings = filtered;
+                renderSeedlings();
+            } catch (error) {
+                console.error('Error loading seedlings:', error);
+                showToast('Error loading seedlings', true);
+            }
+        }
+
+        // Render seedlings table
+        function renderSeedlings() {
+            const container = document.getElementById('seedlings-list');
+
+            if (seedlings.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-seedling"></i>
+                        <p>No seedlings found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Variety</th>
+                            <th>Price (KES)</th>
+                            <th>Quantity</th>
+                            <th>Farmer</th>
+                            <th>Date Planted</th>
+                            <th>Expected Harvest</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${seedlings.map((seedling, index) => `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${seedling.name}</td>
+                                <td>${seedling.category || '-'}</td>
+                                <td>${seedling.variety || '-'}</td>
+                                <td>KES ${seedling.price || '-'}</td>
+                                <td>${seedling.quantity || '-'}</td>
+                                <td>${seedling.farmer ? (seedling.farmer.name || seedling.farmer) : '-'}</td>
+                                <td>${seedling.datePlanted ? new Date(seedling.datePlanted).toLocaleDateString() : '-'}</td>
+                                <td>${seedling.expectedHarvest ? new Date(seedling.expectedHarvest).toLocaleDateString() : '-'}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Load distributions
+        async function loadDistributions() {
+            const search = document.getElementById('distributions-search').value.toLowerCase();
+
+            try {
+                const response = await fetch('/api/admin/distributions', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        showLogin();
+                        showToast('Session expired. Please login again.', true);
+                        return;
+                    }
+                    throw new Error('Failed to fetch distributions');
+                }
+
+                const data = await response.json();
+
+                let filtered = data;
+                if (search) {
+                    filtered = filtered.filter(d =>
+                        (d.destination || '').toLowerCase().includes(search) ||
+                        (d.county || '').toLowerCase().includes(search) ||
+                        (d.distributedBy || '').toLowerCase().includes(search)
+                    );
+                }
+
+                distributions = filtered;
+                renderDistributions();
+            } catch (error) {
+                console.error('Error loading distributions:', error);
+                showToast('Error loading distributions', true);
+            }
+        }
+
+        // Render distributions table
+        function renderDistributions() {
+            const container = document.getElementById('distributions-list');
+
+            if (distributions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-truck"></i>
+                        <p>No distributions found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Seedling</th>
+                            <th>Farmer</th>
+                            <th>Quantity</th>
+                            <th>Destination</th>
+                            <th>County</th>
+                            <th>Distributed By</th>
+                            <th>Date</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${distributions.map((dist, index) => `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${dist.seedling ? (dist.seedling.name || dist.seedling) : '-'}</td>
+                                <td>${dist.farmer ? (dist.farmer.name || dist.farmer) : '-'}</td>
+                                <td>${dist.quantity}</td>
+                                <td>${dist.destination}</td>
+                                <td>${dist.county || '-'}</td>
+                                <td>${dist.distributedBy || '-'}</td>
+                                <td>${new Date(dist.distributionDate).toLocaleDateString()}</td>
+                                <td>${dist.notes ? dist.notes.substring(0, 50) + (dist.notes.length > 50 ? '...' : '') : '-'}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
         // Toggle product stock
          async function toggleStock(productId, inStock) {
              try {
@@ -1258,7 +1607,10 @@
                 loadProducts(),
                 loadTracking(),
                 loadOrders(),
-                loadContacts()
+                loadContacts(),
+                loadFarmers(),
+                loadSeedlings(),
+                loadDistributions()
             ]);
             showToast('Data refreshed successfully');
         }
