@@ -1,32 +1,30 @@
 # Ignore everything in this directory
-*
-# Except these files
-!.gitignore
-!mku.html
-!favicon.png
-!logo.png
-!products.html
-!BACKEND_DEPLOYMENT_GUIDE.md
-!package.json
-!server.js
-!Procfile
-!.env.example
-!models/
-!models/*.js
-!admin.html
-!test_mongodb.js
-!README.md
-!config/
-!config/*.js
-# Allow all files in Images folder
-!Images/
-!Images/**/*
+ *
+ # Except these files
+ !.gitignore
+ !mku.html
+ !favicon.png
+ !logo.png
+ !products.html
+ !BACKEND_DEPLOYMENT_GUIDE.md
+ !package.json
+ !server.js
+ !Procfile
+ !.env
+ !.env.example
+ !models/
+ !models/*.js
+ !admin.html
+ !test_mongodb.js
+ !README.md
+ !config/
+ !config/*.js
+ # Allow all files in Images folder
+ !Images/
+ !Images/**/*
 
 # Dependencies
 node_modules/
-
-# Environment file (not tracked)
-.env
 
 # Uploads folder (not tracked)
 uploads/
