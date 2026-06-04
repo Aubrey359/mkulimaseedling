@@ -4,8 +4,8 @@ const cors = require('cors');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-const nodemailer = require('nodemailer');
 const { connectDB, Farmer, Seedling, Distribution, Product, Order, Contact } = require('./models');
+const { sendContactEmail, sendOrderEmail } = require('./utils/mail');
 
 const app = express();
 
@@ -20,7 +20,7 @@ const validTokens = new Set();
 
 // Hash the admin password on startup
 async function hashAdminPassword() {
-  const pwd = process.env.ADMIN_PASSWORD || 'mkulima';
+  const pwd = process.env.ADMIN_PASSWORD || 'mkulima2026!';
   hashedAdminPassword = await bcrypt.hash(pwd, SALT_ROUNDS);
   console.log('✅ Admin password hashed and ready (password: ' + pwd + ')');
 }
@@ -281,95 +281,6 @@ app.put('/api/products/:id', authenticateAdmin, async (req, res) => {
   }
 });
 
-// ── Email Notification Helper ────────────────────────────────────────────────
-// Throws on failure so the caller can decide how to handle email errors
-async function sendOrderEmail(orderData) {
-  // Skip if email config is not set
-  if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.log('⚠️  Email not configured — skipping notification');
-    return;
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT) || 587,
-    secure: process.env.EMAIL_SECURE === 'true',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  });
-
-  const itemsList = orderData.items
-    .map(item => `• ${item.productName} x${item.quantity} = KES ${(item.price * item.quantity).toLocaleString()}`)
-    .join('\n');
-
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_TO || process.env.EMAIL_USER,
-    subject: `🌱 New Order from ${orderData.farmer_name} — MKULIMA Seedlings`,
-    text: `
-New order received!
-
-Customer: ${orderData.farmer_name}
-Date: ${new Date(orderData.date).toLocaleString()}
-
-Items:
-${itemsList}
-
-Total: KES ${orderData.total.toLocaleString()}
-
-Please confirm availability and arrange delivery.
-
-— MKULIMA Seedlings Order System
-    `,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
-        <div style="background: #2d6a2d; color: white; padding: 20px; border-radius: 8px 8px 0 0; text-align: center;">
-          <h1 style="margin: 0; font-size: 24px;">🌱 New Order Received!</h1>
-        </div>
-        <div style="background: #f9fdf9; padding: 24px; border: 1px solid #e8e8e8; border-top: none; border-radius: 0 0 8px 8px;">
-          <p><strong>Customer:</strong> ${orderData.farmer_name}</p>
-          <p><strong>Date:</strong> ${new Date(orderData.date).toLocaleString()}</p>
-          <hr style="border: none; border-top: 1px solid #e8e8e8; margin: 16px 0;">
-          <h3 style="color: #2d6a2d;">Order Items:</h3>
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
-            <thead>
-              <tr style="background: #e8f5e9;">
-                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Product</th>
-                <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Qty</th>
-                <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Price</th>
-                <th style="padding: 10px; text-align: right; border: 1px solid #ddd;">Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${orderData.items.map(item => `
-                <tr>
-                  <td style="padding: 10px; border: 1px solid #ddd;">${item.productName}</td>
-                  <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">${item.quantity}</td>
-                  <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">KES ${item.price.toLocaleString()}</td>
-                  <td style="padding: 10px; text-align: right; border: 1px solid #ddd; font-weight: bold;">KES ${(item.price * item.quantity).toLocaleString()}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-          <div style="text-align: right; font-size: 18px; font-weight: bold; color: #2d6a2d; padding: 10px 0;">
-            Total: KES ${orderData.total.toLocaleString()}
-          </div>
-          <hr style="border: none; border-top: 1px solid #e8e8e8; margin: 16px 0;">
-          <p style="color: #666; font-size: 14px;">Please confirm availability and arrange delivery.</p>
-          <div style="background: #e8f5e9; padding: 12px; border-radius: 6px; margin-top: 16px; text-align: center; font-size: 14px; color: #1a4a1a;">
-            — MKULIMA Seedlings Order System
-          </div>
-        </div>
-      </div>
-    `
-  };
-
-  await transporter.sendMail(mailOptions);
-  console.log('📧 Order notification email sent to', process.env.EMAIL_TO);
-}
-
 // POST new order
 app.post('/api/orders', async (req, res) => {
   const body = req.body;
@@ -478,6 +389,14 @@ app.post('/api/contacts', async (req, res) => {
   const { name, phone, interest, message } = req.body;
   try {
     await Contact.create({ name, phone, interest, message });
+    
+    // Send email notification
+    try {
+      await sendContactEmail({ name, phone, interest, message });
+    } catch (emailError) {
+      console.error('Contact email error (contact was still saved):', emailError.message);
+    }
+    
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: 'Failed to submit contact' });

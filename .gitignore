@@ -19,6 +19,8 @@
  !README.md
  !config/
  !config/*.js
+ !utils/
+ !utils/*.js
  # Allow all files in Images folder
  !Images/
  !Images/**/*
