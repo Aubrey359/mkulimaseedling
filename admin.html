@@ -356,6 +356,69 @@
                 font-size:0.85rem;
             }
         }
+    /* Mobile Optimizations */
+    @media(max-width:768px){
+        .login-box{padding:28px 20px;max-width:100%}
+        .login-header h2{font-size:1.4rem}
+        .login-header p{font-size:.82rem}
+        .header{padding:14px 16px;flex-direction:column;gap:12px;text-align:center}
+        .header h1{font-size:1.2rem;justify-content:center}
+        .user-info{flex-wrap:wrap;justify-content:center;gap:10px}
+        .user-name{font-size:.85rem}
+        .logout-btn{padding:6px 12px;font-size:.82rem}
+        
+        /* Nav tabs - horizontal scroll on mobile */
+        .nav-tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+        .nav-tabs::-webkit-scrollbar{display:none}
+        .nav-tab{flex:0 0 auto;min-width:100px;padding:14px 10px;font-size:.82rem;white-space:nowrap}
+        
+        .tab-content{padding:20px 16px}
+        .stats-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+        .stat-card{padding:18px}
+        .stat-value{font-size:1.6rem}
+        .stat-icon{width:40px;height:40px;font-size:1.2rem}
+        
+        .section-title{font-size:1.1rem}
+        .section-title i{font-size:1.2rem}
+        
+        /* Tables - card layout on mobile */
+        .table-responsive{overflow-x:auto;-webkit-overflow-scrolling:touch}
+        table{font-size:.82rem}
+        th,td{padding:10px 8px}
+        th{font-size:.72rem;letter-spacing:.3px}
+        
+        /* Quick actions */
+        .section-title + div{grid-template-columns:1fr 1fr !important}
+        .section-title + div .btn{font-size:.78rem;padding:8px 12px}
+        
+        /* Forms */
+        .form-control{padding:10px 14px;font-size:.9rem}
+        .stock-search{min-width:100% !important;margin-bottom:10px}
+        .stock-category{min-width:100% !important;margin-bottom:10px}
+        
+        /* Modal */
+        .modal-content{width:92%;margin:15% auto;padding:18px}
+        .modal-content h2{font-size:1.2rem}
+        .form-group{margin-bottom:14px}
+        .form-group label{font-size:.82rem}
+        .form-group input,.form-group select,.form-group textarea{padding:10px 12px;font-size:.9rem}
+        .btn{padding:8px 16px;font-size:.85rem}
+    }
+    @media(max-width:480px){
+        .login-box{padding:22px 16px}
+        .login-header h2{font-size:1.2rem}
+        .login-header img{height:36px}
+        .header h1{font-size:1rem}
+        .nav-tab{min-width:80px;padding:12px 8px;font-size:.75rem}
+        .stats-grid{grid-template-columns:1fr;gap:10px}
+        .stat-value{font-size:1.4rem}
+        .stat-card{padding:14px}
+        table{font-size:.75rem}
+        th,td{padding:8px 6px}
+        .section-title + div{grid-template-columns:1fr !important}
+        .modal-content{width:96%;margin:10% auto;padding:14px}
+        .close-btn{font-size:1.6rem}
+    }
     /* Modal Styles */
     .modal {
       display: none;
