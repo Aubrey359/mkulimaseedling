@@ -1113,11 +1113,13 @@
         // Load orders
         async function loadOrders() {
             const search = document.getElementById('orders-search').value.toLowerCase();
-
             try {
-                const response = await fetch('/api/admin/orders', {
-                    headers: { 'Authorization': `Bearer ${token}` }
+                console.log("[DEBUG] Fetching orders with token:", token ? "Token present" : "NO TOKEN!");
+                const response = await fetch('/api/admin/orders', { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
                 });
+                
+                console.log("[DEBUG] Server Response Status:", response.status);
                 
                 if (!response.ok) {
                     if (response.status === 401) {
@@ -1125,25 +1127,31 @@
                         showToast('Session expired. Please login again.', true);
                         return;
                     }
-                    throw new Error('Failed to fetch orders');
+                    throw new Error(`Failed to fetch orders: Status ${response.status}`);
                 }
                 
                 const data = await response.json();
+                console.log("[DEBUG] Raw Orders Array Received from Server:", data);
                 
+                if (data.length > 0) {
+                    console.log("[DEBUG] Sample structure of first order item:", JSON.stringify(data[0], null, 2));
+                } else {
+                    console.warn("[DEBUG] Server successfully returned a 200 OK, but the orders array is completely EMPTY.");
+                }
+
                 // Filter orders
                 let filtered = data;
                 if (search) {
-                    filtered = filtered.filter(o =>
-                        (o.productName || '').toLowerCase().includes(search) ||
-                        (o.customerName || '').toLowerCase().includes(search) ||
+                    filtered = filtered.filter(o => 
+                        (o.productName || '').toLowerCase().includes(search) || 
+                        (o.customerName || '').toLowerCase().includes(search) || 
                         (o.phone || '').includes(search)
                     );
                 }
-
                 orders = filtered;
                 renderOrders();
             } catch (error) {
-                console.error('Error loading orders:', error);
+                console.error('[DEBUG Error in loadOrders]:', error);
                 showToast('Error loading orders', true);
             }
         }
