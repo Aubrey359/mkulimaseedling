@@ -10,7 +10,6 @@
  !package.json
  !server.js
  !Procfile
- !.env
  !.env.example
  !models/
  !models/*.js
@@ -33,3 +32,6 @@ uploads/
 
 # Database files
 *.db
+
+# Secrets — never commit
+.env
