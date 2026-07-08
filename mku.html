@@ -198,6 +198,9 @@ section{padding:72px 32px;scroll-margin-top:72px}
 .cart-total{display:flex;justify-content:space-between;font-weight:800;font-size:1.05rem;margin-bottom:14px;color:#1a1a1a}
 .wa-order-btn{width:100%;background:#25d366;color:#fff;border:none;padding:14px;border-radius:10px;font-size:.95rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
 .wa-order-btn:hover{background:#128c7e}
+.wa-ico{width:1.15em;height:1.15em;vertical-align:-.18em;fill:currentColor;flex-shrink:0}
+.wa-float .wa-ico{width:30px;height:30px;fill:#fff}
+.social-link .wa-ico{width:20px;height:20px;fill:#fff}
 
 /* FOOTER */
 footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
@@ -357,6 +360,8 @@ footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
 </style>
 </head>
 <body>
+<!-- Reusable WhatsApp logo (referenced via <use href="#wa-logo">) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="wa-logo" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></symbol></svg>
 
 <!-- NAV -->
 <nav>
@@ -413,7 +418,7 @@ footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
             <p>From smallholder to large-scale farmer — our disease-free, certified seedlings, agronomic guidance, and after-sale support set you up for success every season.</p>
             <div class="hero-btns">
               <a href="#services" class="btn btn-accent">Our Seedlings →</a>
-              <a href="https://wa.me/254711844850" target="_blank" class="btn btn-outline-white">💬 WhatsApp Order</a>
+              <a href="https://wa.me/254711844850" target="_blank" class="btn btn-outline-white"><svg class="wa-ico" aria-hidden="true"><use href="#wa-logo"/></svg> WhatsApp Order</a>
             </div>
           </div>
         </div>
@@ -443,7 +448,7 @@ footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
             <p>High-quality tomato, kale, capsicum, and other vegetable seedlings ready for planting. Fast delivery across Kenya.</p>
             <div class="hero-btns">
               <a href="#products" class="btn btn-accent">Shop Vegetables →</a>
-              <a href="https://wa.me/254711844850" target="_blank" class="btn btn-outline-white">💬 Order Now</a>
+              <a href="https://wa.me/254711844850" target="_blank" class="btn btn-outline-white"><svg class="wa-ico" aria-hidden="true"><use href="#wa-logo"/></svg> Order Now</a>
             </div>
           </div>
         </div>
@@ -582,7 +587,7 @@ footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
     <h2>Ready to Start Growing?</h2>
     <p>Place your order via WhatsApp and get certified seedlings delivered to your farm anywhere in Kenya.</p>
     <div class="cta-btns">
-      <a href="https://wa.me/254711844850" target="_blank" class="btn btn-accent">💬 Order on WhatsApp</a>
+      <a href="https://wa.me/254711844850" target="_blank" class="btn btn-accent"><svg class="wa-ico" aria-hidden="true"><use href="#wa-logo"/></svg> Order on WhatsApp</a>
       <a href="tel:+254711844850" class="btn btn-outline-white">📞 Call Us Now</a>
     </div>
   </div>
@@ -613,7 +618,7 @@ footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
           <div><div class="contact-card-label">Working Hours</div><div class="contact-card-value">Monday – Saturday: 8:00 AM – 5:00 PM</div></div>
         </div>
         <div class="contact-card">
-          <div class="contact-card-icon">💬</div>
+          <div class="contact-card-icon"><svg class="wa-ico" aria-hidden="true"><use href="#wa-logo"/></svg></div>
           <div><div class="contact-card-label">WhatsApp</div><div class="contact-card-value"><a href="https://wa.me/254711844850" target="_blank">Chat with us on WhatsApp</a></div></div>
         </div>
         <div class="contact-card">
@@ -633,7 +638,7 @@ footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
           </select>
         </div>
         <div class="fg"><label>Message</label><textarea id="fmessage" placeholder="Tell us what you need..."></textarea></div>
-        <button class="submit-btn" onclick="submitForm()">Send via WhatsApp 💬</button>
+        <button class="submit-btn" onclick="submitForm()">Send via WhatsApp <svg class="wa-ico" aria-hidden="true"><use href="#wa-logo"/></svg></button>
         <div class="success-msg" id="successMsg">✅ Redirecting to WhatsApp...</div>
       </div>
     </div>
@@ -661,7 +666,7 @@ footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
       <p>Kenya's trusted KDB & KEPHIS certified nursery supplying quality, disease-free seedlings across all 47 counties. From planting to harvest — we've got you covered.</p>
       <div class="social-links">
         <a class="social-link" href="https://web.facebook.com/readyseedlings" target="_blank">📘</a>
-        <a class="social-link" href="https://wa.me/254711844850" target="_blank">💬</a>
+        <a class="social-link" href="https://wa.me/254711844850" target="_blank"><svg class="wa-ico" aria-hidden="true"><use href="#wa-logo"/></svg></a>
         <a class="social-link" href="mailto:info@mkulimaseedlings.com">✉️</a>
       </div>
     </div>
@@ -690,7 +695,7 @@ footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
         <li><a href="tel:+254711844850">📞 0711 844 850</a></li>
         <li><a href="tel:+254115657187">📞 0115 657 187</a></li>
         <li><a href="mailto:info@mkulimaseedlings.com">✉️ Email Us</a></li>
-        <li><a href="https://wa.me/254711844850">💬 WhatsApp</a></li>
+        <li><a href="https://wa.me/254711844850"><svg class="wa-ico" aria-hidden="true"><use href="#wa-logo"/></svg> WhatsApp</a></li>
         <li><a href="https://web.facebook.com/readyseedlings" target="_blank">📘 Facebook</a></li>
       </ul>
     </div>
@@ -705,11 +710,11 @@ footer{background:var(--green-dark);color:#fff;padding:40px 16px 20px}
   <div class="cart-items" id="cartItems"><div class="cart-empty"><span>🌱</span>Your cart is empty.<br>Add some seedlings to get started!</div></div>
   <div class="cart-footer">
     <div class="cart-total"><span>Total</span><span id="cartTotal">KES 0</span></div>
-    <button class="wa-order-btn" onclick="orderWhatsApp()">💬 Order via WhatsApp</button>
+    <button class="wa-order-btn" onclick="orderWhatsApp()"><svg class="wa-ico" aria-hidden="true"><use href="#wa-logo"/></svg> Order via WhatsApp</button>
   </div>
 </div>
 
-<a class="wa-float" href="https://wa.me/254711844850" target="_blank" title="Chat on WhatsApp">💬</a>
+<a class="wa-float" href="https://wa.me/254711844850" target="_blank" title="Chat on WhatsApp"><svg class="wa-ico" aria-hidden="true"><use href="#wa-logo"/></svg></a>
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <!-- Toast Notification -->
