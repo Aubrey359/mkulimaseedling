@@ -1,0 +1,40 @@
+# Render Blueprint for MKULIMA Seedlings
+# Deploy: Render Dashboard -> New + -> Blueprint -> pick this repo.
+# Secret values (sync:false) are entered in the Render dashboard, never committed.
+services:
+  - type: web
+    name: mkulima-seedlings
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/products
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # --- Secrets: you paste these in the Render dashboard ---
+      - key: MONGODB_URL       # your MongoDB Atlas connection string
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      # --- Non-secret email config ---
+      - key: EMAIL_HOST
+        value: mail.privateemail.com
+      - key: EMAIL_PORT
+        value: "465"
+      - key: EMAIL_SECURE
+        value: "true"
+      - key: EMAIL_USER
+        value: info@mkulimaseedlings.com
+      - key: EMAIL_TO
+        value: info@mkulimaseedlings.com
+      # --- Uploads (note: Render free disk is ephemeral) ---
+      - key: UPLOAD_DIR
+        value: ./uploads
+      - key: MAX_FILE_SIZE
+        value: "5242880"
