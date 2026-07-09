@@ -191,6 +191,9 @@
         .tab-content{
             padding:32px;
         }
+        /* Only the active tab pane is visible (fixes all panes stacking) */
+        .tab-pane{display:none;}
+        .tab-pane.active{display:block;}
         .stats-grid{
             display:grid;
             grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
