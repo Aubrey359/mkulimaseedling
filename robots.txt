@@ -5,11 +5,11 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://mkulimaseedling-production.up.railway.app/sitemap.xml
+Sitemap: https://www.mkulimaseedlings.com/sitemap.xml
 
-# Disallow admin or private areas (if any in future)
-# Disallow: /admin/
-# Disallow: /api/
+# Disallow admin and API areas from search results
+Disallow: /admin
+Disallow: /api/
 
 # Crawl delay (optional - helps prevent server overload)
 Crawl-delay: 1
