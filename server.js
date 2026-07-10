@@ -139,8 +139,8 @@ const SEED_PRODUCTS = [
   ['Grape', 'forestry', 350, 'seedling', 'fa-tree', 'Grape vine seedlings for planting.', true, 'Images/grape red.png'],
   ['Gravellia', 'forestry', 30, 'seedling', 'fa-tree', 'Gravellia tree seedlings, fast-growing timber species.', true, 'Images/vegetable.png'],
   ['Cypress', 'forestry', 50, 'seedling', 'fa-tree', 'Cypress tree seedlings for ornamental and timber use.', true, 'Images/cypress.jpg'],
-  ['Pine', 'forestry', 80, 'seedling', 'fa-tree', 'Pine tree seedlings for reforestation and timber.', true, 'Images/vegetable.png'],
-  ['Whistling Pine', 'forestry', 60, 'seedling', 'fa-tree', 'Whistling pine (Casuarina) seedlings for windbreaks and timber.', true, 'Images/vegetable.png'],
+  ['Pine', 'forestry', 80, 'seedling', 'fa-tree', 'Pine tree seedlings for reforestation and timber.', true, 'Images/IMG-20260601-WA0010.jpg'],
+  ['Whistling Pine', 'forestry', 60, 'seedling', 'fa-tree', 'Whistling pine (Casuarina) seedlings for windbreaks and timber.', true, 'Images/IMG-20260601-WA0029.jpg'],
   ['Eucalyptus', 'forestry', 40, 'seedling', 'fa-tree', 'Eucalyptus tree seedlings for timber and oil production.', true, 'Images/eucalyptus.png'],
   // ORNAMENTAL
   ['Hibiscus', 'ornamental', 150, 'seedling', 'fa-flower', 'Colorful hibiscus ornamental plants. Beautiful flowers for landscaping.', true, 'Images/vegetable.png'],
