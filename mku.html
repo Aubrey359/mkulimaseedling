@@ -855,11 +855,11 @@ const FALLBACK_PRODUCTS = [
 // Pick a category-appropriate icon for products without a real photo
 function pickEmoji(name, cat){
   const n = (name || '').toLowerCase();
-  if (/rose|hibiscus|bougain|flower|ornamental/.test(n)) return '🌺';
+  if (/broccoli|cauliflower/.test(n)) return '🥦';
+  if (/rose|hibiscus|bougain|ornamental/.test(n)) return '🌺';
   if (/coffee/.test(n)) return '☕';
   if (/\btea\b/.test(n)) return '🍵';
   if (/vanilla/.test(n)) return '🌿';
-  if (/broccoli|cauliflower/.test(n)) return '🥦';
   if (/capsicum|pepper|pilipili|chilli|chili|hoho/.test(n)) return '🫑';
   if (/napier|grass|fodder|hay/.test(n)) return '🌾';
   if (/clover|lucerne|alfalfa/.test(n)) return '☘️';
