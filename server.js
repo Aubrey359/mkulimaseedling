@@ -142,8 +142,6 @@ const SEED_PRODUCTS = [
   ['Pine', 'forestry', 80, 'seedling', 'fa-tree', 'Pine tree seedlings for reforestation and timber.', true, 'Images/IMG-20260601-WA0010.jpg'],
   ['Whistling Pine', 'forestry', 60, 'seedling', 'fa-tree', 'Whistling pine (Casuarina) seedlings for windbreaks and timber.', true, 'Images/IMG-20260601-WA0029.jpg'],
   ['Eucalyptus', 'forestry', 40, 'seedling', 'fa-tree', 'Eucalyptus tree seedlings for timber and oil production.', true, 'Images/eucalyptus.png'],
-  // CASH CROP
-  ['Vanilla', 'cash_crop', 500, 'seedling', 'fa-flower', 'Vanilla orchid seedlings for high-value vanilla production.', true, 'Images/vegetable.png'],
   // SUPPLIES
   ['Customized Grow Bag for Tubers', 'supplies', 150, 'bag', 'fa-box', 'Durable, eco-friendly and breathable grow bag for Irish potatoes and sweet potatoes. Available in white, black and grey.', true, 'Images/jumbo.jpg'],
   ['Plastic Planting Pots', 'supplies', 50, 'pot', 'fa-seedling', 'Plastic planting pots for nursery seedlings and herbs. Decorative flower pots available in black and green.', true, 'Images/pot.jpg'],
