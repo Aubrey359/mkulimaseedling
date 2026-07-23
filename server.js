@@ -137,7 +137,7 @@ const SEED_PRODUCTS = [
   ['Pawpaw Glory F1', 'fruit', 100, 'seedling', 'fa-tree', 'F1 hybrid papaya with good yield potential. Suitable for commercial production.', true, 'Images/glory f1.png'],
   // FORESTRY
   ['Grape', 'forestry', 350, 'seedling', 'fa-tree', 'Grape vine seedlings for planting.', true, 'Images/grape red.png'],
-  ['Gravellia', 'forestry', 30, 'seedling', 'fa-tree', 'Gravellia tree seedlings, fast-growing timber species.', true, 'Images/vegetable.png'],
+  ['Gravellia', 'forestry', 30, 'seedling', 'fa-tree', 'Gravellia tree seedlings, fast-growing timber species.', true, 'Images/gravelia.jpg'],
   ['Cypress', 'forestry', 50, 'seedling', 'fa-tree', 'Cypress tree seedlings for ornamental and timber use.', true, 'Images/cypress.jpg'],
   ['Pine', 'forestry', 80, 'seedling', 'fa-tree', 'Pine tree seedlings for reforestation and timber.', true, 'Images/IMG-20260601-WA0010.jpg'],
   ['Whistling Pine', 'forestry', 60, 'seedling', 'fa-tree', 'Whistling pine (Casuarina) seedlings for windbreaks and timber.', true, 'Images/IMG-20260601-WA0029.jpg'],
@@ -155,14 +155,14 @@ const SEED_PRODUCTS = [
   ['Clover', 'fodder', 30, 'seedling', 'fa-seedling', 'Clover seedlings for animal feed and soil improvement.', true, 'Images/vegetable.png'],
   ['Lucerne', 'fodder', 40, 'seedling', 'fa-seedling', 'Lucerne (alfalfa) seedlings for high-protein animal feed.', true, 'Images/vegetable.png'],
   // SUPPLIES
-  ['Customized Grow Bag for Tubers', 'supplies', 150, 'bag', 'fa-box', 'Durable, eco-friendly and breathable grow bag for Irish potatoes and sweet potatoes. Available in white, black and grey.', true, 'Images/vegetable.png'],
-  ['Plastic Planting Pots', 'supplies', 50, 'pot', 'fa-seedling', 'Plastic planting pots for nursery seedlings and herbs. Decorative flower pots available in black and green.', true, 'Images/vegetable.png'],
-  ['Non-woven Grow Bags', 'supplies', 100, 'bag', 'fa-box', 'Different gallon sizes available. Eco-friendly, breathable felt bags in black and white.', true, 'Images/vegetable.png'],
-  ['Propagation Planting Trays 200 Holes', 'supplies', 200, 'tray', 'fa-th', 'Plastic deep seedling tray with 200 holes. Color: black.', true, 'Images/vegetable.png'],
-  ['Simple Planting Pots/Propagation', 'supplies', 30, 'pot', 'fa-seedling', 'Breathable holes decorative pots. Available in flower color, black and green.', true, 'Images/vegetable.png'],
-  ['White Garden Labels 5.5" (15cm)', 'supplies', 20, 'pcs', 'fa-tag', 'Waterproof, durable and easy to clean plant tags. Size: 5.5" (15cm).', true, 'Images/vegetable.png'],
-  ['White Garden Labels 10cm', 'supplies', 15, 'pcs', 'fa-tag', 'Waterproof, durable and easy to clean plant tags. Size: 10cm.', true, 'Images/vegetable.png'],
-  ['White Garden Labels 7cm', 'supplies', 10, 'pcs', 'fa-tag', 'Waterproof, durable and easy to clean plant tags. Size: 7cm.', true, 'Images/vegetable.png']
+  ['Customized Grow Bag for Tubers', 'supplies', 150, 'bag', 'fa-box', 'Durable, eco-friendly and breathable grow bag for Irish potatoes and sweet potatoes. Available in white, black and grey.', true, 'Images/jumbo.jpg'],
+  ['Plastic Planting Pots', 'supplies', 50, 'pot', 'fa-seedling', 'Plastic planting pots for nursery seedlings and herbs. Decorative flower pots available in black and green.', true, 'Images/pot.jpg'],
+  ['Non-woven Grow Bags', 'supplies', 100, 'bag', 'fa-box', 'Different gallon sizes available. Eco-friendly, breathable felt bags in black and white.', true, 'Images/nonwoven bag.jpg'],
+  ['Propagation Planting Trays 200 Holes', 'supplies', 200, 'tray', 'fa-th', 'Plastic deep seedling tray with 200 holes. Color: black.', true, 'Images/planting holes.jpg'],
+  ['Simple Planting Pots/Propagation', 'supplies', 30, 'pot', 'fa-seedling', 'Breathable holes decorative pots. Available in flower color, black and green.', true, 'Images/pot.jpg'],
+  ['White Garden Labels 5.5" (15cm)', 'supplies', 20, 'pcs', 'fa-tag', 'Waterproof, durable and easy to clean plant tags. Size: 5.5" (15cm).', true, 'Images/15cm.jpg'],
+  ['White Garden Labels 10cm', 'supplies', 15, 'pcs', 'fa-tag', 'Waterproof, durable and easy to clean plant tags. Size: 10cm.', true, 'Images/planttag 10 cm.jpg'],
+  ['White Garden Labels 7cm', 'supplies', 10, 'pcs', 'fa-tag', 'Waterproof, durable and easy to clean plant tags. Size: 7cm.', true, 'Images/same 10.jpg']
 ];
 
 // ── MongoDB connection ────────────────────────────────────────────────────────
