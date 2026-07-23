@@ -852,6 +852,27 @@ const FALLBACK_PRODUCTS = [
   {id:81, name:'Garden Labels 7cm',      cat:'supplies',   emoji:'🏷️', img:'Images/same 10.jpg',         price:10,  desc:'Waterproof, durable plant tags. Size: 7cm.', stock:'in'}
 ];
 
+// Pick a category-appropriate icon for products without a real photo
+function pickEmoji(name, cat){
+  const n = (name || '').toLowerCase();
+  if (/rose|hibiscus|bougain|flower|ornamental/.test(n)) return '🌺';
+  if (/coffee/.test(n)) return '☕';
+  if (/\btea\b/.test(n)) return '🍵';
+  if (/vanilla/.test(n)) return '🌿';
+  if (/broccoli|cauliflower/.test(n)) return '🥦';
+  if (/capsicum|pepper|pilipili|chilli|chili|hoho/.test(n)) return '🫑';
+  if (/napier|grass|fodder|hay/.test(n)) return '🌾';
+  if (/clover|lucerne|alfalfa/.test(n)) return '☘️';
+  if (/grow bag|\bbag\b/.test(n)) return '📦';
+  if (/\bpot\b|pots/.test(n)) return '🪴';
+  if (/tray|propagation/.test(n)) return '🧩';
+  if (/label|tag/.test(n)) return '🏷️';
+  if (cat === 'fruit') return '🍎';
+  if (cat === 'forestry') return '🌳';
+  if (cat === 'vegetable') return '🥬';
+  return '🌱';
+}
+
 // Fetch products from API — fall back to hardcoded list if server is unavailable
 async function fetchProducts() {
   try {
@@ -863,7 +884,7 @@ async function fetchProducts() {
       id: p._id,
       name: p.name,
       cat: p.category,
-      emoji: '🌱',
+      emoji: pickEmoji(p.name, p.category),
       img: p.image || 'Images/vegetable.png',
       price: p.price,
       desc: p.description || 'Quality seedlings ready for planting.',
@@ -886,8 +907,10 @@ function renderProducts(filter='all'){
   grid.innerHTML = list.map(p=>`
     <div class="product-card">
       <div class="product-img-wrap">
-        <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="product-img-fallback" style="display:none">${p.emoji}</div>
+        ${(!p.img || p.img.indexOf('vegetable.png') > -1)
+          ? `<div class="product-img-fallback" style="display:flex">${p.emoji}</div>`
+          : `<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="product-img-fallback" style="display:none">${p.emoji}</div>`}
         <span class="product-cat-tag">${p.cat==='fruit'?'Fruit':p.cat==='vegetable'?'Vegetable':p.cat==='forestry'?'Forestry':'Other'}</span>
       </div>
       <div class="product-body">
