@@ -1,0 +1,20 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1faf0"/><stop offset="1" stop-color="#d9edd9"/></linearGradient></defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <g transform="translate(200,168)">
+    <ellipse cx="0" cy="108" rx="80" ry="15" fill="#000" opacity=".06"/>
+    <path d="M-26,24 L-32,92 Q0,110 32,92 L26,24 Z" fill="#bdd9a2"/>
+    <rect x="-11" y="14" width="22" height="80" rx="11" fill="#a9cd8a"/>
+    <g fill="#3c7a2c">
+      <circle cx="0" cy="-46" r="46"/>
+      <circle cx="-50" cy="-14" r="42"/>
+      <circle cx="50" cy="-14" r="42"/>
+      <circle cx="-28" cy="-62" r="33"/>
+      <circle cx="28" cy="-62" r="33"/>
+      <circle cx="0" cy="4" r="38"/>
+    </g>
+    <g fill="#4f9138" opacity=".75">
+      <circle cx="-44" cy="-28" r="11"/><circle cx="34" cy="-44" r="10"/><circle cx="0" cy="-56" r="10"/><circle cx="12" cy="-12" r="9"/><circle cx="-16" cy="-6" r="9"/><circle cx="46" cy="-6" r="8"/>
+    </g>
+  </g>
+</svg>

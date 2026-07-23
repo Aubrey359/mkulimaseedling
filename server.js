@@ -81,17 +81,17 @@ const SEED_PRODUCTS = [
   ['Capsicum Superbell', 'vegetable', 4, 'seedling', 'fa-pepper-hot', 'High yielding bell pepper. Good for greenhouse and open field production.', true, 'Images/superbell f1.png'],
   ['Capsicum Superwonder', 'vegetable', 4, 'seedling', 'fa-pepper-hot', 'F1 hybrid with excellent fruit set. Produces large, uniform fruits.', true, 'Images/IMG-20260601-WA0027.jpg'],
   ['Capsicum Victory Red', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Red blocky pepper variety. Excellent color and taste. High market value.', true, 'Images/victory red.png'],
-  ['Capsicum Victory Yellow', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Yellow bell pepper with attractive fruits. Good for fresh market and processing.', true, 'Images/vegetable.png'],
-  ['Capsicum Nyuki Yellow', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Yellow hot pepper variety. High yielding with good pungency.', true, 'Images/vegetable.png'],
+  ['Capsicum Victory Yellow', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Yellow bell pepper with attractive fruits. Good for fresh market and processing.', true, 'Images/ill-capsicum-yellow.svg'],
+  ['Capsicum Nyuki Yellow', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Yellow hot pepper variety. High yielding with good pungency.', true, 'Images/ill-capsicum-yellow.svg'],
   ['Capsicum Nyuki Red', 'vegetable', 15, 'seedling', 'fa-pepper-hot', 'Red hot pepper with excellent color. Good for processing and fresh use.', true, 'Images/IMG-20260601-WA0026.jpg'],
   // PEPPERS
-  ['Pepper Birdseye', 'vegetable', 5, 'seedling', 'fa-pepper-hot', 'Hot birdseye pepper. Small fruits with intense heat. Good for drying and processing.', true, 'Images/vegetable.png'],
+  ['Pepper Birdseye', 'vegetable', 5, 'seedling', 'fa-pepper-hot', 'Hot birdseye pepper. Small fruits with intense heat. Good for drying and processing.', true, 'Images/ill-pepper-birdseye.svg'],
   ['Pepper Red Thunder', 'vegetable', 5, 'seedling', 'fa-pepper-hot', 'Red hot pepper variety. High yielding with good fruit size.', true, 'Images/red thunder.png'],
   // CAULIFLOWER
-  ['Cauliflower Bella', 'vegetable', 3, 'seedling', 'fa-seedling', 'White cauliflower with good head formation. Suitable for fresh market.', true, 'Images/vegetable.png'],
+  ['Cauliflower Bella', 'vegetable', 3, 'seedling', 'fa-seedling', 'White cauliflower with good head formation. Suitable for fresh market.', true, 'Images/ill-cauliflower.svg'],
   // BROCCOLI
-  ['Broccoli Titanic', 'vegetable', 3, 'seedling', 'fa-seedling', 'Large head broccoli variety. Good for commercial production and fresh market.', true, 'Images/vegetable.png'],
-  ['Broccoli Harriet', 'vegetable', 3, 'seedling', 'fa-seedling', 'F1 hybrid broccoli with excellent head quality. Good disease resistance.', true, 'Images/vegetable.png'],
+  ['Broccoli Titanic', 'vegetable', 3, 'seedling', 'fa-seedling', 'Large head broccoli variety. Good for commercial production and fresh market.', true, 'Images/ill-broccoli.svg'],
+  ['Broccoli Harriet', 'vegetable', 3, 'seedling', 'fa-seedling', 'F1 hybrid broccoli with excellent head quality. Good disease resistance.', true, 'Images/ill-broccoli.svg'],
   // WATERMELON
   ['Watermelon Sukari', 'fruit', 6, 'seedling', 'fa-apple-whole', 'Sweet red fleshed watermelon. High sugar content, excellent for fresh consumption.', true, 'Images/eggplantblackbeauty.png'],
   // TERERE (AMARANTHUS)
