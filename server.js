@@ -142,18 +142,8 @@ const SEED_PRODUCTS = [
   ['Pine', 'forestry', 80, 'seedling', 'fa-tree', 'Pine tree seedlings for reforestation and timber.', true, 'Images/IMG-20260601-WA0010.jpg'],
   ['Whistling Pine', 'forestry', 60, 'seedling', 'fa-tree', 'Whistling pine (Casuarina) seedlings for windbreaks and timber.', true, 'Images/IMG-20260601-WA0029.jpg'],
   ['Eucalyptus', 'forestry', 40, 'seedling', 'fa-tree', 'Eucalyptus tree seedlings for timber and oil production.', true, 'Images/eucalyptus.png'],
-  // ORNAMENTAL
-  ['Hibiscus', 'ornamental', 150, 'seedling', 'fa-flower', 'Colorful hibiscus ornamental plants. Beautiful flowers for landscaping.', true, 'Images/vegetable.png'],
-  ['Bougainvillea', 'ornamental', 200, 'seedling', 'fa-flower', 'Vibrant bougainvillea plants for ornamental use. Fast growing climber.', true, 'Images/vegetable.png'],
-  ['Rose', 'ornamental', 100, 'seedling', 'fa-flower', 'Fragrant rose plants for gardens and landscaping.', true, 'Images/vegetable.png'],
   // CASH CROP
-  ['Coffee Arabica', 'cash_crop', 300, 'seedling', 'fa-mug-hot', 'Arabica coffee seedlings. Premium variety for commercial coffee production.', true, 'Images/vegetable.png'],
-  ['Tea', 'cash_crop', 250, 'seedling', 'fa-leaf', 'Tea plant seedlings for commercial tea farming.', true, 'Images/vegetable.png'],
   ['Vanilla', 'cash_crop', 500, 'seedling', 'fa-flower', 'Vanilla orchid seedlings for high-value vanilla production.', true, 'Images/vegetable.png'],
-  // FODDER
-  ['Napier Grass', 'fodder', 50, 'seedling', 'fa-seedling', 'High-yielding Napier grass for livestock feed. Fast growing fodder.', true, 'Images/vegetable.png'],
-  ['Clover', 'fodder', 30, 'seedling', 'fa-seedling', 'Clover seedlings for animal feed and soil improvement.', true, 'Images/vegetable.png'],
-  ['Lucerne', 'fodder', 40, 'seedling', 'fa-seedling', 'Lucerne (alfalfa) seedlings for high-protein animal feed.', true, 'Images/vegetable.png'],
   // SUPPLIES
   ['Customized Grow Bag for Tubers', 'supplies', 150, 'bag', 'fa-box', 'Durable, eco-friendly and breathable grow bag for Irish potatoes and sweet potatoes. Available in white, black and grey.', true, 'Images/jumbo.jpg'],
   ['Plastic Planting Pots', 'supplies', 50, 'pot', 'fa-seedling', 'Plastic planting pots for nursery seedlings and herbs. Decorative flower pots available in black and green.', true, 'Images/pot.jpg'],
