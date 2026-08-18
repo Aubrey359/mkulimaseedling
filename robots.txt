@@ -7,9 +7,9 @@ Allow: /
 # Sitemap location
 Sitemap: https://www.mkulimaseedlings.com/sitemap.xml
 
-# Disallow admin and API areas from search results
-Disallow: /admin
-Disallow: /api/
+# Admin and API are kept out of search via a noindex header (X-Robots-Tag),
+# not by Disallow — blocking crawl here would leave the URLs "indexed without
+# content". Letting Google crawl them lets it see noindex and drop them.
 
 # Crawl delay (optional - helps prevent server overload)
 Crawl-delay: 1
